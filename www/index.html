@@ -16,12 +16,9 @@
       }
     </script>-->
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+    <!-- compiled css output -->
+    <link href="css/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -31,15 +28,38 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/controllers/game.controller.js"></script>
   </head>
-  <body ng-app="game4p1w">
+  <body ng-app="game4p1w" ng-controller="gameController">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
+
+      <header class="game-header">
+        <div class="header-back">
+
+        </div>
+        <div class="header-level-indicator">
+          <span>{{level}}</span>
+        </div>
+        <div class="header-coins-indicator">
+
+        </div>
+      </header>
+
       <ion-content>
+        <div class="game-content">
+          <div class="content-pics-wrapper">
+          
+          </div>
+          <div class="content-sel-letters-wrapper">
+            
+          </div>
+          <div class="content-letters-wrapper">
+            
+          </div>
+        </div>
       </ion-content>
+
     </ion-pane>
   </body>
 </html>

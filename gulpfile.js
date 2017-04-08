@@ -14,7 +14,7 @@ var paths = {
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
+  gulp.src('./scss/**/*.scss')
     .pipe(sass())
     .on('error', sass.logError)
     .pipe(gulp.dest('./www/css/'))
@@ -36,6 +36,8 @@ gulp.task('install', ['git-check'], function() {
       gutil.log('bower', gutil.colors.cyan(data.id), data.message);
     });
 });
+
+gulp.task('serve:before', ['sass', 'watch']);
 
 gulp.task('git-check', function(done) {
   if (!sh.which('git')) {

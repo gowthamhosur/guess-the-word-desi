@@ -1,0 +1,77 @@
+/*To change CSS, make changes to style.scss in scss folder */
+
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+$background: #006992;
+$header: #053B31;
+$header-height: 45px;
+$pics-section-height: 65%;
+$sel-letters-section-height: 15%;
+$letters-section-height: 20%;
+
+.game-header{
+	background-color: $header;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: $header-height;
+	z-index: 1;
+	text-align: center;
+}
+.header-level-indicator{
+	height: $header-height;
+    display: inline-block;
+    width: $header-height;
+    line-height: $header-height;
+    color: white;
+    font-size: 26px;
+}
+ion-content {
+	background-color: $background;
+}
+.game-content{
+	position: absolute;
+    top: $header-height;
+    bottom: 0px;
+    width: 100%;
+}
+.content-pics-wrapper, .content-sel-letters-wrapper, .content-letters-wrapper{
+	position: absolute;
+    width: 100%;
+    border: 1px solid white;
+}
+.content-pics-wrapper{
+	top: 0;
+    height: $pics-section-height;
+}
+.content-sel-letters-wrapper{
+	top: $pics-section-height;
+    height: $sel-letters-section-height;
+}
+.content-letters-wrapper{
+	top:  $pics-section-height + $sel-letters-section-height;
+    height: $letters-section-height;
+}
+
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
+
