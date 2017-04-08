@@ -4,11 +4,11 @@
 
 ### Install Ionic ###
 
-npm install -g cordova ionic
+`npm install -g cordova ionic`
 
 ### Run your App in browser ###
 
-ionic Serve
+`ionic Serve`
 
 ### Developers ###
 
