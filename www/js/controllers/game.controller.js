@@ -11,12 +11,12 @@ gameModule.controller('gameController', ['$scope','gameService', function($scope
   }
 
   gameService.getAppData()
-  			 .success(function(data){
-  			 	$scope.appData = data
-  			  })
-  			 .error(function(err){
-				console.log(err, "Error while retrieving App Data")
-	     	  })
+    .success(function(data){
+      $scope.appData = data
+    })
+    .error(function(err){
+      console.log(err, "Error while retrieving App Data")
+    })
 
   $scope.currentLevel = 10;
   $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );

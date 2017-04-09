@@ -1,0 +1,39 @@
+<ion-pane>
+
+  <header class="game-header">
+    <div class="header-back">
+      <button ion-button ui-sref="home" class="float-left">
+        <i class="icon ion-home"></i>
+      </button>
+    </div>
+    <div class="header-level-indicator">
+      <span>{{currentLevel}}</span>
+    </div>
+    <div class="header-coins-indicator">
+
+    </div>
+  </header>
+
+  <div class="game-content-wrapper">
+    <div class="game-content">
+
+      <div class="content-pics-wrapper">
+        <div class="content-pic" ng-repeat="image in puzzleImages">
+          <img ng-src="../img/puzzles/{{image}}.PNG" />
+        </div>
+      </div>
+
+      <div class="content-sel-letters-wrapper">
+
+      </div>
+
+      <div class="content-letters-wrapper">
+        <div class="content-letters" ng-repeat="letter in choosableLetters track by $index">
+          <span>{{letter}} </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-pane>
+
