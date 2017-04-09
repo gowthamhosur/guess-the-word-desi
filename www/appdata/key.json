@@ -1,6 +1,6 @@
 {
 	"lvl10" : {
-	"choosableLetters" : ["a","b","c","d","e","f","g","w", "h", "i" , "t" , "e"],
-	"solution" : [ "w", "h", "i" , "t" , "e"]
+	"choosableLetters" : ["తె","లు","ఆ","కు","లో","ప","చ్చ","కా","శ","పు" ],
+	"solution" : ["తె","లు","పు"]
 	}
 }

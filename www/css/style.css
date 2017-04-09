@@ -1,6 +1,4 @@
 @charset "UTF-8";
-@import "game.css";
-@import "app.css";
 /*To change CSS, make changes to style.scss in scss folder */
 /*
 To customize the look and feel of Ionic, you can override the variables
@@ -18,6 +16,104 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+@font-face {
+  font-family: lohittelugu;
+  src: url(../fonts/Lohit-Telugu.ttf); }
+
+.game-header {
+  background-color: #053B31;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 45px;
+  z-index: 1;
+  text-align: center; }
+
+.header-level-indicator {
+  height: 45px;
+  display: inline-block;
+  width: 45px;
+  line-height: 45px;
+  color: white;
+  font-size: 26px; }
+
+.game-content-wrapper {
+  background-color: #006992;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%; }
+
+.game-content {
+  position: absolute;
+  top: 45px;
+  bottom: 0px;
+  width: 100%; }
+
+.content-pics-wrapper, .content-sel-letters-wrapper, .content-letters-wrapper {
+  position: absolute;
+  width: 100%; }
+
+.content-pics-wrapper {
+  top: 0;
+  height: 65%;
+  padding: 5px;
+  padding-top: 20px;
+  overflow: hidden;
+  text-align: center; }
+
+.content-pic {
+  display: inline-block;
+  width: 49%;
+  margin: 3px 0px; }
+
+.content-pic img {
+  width: 95%;
+  max-width: 185px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 5px solid grey; }
+
+.content-letters-wrapper, .content-sel-letters-wrapper {
+  padding: 15px;
+  text-align: center; }
+
+.content-sel-letters-wrapper {
+  top: 65%;
+  height: 15%; }
+
+.content-letters-wrapper {
+  top: 80%;
+  height: 20%;
+  padding-top: 0px; }
+
+.content-letter {
+  display: inline-block;
+  margin: 5px 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 3px;
+  overflow: hidden; }
+
+.content-letter span {
+  line-height: 45px;
+  font-size: 28px;
+  font-family: 'lohittelugu'; }
+
+.content-letter.choosable {
+  background-color: #3C3C3C;
+  color: white; }
+
+.float-left {
+  float: left; }
+
+.home-button {
+  font-size: 28px;
+  color: blue;
+  background: none;
+  border: none; }
 
 /*!
   Ionicons, v2.0.1

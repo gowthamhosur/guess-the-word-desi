@@ -24,6 +24,11 @@ $pics-section-height: 65%;
 $sel-letters-section-height: 15%;
 $letters-section-height: 20%;
 
+@font-face {
+    font-family: lohittelugu;
+    src: url(../fonts/Lohit-Telugu.ttf);
+}
+
 .game-header{
 	background-color: $header;
 	position: absolute;
@@ -78,6 +83,10 @@ $letters-section-height: 20%;
     border-radius: 5px;
     border: 5px solid grey;
 }
+.content-letters-wrapper, .content-sel-letters-wrapper{
+    padding:15px;
+    text-align: center;
+}
 .content-sel-letters-wrapper{
 	top: $pics-section-height;
     height: $sel-letters-section-height;
@@ -85,8 +94,39 @@ $letters-section-height: 20%;
 .content-letters-wrapper{
 	top:  $pics-section-height + $sel-letters-section-height;
     height: $letters-section-height;
+    padding-top: 0px;
+}
+.content-letter{
+	display: inline-block;
+    margin: 5px 10px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 3px;
+    overflow: hidden;
 }
 
+.content-letter span{
+	line-height: 45px;
+	font-size: 28px;
+    font-family: 'lohittelugu';
+}
+
+.content-letter.choosable{
+	background-color: #3C3C3C;
+	color: white;
+}
+
+.float-left {
+  float: left;
+}
+.home-button {
+  font-size: 28px;
+  color: blue;
+  background: none;
+  border: none;
+}
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
