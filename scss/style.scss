@@ -103,8 +103,9 @@ $letters-section-height: 20%;
     height: 40px;
     text-align: center;
     background-color: #fff;
-    border-radius: 3px;
+    border-radius: 5px;
     overflow: hidden;
+	box-shadow: 0 0 13px white;
 }
 
 .content-letter span{
@@ -116,6 +117,7 @@ $letters-section-height: 20%;
 .content-letter.choosable{
 	background-color: #3C3C3C;
 	color: white;
+	box-shadow: 0px 6px 7px 0px rgba(0, 0, 0, .3), inset 0px 0px 0px 0px rgba(255,255,255,0.5), inset 0px -2px 1px 4px rgba(50,50,50,.5);
 }
 
 .float-left {

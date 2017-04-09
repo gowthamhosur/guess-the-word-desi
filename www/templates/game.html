@@ -1,4 +1,4 @@
-<ion-pane>
+<ion-pane ng-controller="gameController">
 
       <header class="game-header">
         <div class="header-back">
@@ -24,18 +24,18 @@
           </div>
 
           <div class="content-sel-letters-wrapper">
-            <div class="content-letter" ng-repeat="letter in solution track by $index ">
-              <span> </span> 
+            <div class="content-letter" ng-repeat="(key,value) in selectedLetters track by $index " ng-click= "onSelectedClick($index)">
+              <span>{{value.letter}}</span> 
             </div>
           </div>
 
           <div class="content-letters-wrapper">
-            <div class="content-letter choosable" ng-repeat="letter in choosableLetters | limitTo:choosableLetters.length/2 track by $index ">
-              <span>{{letter}} </span> 
+            <div class="content-letter choosable" ng-repeat="(key,value) in choosableLetters | limitTo:choosableLetters.length/2 track by $index " ng-click="onChoosableClick($index)">
+              <span ng-if="value.active">{{value.letter}} </span> 
             </div>
             <br/>
-            <div class="content-letter choosable" ng-repeat="letter in choosableLetters | limitTo: 10 :choosableLetters.length/2 track by $index">
-              <span>{{letter}} </span> 
+            <div class="content-letter choosable" ng-repeat="(key,value) in choosableLetters | limitTo: 10 :choosableLetters.length/2 track by $index" ng-click="onChoosableClick(choosableLetters.length/2  + $index)">
+              <span ng-if="value.active">{{value.letter}} </span> 
             </div>
           </div>
         </div>

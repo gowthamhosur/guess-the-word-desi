@@ -12,8 +12,12 @@ gameModule.service('gameService', ['$http', function($http){
   		return puzzleImages;
 	}
 
-	this.getAppData = function(){
-		return $http.get('appdata/key.json');
+	this.getUserData = function(){
+		return $http.get('appdata/userData.json');
 	}
-	
+
+	this.getPuzzleData = function(){
+		return $http.get('appdata/puzzleData.json');
+	}
+
 }]);
