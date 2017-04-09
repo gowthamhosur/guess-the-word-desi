@@ -33,8 +33,12 @@ $dark:                            #444 !default;
   color: white;
   font-size: 26px; }
 
-ion-content {
-  background-color: #006992; }
+.game-content-wrapper {
+  background-color: #006992;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%; }
 
 .game-content {
   position: absolute;
@@ -44,12 +48,26 @@ ion-content {
 
 .content-pics-wrapper, .content-sel-letters-wrapper, .content-letters-wrapper {
   position: absolute;
-  width: 100%;
-  border: 1px solid white; }
+  width: 100%; }
 
 .content-pics-wrapper {
   top: 0;
-  height: 65%; }
+  height: 65%;
+  padding: 15px;
+  overflow: hidden;
+  text-align: center; }
+
+.content-pic {
+  display: inline-block;
+  width: 49%;
+  margin: 3px 0px; }
+
+.content-pic img {
+  width: 95%;
+  max-width: 185px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 3px solid grey; }
 
 .content-sel-letters-wrapper {
   top: 65%;

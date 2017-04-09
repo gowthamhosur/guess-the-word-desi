@@ -29,6 +29,7 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers/game.controller.js"></script>
+    <script src="js/services/game.services.js"></script>
   </head>
   <body ng-app="game4p1w" ng-controller="gameController">
 
@@ -39,26 +40,31 @@
 
         </div>
         <div class="header-level-indicator">
-          <span>{{level}}</span>
+          <span>{{currentLevel}}</span>
         </div>
         <div class="header-coins-indicator">
 
         </div>
       </header>
 
-      <ion-content>
+      <div class="game-content-wrapper">
         <div class="game-content">
+
           <div class="content-pics-wrapper">
-          
+            <div class="content-pic" ng-repeat="image in puzzleImages">
+              <img ng-src="../img/puzzles/{{image}}.PNG" />
+            </div>
           </div>
+
           <div class="content-sel-letters-wrapper">
             
           </div>
+
           <div class="content-letters-wrapper">
             
           </div>
         </div>
-      </ion-content>
+      </div>
 
     </ion-pane>
   </body>

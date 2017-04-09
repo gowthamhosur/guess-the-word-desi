@@ -1,6 +1,6 @@
 'use strict';
 
-gameModule.controller('gameController', ['$scope', function($scope) {
+gameModule.controller('gameController', ['$scope','gameService', function($scope, gameService) {
 
   $scope.gameConstants = {
   	initialLevel: 0,
@@ -10,7 +10,8 @@ gameModule.controller('gameController', ['$scope', function($scope) {
   	totalGameLevels: 50
   }
 
-  $scope.level = 10;
+  $scope.currentLevel = 10;
 
-  
+  $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel,$scope.gameConstants.numberOfPics);
+
 }]);
