@@ -16,6 +16,10 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+@font-face {
+  font-family: lohittelugu;
+  src: url(../fonts/Lohit-Telugu.ttf); }
+
 .game-header {
   background-color: #053B31;
   position: absolute;
@@ -70,13 +74,37 @@ $dark:                            #444 !default;
   border-radius: 5px;
   border: 5px solid grey; }
 
+.content-letters-wrapper, .content-sel-letters-wrapper {
+  padding: 15px;
+  text-align: center; }
+
 .content-sel-letters-wrapper {
   top: 65%;
   height: 15%; }
 
 .content-letters-wrapper {
   top: 80%;
-  height: 20%; }
+  height: 20%;
+  padding-top: 0px; }
+
+.content-letter {
+  display: inline-block;
+  margin: 5px 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 3px;
+  overflow: hidden; }
+
+.content-letter span {
+  line-height: 45px;
+  font-size: 28px;
+  font-family: 'lohittelugu'; }
+
+.content-letter.choosable {
+  background-color: #3C3C3C;
+  color: white; }
 
 /*!
   Ionicons, v2.0.1

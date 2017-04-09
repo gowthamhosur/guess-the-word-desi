@@ -9,17 +9,25 @@ gameModule.controller('gameController', ['$scope','gameService', function($scope
   	maxChoosableLetters: 18,
   	totalGameLevels: 50
   }
-
-  gameService.getAppData()
-  			 .success(function(data){
-  			 	$scope.appData = data
-  			  })
-  			 .error(function(err){
-				console.log(err, "Error while retrieving App Data")
-	     	  })
+  
+  init();
 
   $scope.currentLevel = 10;
   $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );
-  $scope.choosableLetters = $scope.appData? $scope.appData["lvl" + $scope.currentLevel].choosableLetters: [];
+
+  $scope.$watch('appData',function(data){
+  	$scope.choosableLetters = $scope.appData? $scope.appData["lvl" + $scope.currentLevel].choosableLetters: [];
+  	$scope.solution = $scope.appData? $scope.appData["lvl" + $scope.currentLevel].solution: [];
+  });
+
+  function init(){
+  	gameService.getAppData()
+	  			.success(function(data){
+	  			 	$scope.appData = data;
+	  			})
+	  			.error(function(err){
+					console.log(err, "Error while retrieving App Data")
+		     	 })
+  }
 
 }]);

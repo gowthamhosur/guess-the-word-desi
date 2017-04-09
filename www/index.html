@@ -57,11 +57,17 @@
           </div>
 
           <div class="content-sel-letters-wrapper">
-            
+            <div class="content-letter" ng-repeat="letter in solution track by $index ">
+              <span> </span> 
+            </div>
           </div>
 
           <div class="content-letters-wrapper">
-            <div class="content-letters" ng-repeat="letter in choosableLetters track by $index">
+            <div class="content-letter choosable" ng-repeat="letter in choosableLetters | limitTo:choosableLetters.length/2 track by $index ">
+              <span>{{letter}} </span> 
+            </div>
+            <br/>
+            <div class="content-letter choosable" ng-repeat="letter in choosableLetters | limitTo: 10 :choosableLetters.length/2 track by $index">
               <span>{{letter}} </span> 
             </div>
           </div>
