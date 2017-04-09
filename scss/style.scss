@@ -61,7 +61,8 @@ $letters-section-height: 20%;
 .content-pics-wrapper{
 	top: 0;
     height: $pics-section-height;
-    padding: 15px;
+    padding: 5px;
+    padding-top: 20px;
     overflow: hidden;
     text-align: center;
 }
@@ -75,7 +76,7 @@ $letters-section-height: 20%;
     max-width: 185px;
     box-sizing: border-box;
     border-radius: 5px;
-    border: 3px solid grey;
+    border: 5px solid grey;
 }
 .content-sel-letters-wrapper{
 	top: $pics-section-height;

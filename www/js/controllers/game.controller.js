@@ -10,8 +10,16 @@ gameModule.controller('gameController', ['$scope','gameService', function($scope
   	totalGameLevels: 50
   }
 
-  $scope.currentLevel = 10;
+  gameService.getAppData()
+  			 .success(function(data){
+  			 	$scope.appData = data
+  			  })
+  			 .error(function(err){
+				console.log(err, "Error while retrieving App Data")
+	     	  })
 
-  $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel,$scope.gameConstants.numberOfPics);
+  $scope.currentLevel = 10;
+  $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );
+  $scope.choosableLetters = $scope.appData? $scope.appData["lvl" + $scope.currentLevel].choosableLetters: [];
 
 }]);

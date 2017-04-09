@@ -61,7 +61,9 @@
           </div>
 
           <div class="content-letters-wrapper">
-            
+            <div class="content-letters" ng-repeat="letter in choosableLetters track by $index">
+              <span>{{letter}} </span> 
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,6 @@
+{
+	"lvl10" : {
+	"choosableLetters" : ["a","b","c","d","e","f","g","w", "h", "i" , "t" , "e"],
+	"solution" : [ "w", "h", "i" , "t" , "e"]
+	}
+}

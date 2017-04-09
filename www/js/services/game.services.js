@@ -1,6 +1,6 @@
 'use strict';
 
-gameModule.service('gameService', function(){
+gameModule.service('gameService', ['$http', function($http){
 
 	this.getPuzzleImages = function(currentLevel,numberOfPics) {
 		var rootFileName = "lvl" + currentLevel,
@@ -11,4 +11,9 @@ gameModule.service('gameService', function(){
   		}
   		return puzzleImages;
 	}
-});
+
+	this.getAppData = function(){
+		return $http.get('appdata/key.json');
+	}
+	
+}]);
