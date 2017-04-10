@@ -1,0 +1,90 @@
+.game-header{
+  background-color: $header;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: $header-height;
+  z-index: 1;
+  text-align: center;
+}
+.header-level-indicator{
+  height: $header-height;
+  display: inline-block;
+  width: $header-height;
+  line-height: $header-height;
+  color: white;
+  font-size: 26px;
+}
+.game-content-wrapper {
+  background-color: $blue;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+.game-content{
+  position: absolute;
+  top: $header-height;
+  bottom: 0px;
+  width: 100%;
+}
+.content-pics-wrapper, .content-sel-letters-wrapper, .content-letters-wrapper{
+  position: absolute;
+  width: 100%;
+}
+.content-pics-wrapper{
+  top: 0;
+  height: $pics-section-height;
+  padding: 5px;
+  padding-top: 20px;
+  overflow: hidden;
+  text-align: center;
+}
+.content-pic{
+  display: inline-block;
+  width: 49%;
+  margin: 3px 0px;
+}
+.content-pic img{
+  width: 95%;
+  max-width: 185px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 5px solid grey;
+}
+.content-letters-wrapper, .content-sel-letters-wrapper{
+  padding:15px;
+  text-align: center;
+}
+.content-sel-letters-wrapper{
+  top: $pics-section-height;
+  height: $sel-letters-section-height;
+}
+.content-letters-wrapper{
+  top:  $pics-section-height + $sel-letters-section-height;
+  height: $letters-section-height;
+  padding-top: 0px;
+}
+.content-letter{
+  display: inline-block;
+  margin: 5px 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 13px white;
+}
+
+.content-letter span{
+  line-height: 45px;
+  font-size: 28px;
+  font-family: 'lohittelugu';
+}
+
+.content-letter.choosable{
+  background-color: #3C3C3C;
+  color: white;
+  box-shadow: 0px 6px 7px 0px rgba(0, 0, 0, .3), inset 0px 0px 0px 0px rgba(255,255,255,0.5), inset 0px -2px 1px 4px rgba(50,50,50,.5);
+}

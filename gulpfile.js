@@ -8,15 +8,32 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./scss/**/style.scss'],
+  src: './scss'
 };
 
 gulp.task('default', ['sass']);
 
+var displayError = function(error) {
+  // Initial building up of the error
+  var errorString = '[' + error.plugin + ']';
+  errorString += ' ' + error.message.replace("\n",''); // Removes new line at the end
+  // If the error contains the filename or line number add it to the string
+  if(error.fileName)
+    errorString += ' in ' + error.fileName;
+  if(error.lineNumber)
+    errorString += ' on line ' + error.lineNumber;
+  // This will output an error like the following:
+  // [gulp-sass] error message in file_name on line 1
+  console.error(errorString);
+}
+
 gulp.task('sass', function(done) {
-  gulp.src('./scss/**/*.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
+  gulp.src('./scss/style.scss')
+    .pipe(sass({includePaths: paths.src}))
+    .on('error', function (err) {
+      displayError(err);
+    })
     .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
       keepSpecialComments: 0
