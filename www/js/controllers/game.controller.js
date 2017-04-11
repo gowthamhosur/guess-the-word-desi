@@ -16,7 +16,7 @@ function gameController($scope, gameService) {
 
   $scope.$watch('currentLevel',function(){
     $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );
-    setLevelData( $scope.puzzleData , $scope );
+    setLevelData( $scope.puzzleData );
   });
 
   $scope.onChoosableClick = function(index) {
@@ -39,33 +39,39 @@ function gameController($scope, gameService) {
     $scope.choosableLetters[hostIndex].active = true;
   }
 
+  function checkLevelSuccess() {
+    var successFlag = true;
+    $scope.solution.forEach(function(value,index){
+      if(value != $scope.selectedLetters[index].letter)
+        successFlag = false;
+    });
+    if(successFlag) {
+      console.log("Congrats!");
+        $scope.currentLevel = $scope.currentLevel + 1;
+    }
+  }
+
+  function setLevelData( puzzleData ){
+    if( puzzleData ) {
+      $scope.choosableLetters = wrapLetters( gameService.shuffle( puzzleData["lvl" + $scope.currentLevel].choosableLetters ) );
+      $scope.solution = puzzleData["lvl" + $scope.currentLevel].solution; 
+      $scope.selectedLetters = wrapLetters( $scope.solution.map(function() { return "" }) );
+    }
+  }
+
+  // Returns an object of array elements
+  function wrapLetters(letters) {
+    return letters.map(
+      function(element){
+        var temp = {
+        active: true,
+        letter: element
+        }
+        return temp;
+      });
+  }
+
 };
 
-function setLevelData( puzzleData, $scope ){
-  if( puzzleData ) {
-    $scope.choosableLetters = wrapLetters( puzzleData["lvl" + $scope.currentLevel].choosableLetters );
-    $scope.solution = puzzleData["lvl" + $scope.currentLevel].solution; 
-    $scope.selectedLetters = wrapLetters( $scope.solution.map(function() { return "" }) );
-  }
-}
 
-function wrapLetters(letters) {
-  return letters.map(
-    function(element){
-      var temp = {
-      active: true,
-      letter: element
-      }
-      return temp;
-    });
-}
 
-function checkLevelSuccess($scope) {
-  var successFlag = true;
-  $scope.solution.forEach(function(value,index){
-    if(value != $scope.selectedLetters[index].letter)
-      successFlag = false;
-  });
-  if(successFlag)
-      alert("Nuvvu Magadiv ra!");
-}

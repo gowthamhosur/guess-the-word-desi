@@ -10,14 +10,26 @@ gameModule.service('gameService', ['$http', function($http){
   			puzzleImages.push(rootFileName + '-' + i);
   		}
   		return puzzleImages;
-	}
+	};
 
 	this.getUserData = function(){
 		return $http.get('appdata/userData.json');
-	}
+	};
 
 	this.getPuzzleData = function(){
 		return $http.get('appdata/puzzleData.json');
-	}
+	};
+
+	this.shuffle = function(array){
+	    var j, x, i;
+	    for (i = array.length; i; i--) {
+	        j = Math.floor(Math.random() * i);
+	        x = array[i - 1];
+	        array[i - 1] = array[j];
+	        array[j] = x;
+		}
+		return array;
+	};
+
 
 }]);
