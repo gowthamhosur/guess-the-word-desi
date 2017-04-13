@@ -4,45 +4,51 @@ gameModule.controller('gameController', gameController);
 gameController.$inject = ['$scope','gameService'];
 
 function gameController($scope, gameService) {
-  
+  var vm = this;
+  vm.setLevelData = setLevelData;
+  vm.onChoosableClick = onChoosableClick;
+  vm.checkLevelSuccess = checkLevelSuccess;
+  vm.onSelectedClick = onSelectedClick;
+  vm.wrapLetters = wrapLetters;
+
   gameService.getPuzzleData()
              .success(function(data){
-                $scope.puzzleData = data;
-                setLevelData( $scope.puzzleData , $scope);
+                vm.puzzleData = data;
+                vm.setLevelData(vm.puzzleData);
               })
              .error(function(err){
                 console.log(err, "Error while retrieving App Data")
               });
 
   $scope.$watch('currentLevel',function(){
-    $scope.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );
-    setLevelData( $scope.puzzleData );
+    vm.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );
+    vm.setLevelData( vm.puzzleData );
   });
 
-  $scope.onChoosableClick = function(index) {
-    if($scope.choosableLetters[index].active){
-      for (var i = 0; i < $scope.selectedLetters.length; i++) {
-        if($scope.selectedLetters[i].letter == ""){
-          $scope.selectedLetters[i].letter  = $scope.choosableLetters[index].letter;
-          $scope.selectedLetters[i].hostIndex = index;
-          $scope.choosableLetters[index].active = false;
+   function onChoosableClick(index) {
+    if(vm.choosableLetters[index].active){
+      for (var i = 0; i < vm.selectedLetters.length; i++) {
+        if(vm.selectedLetters[i].letter == ""){
+          vm.selectedLetters[i].letter  = vm.choosableLetters[index].letter;
+          vm.selectedLetters[i].hostIndex = index;
+          vm.choosableLetters[index].active = false;
           break;
         }
       }
-      checkLevelSuccess($scope);
+      vm.checkLevelSuccess();
     }
   }
 
-  $scope.onSelectedClick = function(index){
-    var hostIndex = $scope.selectedLetters[index].hostIndex;
-    $scope.selectedLetters[index].letter = "";
-    $scope.choosableLetters[hostIndex].active = true;
+  function onSelectedClick(index){
+    var hostIndex = vm.selectedLetters[index].hostIndex;
+    vm.selectedLetters[index].letter = "";
+    vm.choosableLetters[hostIndex].active = true;
   }
 
   function checkLevelSuccess() {
     var successFlag = true;
-    $scope.solution.forEach(function(value,index){
-      if(value != $scope.selectedLetters[index].letter)
+    vm.solution.forEach(function(value,index){
+      if(value != vm.selectedLetters[index].letter)
         successFlag = false;
     });
     if(successFlag) {
@@ -53,9 +59,9 @@ function gameController($scope, gameService) {
 
   function setLevelData( puzzleData ){
     if( puzzleData ) {
-      $scope.choosableLetters = wrapLetters( gameService.shuffle( puzzleData["lvl" + $scope.currentLevel].choosableLetters ) );
-      $scope.solution = puzzleData["lvl" + $scope.currentLevel].solution; 
-      $scope.selectedLetters = wrapLetters( $scope.solution.map(function() { return "" }) );
+      vm.choosableLetters = vm.wrapLetters( gameService.shuffle( puzzleData["lvl" + $scope.currentLevel].choosableLetters ) );
+      vm.solution = puzzleData["lvl" + $scope.currentLevel].solution;
+      vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );
     }
   }
 
