@@ -1,15 +1,16 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope','gameService'];
+gameController.$inject = ['$scope','gameService', 'userGameData', 'initialLevel', 'numberOfPics'];
 
-function gameController($scope, gameService) {
+function gameController($scope, gameService, userGameData, initialLevel, numberOfPics) {
   var vm = this;
   vm.setLevelData = setLevelData;
   vm.onChoosableClick = onChoosableClick;
   vm.checkLevelSuccess = checkLevelSuccess;
   vm.onSelectedClick = onSelectedClick;
   vm.wrapLetters = wrapLetters;
+  vm.currentLevel =  userGameData.getCurrentLevel();
 
   gameService.getPuzzleData()
              .success(function(data){
@@ -20,8 +21,10 @@ function gameController($scope, gameService) {
                 console.log(err, "Error while retrieving App Data")
               });
 
-  $scope.$watch('currentLevel',function(){
-    vm.puzzleImages = gameService.getPuzzleImages( $scope.currentLevel, $scope.gameConstants.numberOfPics );
+  $scope.$watch(function () {
+    return vm.currentLevel;
+  },function(){
+    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, numberOfPics );
     vm.setLevelData( vm.puzzleData );
   });
 
@@ -53,14 +56,14 @@ function gameController($scope, gameService) {
     });
     if(successFlag) {
       console.log("Congrats!");
-        $scope.currentLevel = $scope.currentLevel + 1;
+        vm.currentLevel = vm.currentLevel + 1;
     }
   }
 
   function setLevelData( puzzleData ){
     if( puzzleData ) {
-      vm.choosableLetters = vm.wrapLetters( gameService.shuffle( puzzleData["lvl" + $scope.currentLevel].choosableLetters ) );
-      vm.solution = puzzleData["lvl" + $scope.currentLevel].solution;
+      vm.choosableLetters = vm.wrapLetters( gameService.shuffle( puzzleData["lvl" + vm.currentLevel].choosableLetters ) );
+      vm.solution = puzzleData["lvl" + vm.currentLevel].solution;
       vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );
     }
   }

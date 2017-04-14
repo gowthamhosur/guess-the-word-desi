@@ -4,9 +4,9 @@
 'use strict';
 
 gameModule.controller('homeController', homeController);
-homeController.$inject = ['$scope', '$rootScope', 'gameService']
+homeController.$inject = ['$scope', '$rootScope', 'gameService', 'userGameData']
 
-function homeController($scope, $rootScope, gameService) {
+function homeController($scope, $rootScope, gameService, userGameData) {
 
 	$rootScope.gameConstants = {
 	  	initialLevel: 0,
@@ -17,7 +17,7 @@ function homeController($scope, $rootScope, gameService) {
   	}
     gameService.getUserData()
 	  		 .success(function(data){
-	  			$rootScope.currentLevel = data.currentLevel;
+	  			userGameData.setCurrentLevel(data.currentLevel);
 	  		  })
 	  		 .error(function(err){
 				console.log(err, "Error while retrieving App Data")
