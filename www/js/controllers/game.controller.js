@@ -10,7 +10,10 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
   vm.checkLevelSuccess = checkLevelSuccess;
   vm.onSelectedClick = onSelectedClick;
   vm.wrapLetters = wrapLetters;
+  vm.help = help;
   vm.currentLevel =  userGameData.getCurrentLevel();
+  vm.currentCoins = userGameData.getCurrentCoins();
+  var helpArrayIndex = [];
 
   gameService.getPuzzleData()
              .success(function(data){
@@ -42,6 +45,13 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
     }
   }
 
+  function help() {
+    var helpArrayIndex = Math.random() * 10;
+    vm.selectedLetters[helpArrayIndex] = vm.helpArray.shift();
+    vm.currentCoins -= 60;
+    userGameData.setCurrentCoins(vm.currentCoins);
+  }
+
   function onSelectedClick(index){
     var hostIndex = vm.selectedLetters[index].hostIndex;
     vm.selectedLetters[index].letter = "";
@@ -55,8 +65,10 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
         successFlag = false;
     });
     if(successFlag) {
+      vm.currentCoins += 150;
+      userGameData.setCurrentCoins(vm.currentCoins);
       console.log("Congrats!");
-        vm.currentLevel = vm.currentLevel + 1;
+      vm.currentLevel = vm.currentLevel + 1;
     }
   }
 
@@ -64,6 +76,7 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
     if( puzzleData ) {
       vm.choosableLetters = vm.wrapLetters( gameService.shuffle( puzzleData["lvl" + vm.currentLevel].choosableLetters ) );
       vm.solution = puzzleData["lvl" + vm.currentLevel].solution;
+      vm.helpArray = vm.solution.slice(0);
       vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );
     }
   }
@@ -75,12 +88,12 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
         var temp = {
         active: true,
         letter: element
-        }
+        };
         return temp;
       });
   }
 
-};
+}
 
 
 

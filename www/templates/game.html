@@ -10,7 +10,7 @@
           <span>{{gameVm.currentLevel}}</span>
         </div>
         <div class="header-coins-indicator">
-
+          <span>{{gameVm.currentCoins}}</span>
         </div>
       </header>
 
@@ -27,11 +27,12 @@
             <div class="content-letter" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
               <span>{{value.letter}}</span>
             </div>
+            <span class="icon ion-help" ng-click="gameVm.help()"></span>
           </div>
 
           <div class="content-letters-wrapper">
             <div class="content-letter choosable" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo:gameVm.choosableLetters.length/2 track by $index " ng-click="gameVm.onChoosableClick($index)">
-              <span ng-if="value.active">{{value.letter}} </span>
+              <span ng-if="value.active">{{value.letter}}</span>
             </div>
             <br/>
             <div class="content-letter choosable" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo: 10 :gameVm.choosableLetters.length/2 track by $index" ng-click="gameVm.onChoosableClick(gameVm.choosableLetters.length/2  + $index)">
