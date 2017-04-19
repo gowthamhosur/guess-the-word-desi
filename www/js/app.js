@@ -1,5 +1,9 @@
 var gameModule = angular.module('game4p1w', ['ionic'])
 
+gameModule.config(function($ionicConfigProvider) {
+  $ionicConfigProvider.views.maxCache(0);
+});
+
 gameModule.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -16,4 +20,5 @@ gameModule.run(function($ionicPlatform) {
       StatusBar.styleDefault();
     }
   });
+
 })

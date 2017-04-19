@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope','gameService', 'userGameData', 'initialLevel', 'numberOfPics' , 'maxChoosableLetters'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants'];
 
-function gameController($scope, gameService, userGameData, initialLevel, numberOfPics, maxChoosableLetters) {
+function gameController($scope, $state, gameService, userGameData, gameConstants) {
   var vm = this;
 
   vm.loadCurrentlevel = loadCurrentlevel;
@@ -17,6 +17,10 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
   vm.currentCoins = userGameData.getCurrentCoins();
 
   var helpArrayIndex = [];
+
+  if(!vm.currentLevel){
+    return $state.transitionTo('home', null, {reload: true, notify:true});
+  }
 
   gameService.getPuzzleData()
   .then(function(arrayOfResults){
@@ -34,7 +38,7 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
-    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, numberOfPics );
+    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, gameConstants.numberOfPics );
     vm.loadCurrentlevel();
   });
 
@@ -99,7 +103,7 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
   }
 
   function getChoosableLetters(letterBucket, solutions) {
-    var filteredBucket = gameService.filterLetterBucket(letterBucket, maxChoosableLetters - solutions.length);
+    var filteredBucket = gameService.filterLetterBucket(letterBucket, gameConstants.maxChoosableLetters - solutions.length);
     var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
     return wrapLetters(choosableLetters);
   }
