@@ -4,6 +4,5 @@
 
 gameModule.constant('initialLevel', 0);
 gameModule.constant('numberOfPics', 4);
-gameModule.constant('maxSelectedLetters', 9);
-gameModule.constant('maxChoosableLetters', 18);
+gameModule.constant('maxChoosableLetters', 10);
 gameModule.constant('totalGameLevels', 50);

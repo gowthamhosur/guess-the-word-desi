@@ -1,32 +1,50 @@
 'use strict';
 
-gameModule.service('gameService', ['$http', function($http){
+gameModule.service('gameService', ['$http', '$q', function($http, $q){
 
-	this.getPuzzleImages = function(currentLevel,numberOfPics) {
-		var rootFileName = "lvl" + currentLevel,
-  		puzzleImages = [];
-
-  		for (var i = 1; i <= numberOfPics; i++) {
-  			puzzleImages.push(rootFileName + '-' + i);
-  		}
-  		return puzzleImages;
-	};
 
 	this.getUserData = function(){
 		return $http.get('appdata/userData.json');
 	};
 
 	this.getPuzzleData = function(){
-		return $http.get('appdata/puzzleData.json');
+		var solutions = $http.get('appdata/solutions.json'),
+		letterBucket = $http.get('appdata/letterBucket.json');
+
+		return $q.all([solutions,letterBucket]);
 	};
 
+
+	this.getPuzzleImages = function(currentLevel,numberOfPics) {
+		var rootFileName = "lvl" + currentLevel,
+		puzzleImages = [];
+
+		for (var i = 1; i <= numberOfPics; i++) {
+			puzzleImages.push(rootFileName + '-' + i);
+		}
+		return puzzleImages;
+	};
+
+	this.filterLetterBucket = function(letterBucket, count) {
+		var tmp = letterBucket.slice(letterBucket);
+		var ret = [];
+
+		for (var i = 0; i < count; i++) {
+			var index = Math.floor(Math.random() * tmp.length);
+			var removed = tmp.splice(index, 1);
+    		ret.push(removed[0]);
+		}
+		return ret;  
+	}
+	
+
 	this.shuffle = function(array){
-	    var j, x, i;
-	    for (i = array.length; i; i--) {
-	        j = Math.floor(Math.random() * i);
-	        x = array[i - 1];
-	        array[i - 1] = array[j];
-	        array[j] = x;
+		var j, x, i;
+		for (i = array.length; i; i--) {
+			j = Math.floor(Math.random() * i);
+			x = array[i - 1];
+			array[i - 1] = array[j];
+			array[j] = x;
 		}
 		return array;
 	};

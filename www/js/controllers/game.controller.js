@@ -1,50 +1,44 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope','gameService', 'userGameData', 'initialLevel', 'numberOfPics'];
+gameController.$inject = ['$scope','gameService', 'userGameData', 'initialLevel', 'numberOfPics' , 'maxChoosableLetters'];
 
-function gameController($scope, gameService, userGameData, initialLevel, numberOfPics) {
+function gameController($scope, gameService, userGameData, initialLevel, numberOfPics, maxChoosableLetters) {
   var vm = this;
-  vm.setLevelData = setLevelData;
+
+  vm.loadCurrentlevel = loadCurrentlevel;
   vm.onChoosableClick = onChoosableClick;
   vm.checkLevelSuccess = checkLevelSuccess;
   vm.onSelectedClick = onSelectedClick;
   vm.wrapLetters = wrapLetters;
   vm.help = help;
+
   vm.currentLevel =  userGameData.getCurrentLevel();
   vm.currentCoins = userGameData.getCurrentCoins();
+
   var helpArrayIndex = [];
 
   gameService.getPuzzleData()
-             .success(function(data){
-                vm.puzzleData = data;
-                vm.setLevelData(vm.puzzleData);
-              })
-             .error(function(err){
-                console.log(err, "Error while retrieving App Data")
-              });
+  .then(function(arrayOfResults){
+    vm.puzzleData = {
+      solutions: arrayOfResults[0].data,
+      letterBucket: arrayOfResults[1].data
+    };
+
+    vm.loadCurrentlevel();
+  })
+  .catch(function (err) {
+    console.log(err, "Error while retrieving App Data")
+  });
 
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
     vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, numberOfPics );
-    vm.setLevelData( vm.puzzleData );
+    vm.loadCurrentlevel();
   });
 
-   function onChoosableClick(index) {
-    if(vm.choosableLetters[index].active){
-      for (var i = 0; i < vm.selectedLetters.length; i++) {
-        if(vm.selectedLetters[i].letter == ""){
-          vm.selectedLetters[i].letter  = vm.choosableLetters[index].letter;
-          vm.selectedLetters[i].hostIndex = index;
-          vm.choosableLetters[index].active = false;
-          break;
-        }
-      }
-      vm.checkLevelSuccess();
-    }
-  }
-
+  
   function help() {
     console.log("Logging help");
     var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
@@ -56,6 +50,20 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
     console.log(vm.selectedLetters);
     vm.currentCoins -= 60;
     userGameData.setCurrentCoins(vm.currentCoins);
+  }
+
+  function onChoosableClick(index) {
+    if(vm.choosableLetters[index].active){
+      for (var i = 0; i < vm.selectedLetters.length; i++) {
+        if(vm.selectedLetters[i].letter == ""){
+          vm.selectedLetters[i].letter  = vm.choosableLetters[index].letter;
+          vm.selectedLetters[i].hostIndex = index;
+          vm.choosableLetters[index].active = false;
+          break;
+        }
+      }
+      vm.checkLevelSuccess();
+    }
   }
 
   function onSelectedClick(index){
@@ -78,13 +86,22 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
     }
   }
 
-  function setLevelData( puzzleData ){
-    if( puzzleData ) {
-      vm.choosableLetters = vm.wrapLetters( gameService.shuffle( puzzleData["lvl" + vm.currentLevel].choosableLetters ) );
-      vm.solution = puzzleData["lvl" + vm.currentLevel].solution;
+  function loadCurrentlevel(){
+    if(vm.puzzleData){
+       var rootFileName = "lvl" + vm.currentLevel;
+
+      vm.solution  = vm.puzzleData["solutions"][rootFileName]["telugu"];
+      vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"]["telugu"], vm.solution );
+
       vm.helpArray = vm.solution.slice(0);
       vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );
     }
+  }
+
+  function getChoosableLetters(letterBucket, solutions) {
+    var filteredBucket = gameService.filterLetterBucket(letterBucket, maxChoosableLetters - solutions.length);
+    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
+    return wrapLetters(choosableLetters);
   }
 
   // Returns an object of array elements
@@ -92,8 +109,8 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
     return letters.map(
       function(element){
         var temp = {
-        active: true,
-        letter: element
+          active: true,
+          letter: element
         };
         return temp;
       });
