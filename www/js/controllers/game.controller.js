@@ -46,8 +46,14 @@ function gameController($scope, gameService, userGameData, initialLevel, numberO
   }
 
   function help() {
-    var helpArrayIndex = Math.random() * 10;
-    vm.selectedLetters[helpArrayIndex] = vm.helpArray.shift();
+    console.log("Logging help");
+    var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+    while(helpArrayIndex.includes(helpIndex)) {
+      helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+    }
+    helpArrayIndex.push(helpIndex);
+    vm.selectedLetters[helpIndex] = vm.helpArray[helpIndex];
+    console.log(vm.selectedLetters);
     vm.currentCoins -= 60;
     userGameData.setCurrentCoins(vm.currentCoins);
   }
