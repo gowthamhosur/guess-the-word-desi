@@ -68,6 +68,10 @@
 .content-sel-letters-wrapper{
   top: $pics-section-height;
   height: $sel-letters-section-height;
+  .ion-help {
+    margin-left: 20px;
+    font-size: 50px;
+  }
 }
 .content-letters-wrapper{
   top:  $pics-section-height + $sel-letters-section-height;
