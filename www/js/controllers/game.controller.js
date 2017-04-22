@@ -47,18 +47,32 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     vm.loadCurrentlevel();
   });
 
-  
+
   function help() {
-    console.log("Logging help");
-    var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
-    while(helpArrayIndex.includes(helpIndex)) {
-      helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+    console.log("Help");
+    if(vm.currentCoins > 160) {
+
+      var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+
+      if(!(vm.selectedLetters[helpIndex].letter == vm.helpArray[helpIndex])) {
+
+        while (helpArrayIndex.includes(helpIndex)) {
+          helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+        }
+        helpArrayIndex.push(helpIndex);
+        vm.selectedLetters[helpIndex].letter = vm.helpArray[helpIndex];
+        vm.currentCoins -= 160;
+        userGameData.setCurrentCoins(vm.currentCoins);
+        vm.checkLevelSuccess();
+
+      } else {
+        console.log("Coming into recursive help");
+        vm.help();
+      }
+
+    } else {
+      alert('You are a poor nigga');
     }
-    helpArrayIndex.push(helpIndex);
-    vm.selectedLetters[helpIndex] = vm.helpArray[helpIndex];
-    console.log(vm.selectedLetters);
-    vm.currentCoins -= 60;
-    userGameData.setCurrentCoins(vm.currentCoins);
   }
 
   function onChoosableClick(index) {
@@ -77,6 +91,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function onSelectedClick(index){
     var hostIndex = vm.selectedLetters[index].hostIndex;
+    console.log(hostIndex);
+    console.log(vm.selectedLetters);
     vm.selectedLetters[index].letter = "";
     vm.choosableLetters[hostIndex].active = true;
   }
@@ -88,8 +104,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         successFlag = false;
     });
     if(successFlag) {
-      vm.currentCoins += 150;
+      vm.currentCoins += 50;
       userGameData.setCurrentCoins(vm.currentCoins);
+      helpArrayIndex = [];
       console.log("Congrats!");
       vm.currentLevel = vm.currentLevel + 1;
     }
