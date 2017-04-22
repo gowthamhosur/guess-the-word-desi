@@ -16,6 +16,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/game.html',
       controller: 'gameController',
       controllerAs: 'gameVm'
+    })
+    .state('success', {
+      url: '/success',
+      templateUrl: 'templates/success.html',
+      controller: 'homeController',
+      controllerAs: 'homeVm'
     });
   $urlRouterProvider.otherwise('/home');
 });

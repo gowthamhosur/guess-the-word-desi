@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup'];
 
-function gameController($scope, $state, gameService, userGameData, gameConstants) {
+function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup) {
   var vm = this;
 
   vm.loadCurrentlevel = loadCurrentlevel;
@@ -20,7 +20,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   if(!vm.currentLevel){
     return $state.transitionTo('home', null, {reload: true, notify:true});
-  }
+  } 
 
   gameService.getPuzzleData()
   .then(function(arrayOfResults){
@@ -38,6 +38,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
+
+    if (vm.currentLevel > gameConstants.totalLevels) {
+    return $state.transitionTo('success', null, {reload: true, notify:true});
+    }
+
     vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, gameConstants.numberOfPics );
     vm.loadCurrentlevel();
   });
