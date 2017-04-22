@@ -45,7 +45,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function help() {
     console.log("Help");
-    if(vm.currentCoins > 60) {
+    if(vm.currentCoins > 160) {
 
       var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
 
@@ -56,7 +56,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         }
         helpArrayIndex.push(helpIndex);
         vm.selectedLetters[helpIndex].letter = vm.helpArray[helpIndex];
-        vm.currentCoins -= 60;
+        vm.currentCoins -= 160;
         userGameData.setCurrentCoins(vm.currentCoins);
         vm.checkLevelSuccess();
 
@@ -99,7 +99,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         successFlag = false;
     });
     if(successFlag) {
-      vm.currentCoins += 150;
+      vm.currentCoins += 50;
       userGameData.setCurrentCoins(vm.currentCoins);
       helpArrayIndex = [];
       console.log("Congrats!");
