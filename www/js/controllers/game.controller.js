@@ -52,25 +52,48 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     if(vm.currentCoins > 160) {
 
       var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+      var notfoundFlag = false;
 
-      if(!(vm.selectedLetters[helpIndex].letter == vm.helpArray[helpIndex])) {
+      if(!(vm.selectedLetters[helpIndex].letter == vm.solution[helpIndex])) {
 
-        while (helpArrayIndex.includes(helpIndex)) {
-          helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
+        if(vm.selectedLetters[helpIndex].letter != ""){
+          //Send the already present selected letter back to choosable letter
+          onSelectedClick(helpIndex);
         }
-        helpArrayIndex.push(helpIndex);
-        vm.selectedLetters[helpIndex].letter = vm.helpArray[helpIndex];
+
+        //Set the help letter in selected letters
+        vm.selectedLetters[helpIndex].letter = vm.solution[helpIndex];
+        vm.selectedLetters[helpIndex].affixed = true;
+
+        //Hide the help letter in choosable letters
+        for (var i = 0; i < vm.choosableLetters.length; i++) {
+          if(vm.choosableLetters[i].letter == vm.solution[helpIndex]){
+            vm.choosableLetters[i].active = false;
+            notfoundFlag = true;
+            break;
+          }
+        }
+         //If help letter is not found in choosable letters, search in selected letters
+        if(notfoundFlag) {
+          for (var i = 0; i < vm.selectedLetters.length; i++) {
+              if(vm.selectedLetters[i].letter == vm.solution[helpIndex] && i != helpIndex){
+                vm.selectedLetters[i].letter = "";
+                break;
+              }
+          }  
+        }
+        
         vm.currentCoins -= 160;
         userGameData.setCurrentCoins(vm.currentCoins);
+
         vm.checkLevelSuccess();
 
       } else {
-        console.log("Coming into recursive help");
         vm.onHelpClick();
       }
 
     } else {
-      alert('You are a poor nigga');
+      alert('You are a poor nooka');
     }
   }
 
@@ -89,11 +112,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function onSelectedClick(index){
-    var hostIndex = vm.selectedLetters[index].hostIndex;
-    console.log(hostIndex);
-    console.log(vm.selectedLetters);
-    vm.selectedLetters[index].letter = "";
-    vm.choosableLetters[hostIndex].active = true;
+    if(!vm.selectedLetters[index].affixed){
+      var hostIndex = vm.selectedLetters[index].hostIndex;
+      vm.selectedLetters[index].letter = "";
+      vm.choosableLetters[hostIndex].active = true;
+    }
   }
 
   function checkLevelSuccess() {
@@ -117,7 +140,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"]["lvl" + vm.currentLevel] );
       vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
 
-      vm.helpArray = vm.solution.slice(0);
       vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );
     }
   }
