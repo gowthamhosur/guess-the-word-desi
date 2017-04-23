@@ -1,5 +1,10 @@
+.main-view-wrapper{
+  background: #6ef8ab;
+  background-image: url("../img/zenbg-1.png"), url("../img/zenbg-2.png");
+  background-repeat: repeat-x, repeat;
+  height: 100%
+}
 .game-header{
-  background-color: $header;
   position: absolute;
   top: 0;
   width: 100%;
@@ -22,7 +27,6 @@
   font-size: 18px;
 }
 .game-content-wrapper {
-  background-color: $blue;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -42,7 +46,6 @@
   top: 0;
   height: $pics-section-height;
   padding: 5px;
-  padding-top: 20px;
   overflow: hidden;
   text-align: center;
 }
@@ -62,15 +65,15 @@
 }
 .content-letters-wrapper, .content-sel-letters-wrapper{
   padding:10px;
-  padding-top: 0px;
   text-align: center;
 }
 .content-sel-letters-wrapper{
   top: $pics-section-height;
   height: $sel-letters-section-height;
   .ion-help {
-    margin-left: 20px;
     font-size: 50px;
+    vertical-align: super;
+    color: navajowhite;
   }
 }
 .content-letters-wrapper{
@@ -93,6 +96,17 @@
   line-height: 55px;
   font-size: 28px;
   font-family: 'lohittelugu';
+}
+
+.content-letter.affixed{
+     background-color: transparent;
+    box-shadow: none;
+    color: white;
+}
+
+.content-letter.affixed span{
+    font-size: 30px;
+    line-height: 60px;
 }
 
 .content-letter.choosable{

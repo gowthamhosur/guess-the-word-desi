@@ -128,9 +128,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     if(successFlag) {
       vm.currentCoins += 50;
       userGameData.setCurrentCoins(vm.currentCoins);
-      helpArrayIndex = [];
-      console.log("Congrats!");
-      vm.currentLevel = vm.currentLevel + 1;
+      userGameData.setCurrentLevel(vm.currentLevel + 1);
+      showAlert();
     }
   }
 
@@ -161,6 +160,17 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         return temp;
       });
   }
+
+  function showAlert() {
+   var alertPopup = $ionicPopup.alert({
+     title: 'Bravo',
+     template: 'Nuvvu keka'
+   });
+
+   alertPopup.then(function(res) {
+      vm.currentLevel =  userGameData.getCurrentLevel();
+   });
+ };
 
 }
 
