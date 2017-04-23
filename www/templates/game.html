@@ -27,7 +27,7 @@
             <div class="content-letter" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
               <span>{{value.letter}}</span>
             </div>
-            <span class="icon ion-help" ng-click="gameVm.help()"></span>
+            <span class="icon ion-help" ng-click="gameVm.onHelpClick()"></span>
           </div>
 
           <div class="content-letters-wrapper">

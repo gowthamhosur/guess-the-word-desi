@@ -10,8 +10,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   vm.onChoosableClick = onChoosableClick;
   vm.checkLevelSuccess = checkLevelSuccess;
   vm.onSelectedClick = onSelectedClick;
+  vm.onHelpClick = onHelpClick;
   vm.wrapLetters = wrapLetters;
-  vm.help = help;
 
   vm.currentLevel =  userGameData.getCurrentLevel();
   vm.currentCoins = userGameData.getCurrentCoins();
@@ -25,8 +25,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   gameService.getPuzzleData()
   .then(function(arrayOfResults){
     vm.puzzleData = {
-      solutions: arrayOfResults[0].data,
-      letterBucket: arrayOfResults[1].data
+      solutions: arrayOfResults[0].data[gameConstants.language],
+      letterBucket: arrayOfResults[1].data[gameConstants.language]
     };
 
     vm.loadCurrentlevel();
@@ -48,8 +48,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   });
 
 
-  function help() {
-    console.log("Help");
+  function onHelpClick() {
     if(vm.currentCoins > 160) {
 
       var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
@@ -67,7 +66,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
       } else {
         console.log("Coming into recursive help");
-        vm.help();
+        vm.onHelpClick();
       }
 
     } else {
@@ -114,10 +113,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function loadCurrentlevel(){
     if(vm.puzzleData){
-       var rootFileName = "lvl" + vm.currentLevel;
 
-      vm.solution  = vm.puzzleData["solutions"][rootFileName]["telugu"];
-      vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"]["telugu"], vm.solution );
+      vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"]["lvl" + vm.currentLevel] );
+      vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
 
       vm.helpArray = vm.solution.slice(0);
       vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );

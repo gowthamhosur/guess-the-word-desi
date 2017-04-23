@@ -14,20 +14,6 @@ var paths = {
 
 gulp.task('default', ['sass']);
 
-var displayError = function(error) {
-  // Initial building up of the error
-  var errorString = '[' + error.plugin + ']';
-  errorString += ' ' + error.message.replace("\n",''); // Removes new line at the end
-  // If the error contains the filename or line number add it to the string
-  if(error.fileName)
-    errorString += ' in ' + error.fileName;
-  if(error.lineNumber)
-    errorString += ' on line ' + error.lineNumber;
-  // This will output an error like the following:
-  // [gulp-sass] error message in file_name on line 1
-  console.error(errorString);
-}
-
 gulp.task('sass', function(done) {
   gulp.src('./scss/style.scss')
     .pipe(sass({includePaths: paths.src}))
@@ -68,3 +54,17 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+var displayError = function(error) {
+  // Initial building up of the error
+  var errorString = '[' + error.plugin + ']';
+  errorString += ' ' + error.message.replace("\n",''); // Removes new line at the end
+  // If the error contains the filename or line number add it to the string
+  if(error.fileName)
+    errorString += ' in ' + error.fileName;
+  if(error.lineNumber)
+    errorString += ' on line ' + error.lineNumber;
+  // This will output an error like the following:
+  // [gulp-sass] error message in file_name on line 1
+  console.error(errorString);
+}
