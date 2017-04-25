@@ -12,6 +12,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   vm.onSelectedClick = onSelectedClick;
   vm.onHelpClick = onHelpClick;
   vm.wrapLetters = wrapLetters;
+  vm.onSkipClick = onSkipClick;
 
   vm.currentLevel =  userGameData.getCurrentLevel();
   vm.currentCoins = userGameData.getCurrentCoins();
@@ -20,7 +21,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   if(!vm.currentLevel){
     return $state.transitionTo('home', null, {reload: true, notify:true});
-  } 
+  }
 
   gameService.getPuzzleData()
   .then(function(arrayOfResults){
@@ -49,7 +50,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
 
   function onHelpClick() {
-    if(vm.currentCoins > 160) {
+    if(vm.currentCoins > 80) {
 
       var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
       var notfoundFlag = false;
@@ -80,10 +81,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
                 vm.selectedLetters[i].letter = "";
                 break;
               }
-          }  
+          }
         }
-        
-        vm.currentCoins -= 160;
+
+        vm.currentCoins -= 80;
         userGameData.setCurrentCoins(vm.currentCoins);
 
         vm.checkLevelSuccess();
@@ -94,6 +95,17 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
     } else {
       alert('You are a poor nooka');
+    }
+  }
+
+  function onSkipClick() {
+    if(vm.currentCoins > 180) {
+      vm.currentCoins -= 180;
+      userGameData.setCurrentCoins(vm.currentCoins);
+      userGameData.setCurrentLevel(vm.currentLevel + 1);
+      vm.currentLevel++;
+    } else {
+      alert("You love rohit");
     }
   }
 

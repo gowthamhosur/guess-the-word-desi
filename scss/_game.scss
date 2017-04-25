@@ -70,10 +70,14 @@
 .content-sel-letters-wrapper{
   top: $pics-section-height;
   height: $sel-letters-section-height;
-  .ion-help {
+  .ion-help, .ion-skip-forward {
     font-size: 50px;
     vertical-align: super;
     color: navajowhite;
+  }
+  .ion-skip-forward {
+    color: #8bf429;
+    margin-left: 12px;
   }
 }
 .content-letters-wrapper{
