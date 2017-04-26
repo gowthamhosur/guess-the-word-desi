@@ -5,7 +5,7 @@
 gameModule.constant('gameConstants', {
 	language: 'telugu',
 	initialLevel: 0,
-	totalLevels: 11,
+	totalLevels: 13,
 	numberOfPics: 4,
 	maxChoosableLetters: 10,
 	totalGameLevels: 50
