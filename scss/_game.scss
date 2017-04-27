@@ -1,6 +1,6 @@
 .main-view-wrapper{
-  background: #6ef8ab;
-  background-image: url("../img/zenbg-1.png"), url("../img/zenbg-2.png");
+  background: #0a5a87;
+  background-image: url("/img/zenbg-1.png"), url("/img/zenbg-2.png");
   background-repeat: repeat-x, repeat;
   height: 100%
 }
@@ -45,7 +45,6 @@
 .content-pics-wrapper{
   top: 0;
   height: $pics-section-height;
-  padding: 5px;
   overflow: hidden;
   text-align: center;
 }
@@ -64,7 +63,6 @@
   border: 5px solid grey;
 }
 .content-letters-wrapper, .content-sel-letters-wrapper{
-  padding:10px;
   text-align: center;
 }
 .content-sel-letters-wrapper{
@@ -86,7 +84,7 @@
 }
 .content-letter{
   display: inline-block;
-  margin: 5px 10px;
+  margin: 2px 5px;
   width: 40px;
   height: 45px;
   text-align: center;
