@@ -1,4 +1,4 @@
-var gameModule = angular.module('game4p1w', ['ionic'])
+var gameModule = angular.module('game4p1w', ['ionic','ngAnimate'])
 
 gameModule.config(function($ionicConfigProvider) {
   $ionicConfigProvider.views.maxCache(0);

@@ -7,6 +7,6 @@ gameModule.constant('gameConstants', {
 	initialLevel: 0,
 	totalLevels: 13,
 	numberOfPics: 4,
-	maxChoosableLetters: 10,
+	maxChoosableLetters: 8,
 	totalGameLevels: 50
 });
