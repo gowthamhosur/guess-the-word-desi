@@ -85,6 +85,10 @@ html,body {
   .content-letter{
     width: 40px;
     height: 40px;
+    span {
+      position: relative;
+      top:-4px;
+    }
   }
 }
 .content-letters-wrapper{

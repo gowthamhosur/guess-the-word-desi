@@ -132,16 +132,22 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function checkLevelSuccess() {
-    var successFlag = true;
+    var successFlag = true, allSelectedFlag = true;
     vm.solution.forEach(function(value,index){
       if(value != vm.selectedLetters[index].letter)
         successFlag = false;
+      if(vm.selectedLetters[index].letter == "")
+        allSelectedFlag = false;
     });
+
     if(successFlag) {
       vm.currentCoins += 50;
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
       showAlert();
+    } else
+    {
+      vm.allSelected = allSelectedFlag;
     }
   }
 
