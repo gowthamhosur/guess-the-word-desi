@@ -6,7 +6,9 @@ gameService.$inject = ['$http', '$q', '$localStorage', 'userGameData'];
 
 function gameService($http, $q, $localStorage, userGameData){
 
-  $localStorage.userData = {currentLevel: 10, currentCoins: 400};
+  if(!$localStorage.userData) {
+    $localStorage.userData = {currentLevel: 10, currentCoins: 400};
+  }
 
 	function getUserData(){
 		return $localStorage.userData;

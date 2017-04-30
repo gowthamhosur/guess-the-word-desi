@@ -9,7 +9,6 @@ homeController.$inject = ['$scope', '$rootScope', 'gameService', 'userGameData']
 function homeController($scope, $rootScope, gameService, userGameData) {
 
     var userData = gameService.getUserData();
-    console.log(userData);
     userGameData.setCurrentLevel(userData.currentLevel);
     userGameData.setCurrentCoins(userData.currentCoins);
 
