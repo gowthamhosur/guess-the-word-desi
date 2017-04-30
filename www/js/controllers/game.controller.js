@@ -19,6 +19,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   var helpArrayIndex = [];
 
+  var emptyLetter = " ";
+
   if(!vm.currentLevel){
     return $state.transitionTo('home', null, {reload: true, notify:true});
   }
@@ -57,7 +59,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
       if(!(vm.selectedLetters[helpIndex].letter == vm.solution[helpIndex])) {
 
-        if(vm.selectedLetters[helpIndex].letter != ""){
+        if(vm.selectedLetters[helpIndex].letter != emptyLetter){
           //Send the already present selected letter back to choosable letter
           onSelectedClick(helpIndex);
         }
@@ -78,7 +80,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         if(notfoundFlag) {
           for (var i = 0; i < vm.selectedLetters.length; i++) {
               if(vm.selectedLetters[i].letter == vm.solution[helpIndex] && i != helpIndex){
-                vm.selectedLetters[i].letter = "";
+                vm.selectedLetters[i].letter = emptyLetter;
                 break;
               }
           }
@@ -113,7 +115,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   function onChoosableClick(index) {
     if(vm.choosableLetters[index].active){
       for (var i = 0; i < vm.selectedLetters.length; i++) {
-        if(vm.selectedLetters[i].letter == ""){
+        if(vm.selectedLetters[i].letter == emptyLetter){
           vm.selectedLetters[i].letter  = vm.choosableLetters[index].letter;
           vm.selectedLetters[i].hostIndex = index;
           vm.choosableLetters[index].active = false;
@@ -127,7 +129,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   function onSelectedClick(index){
     if(!vm.selectedLetters[index].affixed){
       var hostIndex = vm.selectedLetters[index].hostIndex;
-      vm.selectedLetters[index].letter = "";
+      vm.selectedLetters[index].letter = emptyLetter;
       vm.choosableLetters[hostIndex].active = true;
       vm.allSelected = false;
     }
@@ -138,7 +140,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     vm.solution.forEach(function(value,index){
       if(value != vm.selectedLetters[index].letter)
         successFlag = false;
-      if(vm.selectedLetters[index].letter == "")
+      if(vm.selectedLetters[index].letter == emptyLetter)
         allSelectedFlag = false;
     });
 
@@ -157,12 +159,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   function loadCurrentlevel(){
     if(vm.puzzleData){
 
-      var temp = vm.puzzleData["solutions"]["lvl" + vm.currentLevel];
-
       vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"]["lvl" + vm.currentLevel] );
       vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
 
-      vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return "" }) );
+      vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return emptyLetter }) );
     }
   }
 

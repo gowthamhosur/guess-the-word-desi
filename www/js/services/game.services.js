@@ -13,9 +13,8 @@ function gameService($http, $q, $localStorage, userGameData){
 	}
 
 	function setUserData() {
-	  $localStorage.userData.currentCoins = userGameData.getCurrentCoins();
-    $localStorage.userData.currentLevel = userGameData.getCurrentLevel();
-    console.log($localStorage);
+		$localStorage.userData.currentCoins = userGameData.getCurrentCoins();
+	    $localStorage.userData.currentLevel = userGameData.getCurrentLevel();
   }
 
 	function getPuzzleData(){
