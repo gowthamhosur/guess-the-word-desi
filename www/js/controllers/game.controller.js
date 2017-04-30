@@ -103,9 +103,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.currentCoins -= 180;
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
+      vm.allSelected = false;
       vm.currentLevel++;
     } else {
-      alert("You love rohit");
+      alert("Insufficient credits");
     }
   }
 
@@ -128,6 +129,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       var hostIndex = vm.selectedLetters[index].hostIndex;
       vm.selectedLetters[index].letter = "";
       vm.choosableLetters[hostIndex].active = true;
+      vm.allSelected = false;
     }
   }
 

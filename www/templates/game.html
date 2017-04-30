@@ -34,12 +34,14 @@
             </div>
 
             <div class="content-letters-wrapper">
-              <div class="content-letter choosable" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo:gameVm.choosableLetters.length/2 track by $index " ng-click="gameVm.onChoosableClick($index)">
-                <span ng-if="value.active">{{value.letter}}</span>
-              </div>
-              <br/>
-              <div class="content-letter choosable" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo: 10 :gameVm.choosableLetters.length/2 track by $index" ng-click="gameVm.onChoosableClick(gameVm.choosableLetters.length/2  + $index)">
-                <span ng-if="value.active">{{value.letter}} </span>
+            <div class="content-letter-inner">
+
+               <div class="content-letter choosable" ng-class="{inactive: !value.active}" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo:gameVm.choosableLetters.length/2 track by $index " ng-click="gameVm.onChoosableClick($index)">
+                <span>{{value.letter}}</span>
+                </div><!--
+                --><div class="content-letter choosable" ng-class="{inactive: !value.active}" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo: 10 :gameVm.choosableLetters.length/2 track by $index" ng-click="gameVm.onChoosableClick(gameVm.choosableLetters.length/2  + $index)">
+                  <span>{{value.letter}} </span>
+                </div>
               </div>
             </div>
           </div>

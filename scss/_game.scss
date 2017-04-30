@@ -53,8 +53,8 @@ html,body {
 }
 .content-pic{
     display: inline-block;
-    width: 45%;
-    height: 45%;
+    width: 43%;
+    height: 43%;
     margin: 3px;
 }
 .content-pic>img{
@@ -72,7 +72,7 @@ html,body {
 .content-sel-letters-wrapper{
   top: $pics-section-height;
   height: $sel-letters-section-height;
-  padding: 0px 15px;
+  padding: 0px 5%;
   .icon-help, .icon-skip {
     font-size: 30px;
     color: white;
@@ -94,44 +94,60 @@ html,body {
 .content-letters-wrapper{
   top:  $pics-section-height + $sel-letters-section-height;
   height: $letters-section-height;
+  .content-letter-inner{
+    max-width: 240px;
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 .content-letter{
   display: inline-block;
-  margin: 2px 5px;
+  margin: 3px 5px;
   width: 50px;
   height: 50px;
   text-align: center;
   background-color: #fff;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 0 13px white;
+  box-shadow: 0 0 10px white;
   span {
      line-height: 55px;
     font-size: 28px;
     font-family: 'lohittelugu';
   }
-}
-
-.content-letter.affixed{
-    background-color: transparent;
-    box-shadow: none;
+  &.choosable{
+    background-color: #3C3C3C;
     color: white;
-    span{
-      font-size: 30px;
-      line-height: 60px;
+    box-shadow: 0px 6px 7px 0px rgba(0, 0, 0, .3), inset 0px 0px 0px 0px rgba(255,255,255,0.5), inset 0px -2px 1px 4px rgba(50,50,50,.5);
+    &.inactive{
+      opacity: 0.3;
+      span{
+        opacity: 0.5;
+      }
+    }
+  }
+  &.shake{
+     box-shadow: 0 0 10px orangered;
+  }
+   &.affixed{
+      background-color: transparent;
+      box-shadow: none;
+      color: white;
+      box-shadow: none;
+      span{
+        font-size: 30px;
+        line-height: 60px;
+    }
   }
 }
 
-.content-letter.choosable{
-  background-color: #3C3C3C;
-  color: white;
-  box-shadow: 0px 6px 7px 0px rgba(0, 0, 0, .3), inset 0px 0px 0px 0px rgba(255,255,255,0.5), inset 0px -2px 1px 4px rgba(50,50,50,.5);
-}
 .icon-wrap{
     display: inline-block;
     width: 40px;
     height: 40px;
     background: linear-gradient(150deg, rgba(0, 220, 0, 0.247059) 0%, #1B4353 80%);
     border-radius: 50%;
-    box-shadow: 1px 5px 10px black;
+    box-shadow: 1px 3px 10px black;
 }
