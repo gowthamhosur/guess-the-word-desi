@@ -2,19 +2,19 @@
 	"english": {
 		"lvl10" : "WHITE",
 		"lvl11" : "CROWN",
-    "lvl12" : "BAAHUBALI",
-    "lvl13" : "COLD"
+	    "lvl12" : "BAHUBALI",
+	    "lvl13" : "COLD"
 	},
 	"telugu": {
 		"lvl10" : "తెలుపు",
 		"lvl11" : "కిరీటం",
-    "lvl12" : "బాహుబలి",
-    "lvl13" : "శీతలం"
+	    "lvl12" : "బాహుబలి",
+	    "lvl13" : "శీతలం"
 	},
 	"hindi": {
 		"lvl10" : "सफेद",
 		"lvl11" : "ताज",
-    "lvll2" : "बाहुबली",
-    "lvl13" : "सर्दी"
+	    "lvl12" : "बाहुबली",
+	    "lvl13" : "सर्दी"
 	}
 }

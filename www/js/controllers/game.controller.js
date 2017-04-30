@@ -146,8 +146,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.currentCoins += 50;
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
-      showAlert();
       gameService.setUserData();
+      showAlert();
     } else
     {
       vm.allSelected = allSelectedFlag;
@@ -156,6 +156,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function loadCurrentlevel(){
     if(vm.puzzleData){
+
+      var temp = vm.puzzleData["solutions"]["lvl" + vm.currentLevel];
 
       vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"]["lvl" + vm.currentLevel] );
       vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );

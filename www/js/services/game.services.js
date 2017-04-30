@@ -60,7 +60,7 @@ function gameService($http, $q, $localStorage, userGameData){
 	}
 
 	var service = {
-	  getUserData : getUserData,
+	getUserData : getUserData,
     setUserData: setUserData,
     getPuzzleData: getPuzzleData,
     getPuzzleImages: getPuzzleImages,

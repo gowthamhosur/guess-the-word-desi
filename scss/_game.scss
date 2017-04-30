@@ -48,20 +48,21 @@ html,body {
 .content-pics-wrapper{
   top: 0;
   height: $pics-section-height;
+  padding: 0px 5%;
   overflow: hidden;
   text-align: center;
 }
 .content-pic{
     display: inline-block;
-    width: 43%;
-    height: 43%;
-    margin: 3px;
+    width: 46%;
+    height: 47%;
+    margin: 1%;
 }
 .content-pic>img{
     width: 100%;
     height: 100%;
-    max-width: 185px;
-    max-height: 185px;
+    max-width: 200px;
+    max-height: 200px;
     box-sizing: border-box;
     border-radius: 15px;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.5);
@@ -73,10 +74,12 @@ html,body {
   top: $pics-section-height;
   height: $sel-letters-section-height;
   padding: 0px 5%;
-  .icon-help, .icon-skip {
-    font-size: 30px;
-    color: white;
-    line-height: 38px;
+  .content-sel-letters-inner{
+    position: relative;
+    top: 56%;
+    transform: translateY(-50%);
+    max-width: 500px;
+    margin: auto;
   }
   .ion-skip-forward {
     color: #8bf429;
@@ -85,10 +88,6 @@ html,body {
   .content-letter{
     width: 40px;
     height: 40px;
-    span {
-      position: relative;
-      top:-4px;
-    }
   }
 }
 .content-letters-wrapper{
@@ -113,9 +112,11 @@ html,body {
   overflow: hidden;
   box-shadow: 0 0 10px white;
   span {
-     line-height: 55px;
     font-size: 28px;
     font-family: 'lohittelugu';
+    position: relative;
+    top: 30%;
+    transform: translateY(-50%);
   }
   &.choosable{
     background-color: #3C3C3C;
@@ -144,10 +145,16 @@ html,body {
 }
 
 .icon-wrap{
-    display: inline-block;
+    display: table;
     width: 40px;
     height: 40px;
     background: linear-gradient(150deg, rgba(0, 220, 0, 0.247059) 0%, #1B4353 80%);
     border-radius: 50%;
     box-shadow: 1px 3px 10px black;
+    .icon {
+    font-size: 30px;
+    color: white;
+    display: table-cell;
+    vertical-align: middle;
+  }
 }
