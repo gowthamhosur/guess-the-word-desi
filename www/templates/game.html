@@ -24,24 +24,28 @@
             </div>
 
             <div class="content-sel-letters-wrapper">
-              <div class="icon-wrap float-left "><span class="icon icon-help ion-lightbulb" ng-click="gameVm.onHelpClick()"></span></div>
+              <div class="content-sel-letters-inner">
+                <div class="icon-wrap float-left "><span class="icon icon-help ion-lightbulb" ng-click="gameVm.onHelpClick()"></span></div>
 
-              <div class="content-letter animated" ng-class="{affixed: value.affixed, shake: gameVm.allSelected}" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
-                <span>{{value.letter}}</span>
+                <div class="content-letter animated" ng-class="{affixed: value.affixed, shake: gameVm.allSelected}" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
+                  <span>{{value.letter}}</span>
+                </div>
+
+                <div class="icon-wrap float-right"><span class="icon icon-skip ion-arrow-right-c" ng-click="gameVm.onSkipClick()"></span></div>
               </div>
-
-              <div class="icon-wrap float-right"><span class="icon icon-skip ion-arrow-right-c" ng-click="gameVm.onSkipClick()"></span></div>
             </div>
 
             <div class="content-letters-wrapper">
-              <div class="content-letter choosable" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo:gameVm.choosableLetters.length/2 track by $index " ng-click="gameVm.onChoosableClick($index)">
-                <span ng-if="value.active">{{value.letter}}</span>
+              <div class="content-letter-inner">
+
+                 <div class="content-letter choosable" ng-class="{inactive: !value.active}" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo:gameVm.choosableLetters.length/2 track by $index " ng-click="gameVm.onChoosableClick($index)">
+                  <span>{{value.letter}}</span>
+                  </div><!--
+                  --><div class="content-letter choosable" ng-class="{inactive: !value.active}" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo: 10 :gameVm.choosableLetters.length/2 track by $index" ng-click="gameVm.onChoosableClick(gameVm.choosableLetters.length/2  + $index)">
+                    <span>{{value.letter}} </span>
+                  </div>
+                </div>
               </div>
-              <br/>
-              <div class="content-letter choosable" ng-repeat="(key,value) in gameVm.choosableLetters | limitTo: 10 :gameVm.choosableLetters.length/2 track by $index" ng-click="gameVm.onChoosableClick(gameVm.choosableLetters.length/2  + $index)">
-                <span ng-if="value.active">{{value.letter}} </span>
-              </div>
-            </div>
           </div>
         </div>
   </div>
