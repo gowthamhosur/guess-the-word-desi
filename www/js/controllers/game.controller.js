@@ -145,13 +145,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
       showAlert();
-<<<<<<< HEAD
       gameService.setUserData();
-=======
     } else
     {
       vm.allSelected = allSelectedFlag;
->>>>>>> de894b80b9dac3c62b35c11cf66c94bd0f3be13f
     }
   }
 
