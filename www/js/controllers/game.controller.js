@@ -142,6 +142,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
       showAlert();
+      gameService.setUserData();
     }
   }
 

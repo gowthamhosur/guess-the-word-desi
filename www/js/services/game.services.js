@@ -1,21 +1,31 @@
 'use strict';
 
-gameModule.service('gameService', ['$http', '$q', function($http, $q){
+gameModule.factory('gameService', gameService);
 
+gameService.$inject = ['$http', '$q', '$localStorage', 'userGameData'];
 
-	this.getUserData = function(){
-		return $http.get('appdata/userData.json');
-	};
+function gameService($http, $q, $localStorage, userGameData){
 
-	this.getPuzzleData = function(){
+  $localStorage.userData = {currentLevel: 10, currentCoins: 400};
+
+	function getUserData(){
+		return $localStorage.userData;
+	}
+
+	function setUserData() {
+	  $localStorage.userData.currentCoins = userGameData.getCurrentCoins();
+    $localStorage.userData.currentLevel = userGameData.getCurrentLevel();
+    console.log($localStorage);
+  }
+
+	function getPuzzleData(){
 		var solutions = $http.get('appdata/solutions.json'),
 		letterBucket = $http.get('appdata/letterBucket.json');
 
 		return $q.all([solutions,letterBucket]);
-	};
+	}
 
-
-	this.getPuzzleImages = function(currentLevel,numberOfPics) {
+	function getPuzzleImages(currentLevel,numberOfPics) {
 		var rootFileName = "lvl" + currentLevel,
 		puzzleImages = [];
 
@@ -23,9 +33,9 @@ gameModule.service('gameService', ['$http', '$q', function($http, $q){
 			puzzleImages.push(rootFileName + '-' + i);
 		}
 		return puzzleImages;
-	};
+	}
 
-	this.filterLetterBucket = function(letterBucket, count) {
+	function filterLetterBucket(letterBucket, count) {
 		var tmp = letterBucket.slice(letterBucket);
 		var ret = [];
 
@@ -34,11 +44,11 @@ gameModule.service('gameService', ['$http', '$q', function($http, $q){
 			var removed = tmp.splice(index, 1);
     		ret.push(removed[0]);
 		}
-		return ret;  
+		return ret;
 	}
-	
 
-	this.shuffle = function(array){
+
+	function shuffle(array){
 		var j, x, i;
 		for (i = array.length; i; i--) {
 			j = Math.floor(Math.random() * i);
@@ -47,7 +57,17 @@ gameModule.service('gameService', ['$http', '$q', function($http, $q){
 			array[j] = x;
 		}
 		return array;
-	};
+	}
 
+	var service = {
+	  getUserData : getUserData,
+    setUserData: setUserData,
+    getPuzzleData: getPuzzleData,
+    getPuzzleImages: getPuzzleImages,
+    filterLetterBucket: filterLetterBucket,
+    shuffle: shuffle
+  };
 
-}]);
+  return service;
+
+}
