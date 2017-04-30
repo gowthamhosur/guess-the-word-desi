@@ -29,9 +29,12 @@ $dark:                            #444 !default;
 .float-left {
   float: left;
 }
+.float-right {
+ float: right;
+}
 .home-button {
   font-size: 28px;
-  color: $blue;
+  color: white;
   background: none;
   border: none;
 }
