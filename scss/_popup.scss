@@ -1,0 +1,22 @@
+.level-success-popup{
+	.popup{
+	    background: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5), rgba(0,0,0,0.9)) !important;
+	    width:100% !important;
+	    height: 100% !important;
+	    max-height: 100% !important;
+	}
+	.popup-head{
+		display: none;
+	}
+	.popup-body{
+		text-align: center;
+	    height: 80%;
+	    .congrats{
+			position: relative;
+		    top: 20%;
+		    color: white;
+    		text-shadow: green 0px 4px 9px ;
+    		font-size: 40px;
+	    }
+	}
+}

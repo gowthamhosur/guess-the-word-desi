@@ -186,8 +186,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function showAlert() {
    var alertPopup = $ionicPopup.alert({
-     title: 'Bravo',
-     template: 'Nuvvu keka'
+     cssClass: 'level-success-popup',
+     templateUrl: '../../templates/levelSuccess.html'
    });
 
    alertPopup.then(function(res) {
