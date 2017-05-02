@@ -6,18 +6,6 @@ gameService.$inject = ['$http', '$q', '$localStorage', 'userGameData'];
 
 function gameService($http, $q, $localStorage, userGameData){
 
-  if(!$localStorage.userData) {
-    $localStorage.userData = {currentLevel: 10, currentCoins: 400};
-  }
-
-	function getUserData(){
-		return $localStorage.userData;
-	}
-
-	function setUserData() {
-		$localStorage.userData.currentCoins = userGameData.getCurrentCoins();
-	    $localStorage.userData.currentLevel = userGameData.getCurrentLevel();
-  }
 
 	function getPuzzleData(){
 		var solutions = $http.get('appdata/solutions.json'),
@@ -61,8 +49,6 @@ function gameService($http, $q, $localStorage, userGameData){
 	}
 
 	var service = {
-	getUserData : getUserData,
-    setUserData: setUserData,
     getPuzzleData: getPuzzleData,
     getPuzzleImages: getPuzzleImages,
     filterLetterBucket: filterLetterBucket,

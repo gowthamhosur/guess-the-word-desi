@@ -43,7 +43,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   },function(){
 
     if (vm.currentLevel > gameConstants.totalLevels) {
-    return $state.transitionTo('success', null, {reload: true, notify:true});
+      return $state.transitionTo('success', null, {reload: true, notify:true});
     }
 
     vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, gameConstants.numberOfPics );
@@ -148,7 +148,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.currentCoins += 50;
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
-      gameService.setUserData();
       showAlert();
     } else
     {
