@@ -3,18 +3,35 @@
 		"lvl10" : "WHITE",
 		"lvl11" : "CROWN",
 	    "lvl12" : "BAHUBALI",
-	    "lvl13" : "COLD"
+	    "lvl13" : "COLD",
+	    "lvl14" : "YELLOW",
+	    "lvl15" : "FESTIVAL",
+	    "lvl16" : "FLAG",
+	    "lvl17" : "GIFTS",
+	    "lvl18" : "SLEEP",
+	    "lvl19" : "SCHOOL"
 	},
 	"telugu": {
 		"lvl10" : "తెలుపు",
 		"lvl11" : "కిరీటం",
 	    "lvl12" : "బాహుబలి",
-	    "lvl13" : "శీతలం"
+	    "lvl13" : "శీతలం",
+	    "lvl14" : "పసుపు",
+	    "lvl15" : "పండుగ",
+	    "lvl16" : "పతకం",
+	    "lvl17" : "బహుమతి",
+	    "lvl18" : "నిద్ర",
+	    "lvl19" : "పాఠశాల"
 	},
 	"hindi": {
 		"lvl10" : "सफेद",
 		"lvl11" : "ताज",
 	    "lvl12" : "बाहुबली",
-	    "lvl13" : "सर्दी"
+	    "lvl13" : "सर्दी",
+	    "lvl15" : "",
+	    "lvl16" : "",
+	    "lvl17" : "",
+	    "lvl18" : "",
+	    "lvl19" : ""
 	}
 }
