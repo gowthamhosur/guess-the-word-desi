@@ -68,8 +68,8 @@ html,body {
 }
 .content-pic{
     display: inline-block;
-    width: 45%;
-    height: 46%;
+    width: 46%;
+    height: 44%;
     margin: 2%;
 }
 .content-pic>img{
@@ -78,6 +78,7 @@ html,body {
     max-width: 200px;
     max-height: 200px;
     box-sizing: border-box;
+    border: 2px solid white;
     border-radius: 15px;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.5);
 }
@@ -90,7 +91,7 @@ html,body {
   padding: 0px 5%;
   .content-sel-letters-inner{
     position: relative;
-    top: 56%;
+    top: 50%;
     transform: translateY(-50%);
     max-width: 500px;
     margin: auto;

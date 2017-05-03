@@ -20,8 +20,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     .state('success', {
       url: '/success',
       templateUrl: 'templates/success.html',
-      controller: 'homeController',
-      controllerAs: 'homeVm'
+      controller: 'successController',
+      controllerAs: 'successVm'
     });
   $urlRouterProvider.otherwise('/home');
 });

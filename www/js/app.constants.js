@@ -3,7 +3,7 @@
  */
 
 gameModule.constant('gameConstants', {
-	language: 'telugu',
+	language: 'hindi',
 	initialLevel: 0,
 	totalLevels: 19,
 	numberOfPics: 4,
