@@ -6,6 +6,9 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var imagemin = require('gulp-imagemin');
+var gm = require('gulp-gm');
+var rename = require("gulp-rename");
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -53,6 +56,23 @@ gulp.task('git-check', function(done) {
     process.exit(1);
   }
   done();
+});
+
+var init =0, limit = 4;
+
+gulp.task('images',function() {
+  gulp.src('./puzzles/**/*.{png,jpg,jpeg,PNG}')
+        .pipe(gm(function (gmfile) {
+          return gmfile.resize(180, 180);
+        }))
+        .pipe(gm(function (gmfile) {
+          return gmfile.setFormat('jpg');
+        }))
+        .pipe(imagemin())
+        .pipe(rename(function(path){
+          path.basename = (init++) % limit;
+        }))
+        .pipe(gulp.dest('./www/img/puzzles'))
 });
 
 var displayError = function(error) {

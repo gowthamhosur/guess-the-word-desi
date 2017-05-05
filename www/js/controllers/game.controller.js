@@ -21,7 +21,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   var emptyLetter = " ";
 
-  if(!vm.currentLevel){
+  if(isNaN(vm.currentLevel)){
     return $state.transitionTo('home', null, {reload: true, notify:true});
   }
 
@@ -46,7 +46,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       return $state.transitionTo('success', null, {reload: true, notify:true});
     }
 
-    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel, gameConstants.numberOfPics );
+    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
     vm.loadCurrentlevel();
   });
 
@@ -158,7 +158,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   function loadCurrentlevel(){
     if(vm.puzzleData){
 
-      vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"]["lvl" + vm.currentLevel] );
+      vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
       vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
 
       vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return emptyLetter }) );

@@ -2,9 +2,9 @@
 
 gameModule.factory('gameService', gameService);
 
-gameService.$inject = ['$http', '$q', '$localStorage', 'userGameData'];
+gameService.$inject = ['$http', '$q', '$localStorage', 'userGameData', 'gameConstants'];
 
-function gameService($http, $q, $localStorage, userGameData){
+function gameService($http, $q, $localStorage, userGameData, gameConstants){
 
 
 	function getPuzzleData(){
@@ -14,14 +14,13 @@ function gameService($http, $q, $localStorage, userGameData){
 		return $q.all([solutions,letterBucket]);
 	}
 
-	function getPuzzleImages(currentLevel,numberOfPics) {
-		var rootFileName = "lvl" + currentLevel,
-		puzzleImages = [];
+	function getPuzzleImages(currentLevel) {
+		var puzzleImages = gameConstants.imageSet;
 
-		for (var i = 1; i <= numberOfPics; i++) {
-			puzzleImages.push(rootFileName + '-' + i);
-		}
-		return puzzleImages;
+		return puzzleImages.map(function(src){
+			return currentLevel + '/' + src
+		})
+
 	}
 
 	function filterLetterBucket(letterBucket, count) {
