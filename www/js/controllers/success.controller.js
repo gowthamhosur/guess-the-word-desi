@@ -6,13 +6,13 @@
 
 gameModule.controller('successController', successController);
 
-function successController(userGameData) {
+function successController(userGameData,gameConstants) {
   var vm = this;
 
 
   vm.playAgain = playAgain;
 
   function playAgain() {
-    userGameData.setCurrentLevel(10);
+    userGameData.setCurrentLevel(gameConstants.initialLevel);
   }
 }

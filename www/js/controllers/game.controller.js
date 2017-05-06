@@ -50,10 +50,117 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     vm.loadCurrentlevel();
   });
 
+  function loadCurrentlevel(){
+    if(vm.puzzleData){
 
-  function onHelpClick() {
-    if(vm.currentCoins > 80) {
+      vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
+      vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
 
+      vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return emptyLetter }) );
+    }
+  }
+
+  function getChoosableLetters(letterBucket, solutions) {
+    var filteredBucket = gameService.filterLetterBucket(letterBucket, gameConstants.maxChoosableLetters - solutions.length);
+    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
+    return wrapLetters(choosableLetters);
+  }
+
+
+  // Returns an object of array elements
+  function wrapLetters(letters) {
+    return letters.map(
+      function(element){
+        var temp = {
+          active: true,
+          letter: element
+        };
+        return temp;
+      });
+  }
+
+  function checkLevelSuccess() {
+    var successFlag = true, allSelectedFlag = true;
+    vm.solution.forEach(function(value,index){
+      if(value != vm.selectedLetters[index].letter)
+        successFlag = false;
+      if(vm.selectedLetters[index].letter == emptyLetter)
+        allSelectedFlag = false;
+    });
+
+    if(successFlag) {
+      userGameData.setCurrentCoins(vm.currentCoins + gameConstants.levelCoins);
+      userGameData.setCurrentLevel(vm.currentLevel + 1);
+      showLevelSucccess();
+    } else
+    {
+      vm.allSelected = allSelectedFlag;
+    }
+  }
+
+   function showLevelSucccess() {
+     var alertPopup = $ionicPopup.alert({
+       cssClass: 'level-success-popup',
+       templateUrl: 'templates/levelSuccess.html'
+     });
+
+     alertPopup.then(function(res) {
+        vm.currentLevel =  userGameData.getCurrentLevel();
+        vm.currentCoins =  userGameData.getCurrentCoins();
+     });
+   };
+
+
+  function onChoosableClick(index) {
+    if(vm.choosableLetters[index].active){
+      for (var i = 0; i < vm.selectedLetters.length; i++) {
+        if(vm.selectedLetters[i].letter == emptyLetter){
+          vm.selectedLetters[i].letter  = vm.choosableLetters[index].letter;
+          vm.selectedLetters[i].hostIndex = index;
+          vm.choosableLetters[index].active = false;
+          break;
+        }
+      }
+      vm.checkLevelSuccess();
+    }
+  }
+
+  function onSelectedClick(index){
+    if(!vm.selectedLetters[index].affixed){
+      var hostIndex = vm.selectedLetters[index].hostIndex;
+      vm.selectedLetters[index].letter = emptyLetter;
+      vm.choosableLetters[hostIndex].active = true;
+      vm.allSelected = false;
+    }
+  }
+
+ function onHelpClick() {
+    if(vm.currentCoins > gameConstants.helpCoins) {
+      
+      $scope.popupText = 'Reveal a letter for 60 coins?';
+
+      var confirmPopup = $ionicPopup.confirm({
+         title: 'Confirmation',
+         templateUrl: 'templates/confirmation.html',
+         scope: $scope
+       });
+
+       confirmPopup.then(function(res) {
+         if(res) {
+           revealLetter();
+         } else {
+           return;
+         }
+       });
+      
+
+    } else {
+      alert('Insufficient coins');
+    }
+  }
+
+
+ function revealLetter() {
       var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
       var notfoundFlag = false;
 
@@ -86,113 +193,47 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
           }
         }
 
-        vm.currentCoins -= 80;
+        vm.currentCoins -= gameConstants.helpCoins;
         userGameData.setCurrentCoins(vm.currentCoins);
 
         vm.checkLevelSuccess();
 
       } else {
-        vm.onHelpClick();
+        revealLetter();
       }
 
+  };
+
+  function onSkipClick() {
+    if(vm.currentCoins > gameConstants.skipCoins) {
+
+      $scope.popupText = 'Skip a level for 180 coins?';
+
+      var confirmPopup = $ionicPopup.confirm({
+         title: 'Confirmation',
+         templateUrl: 'templates/confirmation.html',
+         scope: $scope
+       });
+
+       confirmPopup.then(function(res) {
+         if(res) {
+           skipLevel();
+         } else {
+           return;
+         }
+       });
     } else {
-      alert('You are a poor nooka');
+      alert("Insufficient coins");
     }
   }
 
-  function onSkipClick() {
-    if(vm.currentCoins > 180) {
-      vm.currentCoins -= 180;
+  function skipLevel() {
+      vm.currentCoins -= gameConstants.skipCoins;
       userGameData.setCurrentCoins(vm.currentCoins);
       userGameData.setCurrentLevel(vm.currentLevel + 1);
       vm.allSelected = false;
       vm.currentLevel++;
-    } else {
-      alert("Insufficient credits");
-    }
   }
-
-  function onChoosableClick(index) {
-    if(vm.choosableLetters[index].active){
-      for (var i = 0; i < vm.selectedLetters.length; i++) {
-        if(vm.selectedLetters[i].letter == emptyLetter){
-          vm.selectedLetters[i].letter  = vm.choosableLetters[index].letter;
-          vm.selectedLetters[i].hostIndex = index;
-          vm.choosableLetters[index].active = false;
-          break;
-        }
-      }
-      vm.checkLevelSuccess();
-    }
-  }
-
-  function onSelectedClick(index){
-    if(!vm.selectedLetters[index].affixed){
-      var hostIndex = vm.selectedLetters[index].hostIndex;
-      vm.selectedLetters[index].letter = emptyLetter;
-      vm.choosableLetters[hostIndex].active = true;
-      vm.allSelected = false;
-    }
-  }
-
-  function checkLevelSuccess() {
-    var successFlag = true, allSelectedFlag = true;
-    vm.solution.forEach(function(value,index){
-      if(value != vm.selectedLetters[index].letter)
-        successFlag = false;
-      if(vm.selectedLetters[index].letter == emptyLetter)
-        allSelectedFlag = false;
-    });
-
-    if(successFlag) {
-      vm.currentCoins += 50;
-      userGameData.setCurrentCoins(vm.currentCoins);
-      userGameData.setCurrentLevel(vm.currentLevel + 1);
-      showAlert();
-    } else
-    {
-      vm.allSelected = allSelectedFlag;
-    }
-  }
-
-  function loadCurrentlevel(){
-    if(vm.puzzleData){
-
-      vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
-      vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
-
-      vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return emptyLetter }) );
-    }
-  }
-
-  function getChoosableLetters(letterBucket, solutions) {
-    var filteredBucket = gameService.filterLetterBucket(letterBucket, gameConstants.maxChoosableLetters - solutions.length);
-    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
-    return wrapLetters(choosableLetters);
-  }
-
-  // Returns an object of array elements
-  function wrapLetters(letters) {
-    return letters.map(
-      function(element){
-        var temp = {
-          active: true,
-          letter: element
-        };
-        return temp;
-      });
-  }
-
-  function showAlert() {
-   var alertPopup = $ionicPopup.alert({
-     cssClass: 'level-success-popup',
-     templateUrl: 'templates/levelSuccess.html'
-   });
-
-   alertPopup.then(function(res) {
-      vm.currentLevel =  userGameData.getCurrentLevel();
-   });
- };
 
 }
 

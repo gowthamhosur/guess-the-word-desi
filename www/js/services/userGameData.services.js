@@ -3,10 +3,10 @@
  */
 gameModule.factory('userGameData', userGameData);
 
-function userGameData($localStorage) {
+function userGameData($localStorage,gameConstants) {
 
   if(!$localStorage.userData) {
-    $localStorage.userData = {currentLevel: 0, currentCoins: 400};
+    $localStorage.userData = {currentLevel: gameConstants.initialLevel, currentCoins: gameConstants.initialCoins};
   }
 
   var currentLevel = $localStorage.userData.currentLevel;
