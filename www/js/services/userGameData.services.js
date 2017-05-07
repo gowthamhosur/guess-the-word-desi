@@ -39,13 +39,13 @@ function userGameData($cordovaNativeStorage,gameConstants) {
   }
 
   function setCachedPuzzleData( choosableLetters, selectedLetters, solution, currentLevel ) {
-    $cordovaNativeStorage.setItem("puzzleData.choosableLetters", "choosableLetters");
-    $cordovaNativeStorage.setItem("puzzleData.selectedLetters", "selectedLetters");
-
-    if(solution)
-      $cordovaNativeStorage.setItem("puzzleData.solution", "solution");
-    if(currentLevel)
-      $cordovaNativeStorage.setItem("puzzleData.currentLevel", "currentLevel");
+    var setData = {
+      choosableLetters: choosableLetters,
+      selectedLetters: selectedLetters,
+      solution: solution,
+      currentLevel: currentLevel
+    }
+    $cordovaNativeStorage.setItem("puzzleData", setData);
   }
 
   function getCachedPuzzleData() {

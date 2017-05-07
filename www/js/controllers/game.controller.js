@@ -21,7 +21,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   userGameData.getCachedPuzzleData().then(function (value) {
     vm.cachedPuzzleData = value;
-    if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
       gameService.getPuzzleData()
         .then(function(arrayOfResults){
           vm.puzzleData = {
@@ -34,12 +33,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         .catch(function (err) {
           console.log(err, "Error while retrieving App Data")
         });
-    }
-    else{
-      vm.solution  = vm.cachedPuzzleData.solution;
-      vm.choosableLetters = vm.cachedPuzzleData.choosableLetters;
-      vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
-    }
+    
   });
 
   var emptyLetter = " ";
@@ -58,12 +52,18 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function loadCurrentlevel(){
     if(vm.puzzleData){
+      if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
+        vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
+        vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
+        vm.selectedLetters = wrapLetters( vm.solution.map(function() { return emptyLetter }) );
 
-      vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
-      vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
-      vm.selectedLetters = wrapLetters( vm.solution.map(function() { return emptyLetter }) );
-
-      userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
+        userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
+      }
+      else{
+        vm.solution  = vm.cachedPuzzleData.solution;
+        vm.choosableLetters = vm.cachedPuzzleData.choosableLetters;
+        vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
+      }
     }
   }
 
@@ -130,7 +130,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
           break;
         }
       }
-      userGameData.setCachedPuzzleData(vm.choosableLetters, vm.selectedLetters);
+      userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
       checkLevelSuccess();
     }
   }
@@ -141,7 +141,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.selectedLetters[index].letter = emptyLetter;
       vm.choosableLetters[hostIndex].active = true;
       vm.allSelected = false;
-      userGameData.setCachedPuzzleData(vm.choosableLetters, vm.selectedLetters);
+      userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
     }
   }
 
