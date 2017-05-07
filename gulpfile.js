@@ -9,6 +9,9 @@ var sh = require('shelljs');
 var imagemin = require('gulp-imagemin');
 var gm = require('gulp-gm');
 var rename = require("gulp-rename");
+var merge = require('gulp-merge-json');
+var path = require('path');
+
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -58,9 +61,10 @@ gulp.task('git-check', function(done) {
   done();
 });
 
-var init =0, limit = 4;
 
 gulp.task('images',function() {
+  
+  var init =0, limit = 4;
   gulp.src('./puzzles/**/*.{png,jpg,jpeg,PNG}')
         .pipe(gm(function (gmfile) {
           return gmfile.resize(180, 180);
@@ -74,6 +78,28 @@ gulp.task('images',function() {
         }))
         .pipe(gulp.dest('./www/img/puzzles'))
 });
+
+
+gulp.task('solutions', function(){
+  gulp.src('./puzzles/**/*.json')
+      .pipe(merge({
+        fileName: 'solutions.json',
+        edit: function (parsedJson, file){
+          var folder = path.basename(path.dirname(file.path))
+
+          Object.keys(parsedJson).forEach(function(language) {
+            parsedJson[language][folder] = parsedJson[language]["answer"]
+            delete parsedJson[language]["answer"]
+          });
+            console.log(parsedJson);
+            return parsedJson;
+        }
+      }))
+      .pipe(gulp.dest('./www/appdata'))
+
+});
+
+gulp.task('puzzles', ['images','solutions']);
 
 var displayError = function(error) {
   // Initial building up of the error
