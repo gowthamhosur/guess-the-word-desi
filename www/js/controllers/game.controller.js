@@ -10,34 +10,39 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   vm.onSelectedClick = onSelectedClick;
   vm.onHelpClick = onHelpClick;
   vm.onSkipClick = onSkipClick;
+  vm.currentLevel;
+  vm.currentCoins;
+  vm.cachedPuzzleData;
 
-  vm.currentLevel =  userGameData.getCurrentLevel();
-  vm.currentCoins = userGameData.getCurrentCoins();
+  userGameData.getCurrentLevel().then(function (value) {
+    vm.currentLevel = value.currentLevel;
+    vm.currentCoins = value.currentCoins;
+  });
 
-  vm.cachedPuzzleData = userGameData.getCachedPuzzleData();
+  userGameData.getCachedPuzzleData().then(function (value) {
+    vm.cachedPuzzleData = value;
+    if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
+      gameService.getPuzzleData()
+        .then(function(arrayOfResults){
+          vm.puzzleData = {
+            solutions: arrayOfResults[0].data[gameConstants.language],
+            letterBucket: arrayOfResults[1].data[gameConstants.language]
+          };
+
+          loadCurrentlevel();
+        })
+        .catch(function (err) {
+          console.log(err, "Error while retrieving App Data")
+        });
+    }
+    else{
+      vm.solution  = vm.cachedPuzzleData.solution;
+      vm.choosableLetters = vm.cachedPuzzleData.choosableLetters;
+      vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
+    }
+  });
 
   var emptyLetter = " ";
-
-  if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
-    gameService.getPuzzleData()
-    .then(function(arrayOfResults){
-      vm.puzzleData = {
-        solutions: arrayOfResults[0].data[gameConstants.language],
-        letterBucket: arrayOfResults[1].data[gameConstants.language]
-      };
-
-      loadCurrentlevel();
-    })
-    .catch(function (err) {
-      console.log(err, "Error while retrieving App Data")
-    });
-  }
-  else{
-    vm.solution  = vm.cachedPuzzleData.solution;
-    vm.choosableLetters = vm.cachedPuzzleData.choosableLetters;
-    vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
-  }
-  
 
   $scope.$watch(function () {
     return vm.currentLevel;
@@ -107,8 +112,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
      });
 
      alertPopup.then(function(res) {
-        vm.currentLevel =  userGameData.getCurrentLevel();
-        vm.currentCoins =  userGameData.getCurrentCoins();
+        userGameData.getCurrentLevel().then(function (value) {
+          vm.currentLevel = value.currentLevel;
+          vm.currentCoins = value.currentCoins;
+        });
      });
    };
 
@@ -140,7 +147,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
  function onHelpClick() {
     if(vm.currentCoins > gameConstants.helpCoins) {
-      
+
       $scope.popupText = 'Reveal a letter for 60 coins?';
 
       var confirmPopup = $ionicPopup.confirm({
@@ -156,7 +163,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
            return;
          }
        });
-      
+
 
     } else {
       alert('Insufficient coins');

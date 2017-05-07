@@ -2,9 +2,9 @@
 
 gameModule.factory('gameService', gameService);
 
-gameService.$inject = ['$http', '$q', '$localStorage', 'userGameData', 'gameConstants'];
+gameService.$inject = ['$http', '$q', 'userGameData', 'gameConstants'];
 
-function gameService($http, $q, $localStorage, userGameData, gameConstants){
+function gameService($http, $q, userGameData, gameConstants){
 
 
 	function getPuzzleData(){
