@@ -6,37 +6,38 @@ gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'ga
 function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup) {
   var vm = this;
 
-  vm.loadCurrentlevel = loadCurrentlevel;
   vm.onChoosableClick = onChoosableClick;
-  vm.checkLevelSuccess = checkLevelSuccess;
   vm.onSelectedClick = onSelectedClick;
   vm.onHelpClick = onHelpClick;
-  vm.wrapLetters = wrapLetters;
   vm.onSkipClick = onSkipClick;
 
   vm.currentLevel =  userGameData.getCurrentLevel();
   vm.currentCoins = userGameData.getCurrentCoins();
 
-  var helpArrayIndex = [];
+  vm.cachedPuzzleData = userGameData.getCachedPuzzleData();
 
   var emptyLetter = " ";
 
-  if(isNaN(vm.currentLevel)){
-    return $state.transitionTo('home', null, {reload: true, notify:true});
+  if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
+    gameService.getPuzzleData()
+    .then(function(arrayOfResults){
+      vm.puzzleData = {
+        solutions: arrayOfResults[0].data[gameConstants.language],
+        letterBucket: arrayOfResults[1].data[gameConstants.language]
+      };
+
+      loadCurrentlevel();
+    })
+    .catch(function (err) {
+      console.log(err, "Error while retrieving App Data")
+    });
   }
-
-  gameService.getPuzzleData()
-  .then(function(arrayOfResults){
-    vm.puzzleData = {
-      solutions: arrayOfResults[0].data[gameConstants.language],
-      letterBucket: arrayOfResults[1].data[gameConstants.language]
-    };
-
-    vm.loadCurrentlevel();
-  })
-  .catch(function (err) {
-    console.log(err, "Error while retrieving App Data")
-  });
+  else{
+    vm.solution  = vm.cachedPuzzleData.solution;
+    vm.choosableLetters = vm.cachedPuzzleData.choosableLetters;
+    vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
+  }
+  
 
   $scope.$watch(function () {
     return vm.currentLevel;
@@ -47,7 +48,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     }
 
     vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
-    vm.loadCurrentlevel();
+    loadCurrentlevel();
   });
 
   function loadCurrentlevel(){
@@ -55,8 +56,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
       vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
       vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
+      vm.selectedLetters = wrapLetters( vm.solution.map(function() { return emptyLetter }) );
 
-      vm.selectedLetters = vm.wrapLetters( vm.solution.map(function() { return emptyLetter }) );
+      userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
     }
   }
 
@@ -121,7 +123,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
           break;
         }
       }
-      vm.checkLevelSuccess();
+      userGameData.setCachedPuzzleData(vm.choosableLetters, vm.selectedLetters);
+      checkLevelSuccess();
     }
   }
 
@@ -131,6 +134,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.selectedLetters[index].letter = emptyLetter;
       vm.choosableLetters[hostIndex].active = true;
       vm.allSelected = false;
+      userGameData.setCachedPuzzleData(vm.choosableLetters, vm.selectedLetters);
     }
   }
 
@@ -194,9 +198,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         }
 
         vm.currentCoins -= gameConstants.helpCoins;
-        userGameData.setCurrentCoins(vm.currentCoins);
 
-        vm.checkLevelSuccess();
+        userGameData.setCurrentCoins(vm.currentCoins);
+        userGameData.setCachedPuzzleData(vm.choosableLetters, vm.selectedLetters);
+
+        checkLevelSuccess();
 
       } else {
         revealLetter();
