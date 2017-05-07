@@ -8,7 +8,7 @@ function userGameData($cordovaNativeStorage,gameConstants) {
 
   $cordovaNativeStorage.getItem("userData").then(function (value) {
   }, function (value) {
-    $cordovaNativeStorage.setItem("userData", {currentLevel: gameConstants.initialLevel, currentCoins: gameConstants.initialCoins})
+    $cordovaNativeStorage.setItem("userData", {currentLevel: currentLevel, currentCoins:currentCoins})
   });
 
   $cordovaNativeStorage.getItem("puzzleData").then(function (value) {
@@ -17,25 +17,14 @@ function userGameData($cordovaNativeStorage,gameConstants) {
   });
 
 
-  function setUserData() {
+  function setUserData(level,coins) {
+    currentLevel = level;
+    currentCoins = coins;
     $cordovaNativeStorage.setItem("userData", {currentCoins : currentCoins, currentLevel: currentLevel});
   }
 
-  function setCurrentLevel(level) {
-    currentLevel = level;
-    setUserData();
-  }
-  function getCurrentLevel() {
+  function getUserData() {
      return $cordovaNativeStorage.getItem("userData");
-  }
-
-  function setCurrentCoins(coins) {
-    currentCoins = coins;
-    setUserData();
-  }
-
-  function getCurrentCoins() {
-    return $cordovaNativeStorage.getItem("userData");
   }
 
   function setCachedPuzzleData( choosableLetters, selectedLetters, solution, currentLevel ) {
@@ -53,10 +42,8 @@ function userGameData($cordovaNativeStorage,gameConstants) {
   }
 
   var service = {
-    setCurrentLevel : setCurrentLevel,
-    getCurrentLevel : getCurrentLevel,
-    setCurrentCoins : setCurrentCoins,
-    getCurrentCoins : getCurrentCoins,
+    setUserData: setUserData,
+    getUserData: getUserData,
     setCachedPuzzleData: setCachedPuzzleData,
     getCachedPuzzleData: getCachedPuzzleData
   };

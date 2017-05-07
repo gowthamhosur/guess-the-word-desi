@@ -13,6 +13,6 @@ function successController(userGameData,gameConstants) {
   vm.playAgain = playAgain;
 
   function playAgain() {
-    userGameData.setCurrentLevel(gameConstants.initialLevel);
+    userGameData.setUserData(gameConstants.initialLevel,gameConstants.initialCoins);
   }
 }

@@ -10,33 +10,29 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   vm.onSelectedClick = onSelectedClick;
   vm.onHelpClick = onHelpClick;
   vm.onSkipClick = onSkipClick;
-  vm.currentLevel;
-  vm.currentCoins;
-  vm.cachedPuzzleData;
 
-  userGameData.getCurrentLevel().then(function (value) {
+  var emptyLetter = " ";
+
+  userGameData.getUserData().then(function (value) {
     vm.currentLevel = value.currentLevel;
     vm.currentCoins = value.currentCoins;
   });
 
   userGameData.getCachedPuzzleData().then(function (value) {
     vm.cachedPuzzleData = value;
-      gameService.getPuzzleData()
-        .then(function(arrayOfResults){
-          vm.puzzleData = {
-            solutions: arrayOfResults[0].data[gameConstants.language],
-            letterBucket: arrayOfResults[1].data[gameConstants.language]
-          };
-
-          loadCurrentlevel();
-        })
-        .catch(function (err) {
-          console.log(err, "Error while retrieving App Data")
-        });
-    
+    gameService.getPuzzleData()
+      .then(function(arrayOfResults){
+         vm.puzzleData = {
+           solutions: arrayOfResults[0].data[gameConstants.language],
+           letterBucket: arrayOfResults[1].data[gameConstants.language]
+         };
+         loadCurrentlevel();
+       })
+       .catch(function (err) {
+         console.log(err, "Error while retrieving App Data")
+       });
+   
   });
-
-  var emptyLetter = " ";
 
   $scope.$watch(function () {
     return vm.currentLevel;
@@ -96,8 +92,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     });
 
     if(successFlag) {
-      userGameData.setCurrentCoins(vm.currentCoins + gameConstants.levelCoins);
-      userGameData.setCurrentLevel(vm.currentLevel + 1);
+      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins);
       showLevelSucccess();
     } else
     {
@@ -112,7 +107,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
      });
 
      alertPopup.then(function(res) {
-        userGameData.getCurrentLevel().then(function (value) {
+        userGameData.getUserData().then(function (value) {
           vm.currentLevel = value.currentLevel;
           vm.currentCoins = value.currentCoins;
         });
@@ -159,6 +154,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
        confirmPopup.then(function(res) {
          if(res) {
            revealLetter();
+            userGameData.getUserData().then(function (value) {
+              vm.currentLevel = value.currentLevel;
+              vm.currentCoins = value.currentCoins;
+            });
          } else {
            return;
          }
@@ -204,10 +203,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
           }
         }
 
-        vm.currentCoins -= gameConstants.helpCoins;
-
-        userGameData.setCurrentCoins(vm.currentCoins);
-        userGameData.setCachedPuzzleData(vm.choosableLetters, vm.selectedLetters);
+        userGameData.setUserData(vm.currentLevel, vm.currentCoins-gameConstants.helpCoins);
+        userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
 
         checkLevelSuccess();
 
@@ -231,6 +228,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
        confirmPopup.then(function(res) {
          if(res) {
            skipLevel();
+           userGameData.getUserData().then(function (value) {
+              vm.currentLevel = value.currentLevel;
+              vm.currentCoins = value.currentCoins;
+            });
          } else {
            return;
          }
@@ -241,9 +242,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function skipLevel() {
-      vm.currentCoins -= gameConstants.skipCoins;
-      userGameData.setCurrentCoins(vm.currentCoins);
-      userGameData.setCurrentLevel(vm.currentLevel + 1);
+      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins - gameConstants.skipCoins)
       vm.allSelected = false;
       vm.currentLevel++;
   }
