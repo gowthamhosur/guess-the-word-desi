@@ -91,7 +91,6 @@ gulp.task('solutions', function(){
             parsedJson[language][folder] = parsedJson[language]["answer"]
             delete parsedJson[language]["answer"]
           });
-            console.log(parsedJson);
             return parsedJson;
         }
       }))
