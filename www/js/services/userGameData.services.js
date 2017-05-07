@@ -8,6 +8,9 @@ function userGameData($localStorage,gameConstants) {
   if(!$localStorage.userData) {
     $localStorage.userData = {currentLevel: gameConstants.initialLevel, currentCoins: gameConstants.initialCoins};
   }
+  if(!$localStorage.puzzleData) {
+    $localStorage.puzzleData = {}
+  }
 
   var currentLevel = $localStorage.userData.currentLevel;
   var currentCoins = $localStorage.userData.currentCoins;
@@ -33,11 +36,27 @@ function userGameData($localStorage,gameConstants) {
     currentCoins = $localStorage.userData.currentCoins;
     return currentCoins;
   }
+
+  function setCachedPuzzleData( choosableLetters, selectedLetters, solution, currentLevel ) {
+    $localStorage.puzzleData.choosableLetters = choosableLetters;
+    $localStorage.puzzleData.selectedLetters = selectedLetters;
+    if(solution)
+       $localStorage.puzzleData.solution = solution;
+    if(currentLevel)
+       $localStorage.puzzleData.currentLevel = currentLevel;
+  }
+
+  function getCachedPuzzleData() {
+    return $localStorage.puzzleData;
+  }
+
   var service = {
     setCurrentLevel : setCurrentLevel,
     getCurrentLevel : getCurrentLevel,
     setCurrentCoins : setCurrentCoins,
-    getCurrentCoins : getCurrentCoins
+    getCurrentCoins : getCurrentCoins,
+    setCachedPuzzleData: setCachedPuzzleData,
+    getCachedPuzzleData: getCachedPuzzleData
   };
 
   return service;
