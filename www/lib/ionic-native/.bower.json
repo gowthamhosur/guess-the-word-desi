@@ -1,0 +1,37 @@
+{
+  "name": "ionic-native",
+  "description": "Native plugin wrappers for Cordova and Ionic with TypeScript, ES6+, Promise and Observable support",
+  "main": [
+    "ionic.native.js"
+  ],
+  "authors": [
+    "Max Lynch <max@ionic.io>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "ionic",
+    "native",
+    "html5",
+    "hybrid",
+    "mobile"
+  ],
+  "homepage": "https://github.com/driftyco/ionic-native-bower",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "version": "2.0.3",
+  "_release": "2.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.3",
+    "commit": "a9152e1c4f05754e368f376d74aed353df16108c"
+  },
+  "_source": "https://github.com/driftyco/ionic-native-bower.git",
+  "_target": "^2.0.3",
+  "_originalSource": "ionic-native",
+  "_direct": true
+}

@@ -3,31 +3,32 @@
  */
 gameModule.factory('userGameData', userGameData);
 
-function userGameData($cordovaNativeStorage,gameConstants) {
+function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
   var currentLevel = gameConstants.initialLevel, currentCoins = gameConstants.initialCoins;
 
-  $cordovaNativeStorage.getItem("userData").then(function (value) {
-  }, function (value) {
-    $cordovaNativeStorage.setItem("userData", {currentLevel: currentLevel, currentCoins:currentCoins})
-  });
+  $ionicPlatform.ready(function(){
+    $cordovaNativeStorage.getItem("userData").then(function (value) {
+    }, function (value) {
+      $cordovaNativeStorage.setItem("userData", {currentLevel: currentLevel, currentCoins:currentCoins})
+    });
 
-  $cordovaNativeStorage.getItem("puzzleData").then(function (value) {
-  },function (value) {
-    $cordovaNativeStorage.setItem("puzzleData", {});
-  });
+    $cordovaNativeStorage.getItem("puzzleData").then(function (value) {
+    },function (value) {
+      $cordovaNativeStorage.setItem("puzzleData", {});
+    });
+  })
 
-
-  function setUserData(level,coins) {
+  setUserData = function (level,coins) {
     currentLevel = level;
     currentCoins = coins;
     $cordovaNativeStorage.setItem("userData", {currentCoins : currentCoins, currentLevel: currentLevel});
   }
 
-  function getUserData() {
+  getUserData = function() {
      return $cordovaNativeStorage.getItem("userData");
   }
 
-  function setCachedPuzzleData( choosableLetters, selectedLetters, solution, currentLevel ) {
+  setCachedPuzzleData = function( choosableLetters, selectedLetters, solution, currentLevel ) {
     var setData = {
       choosableLetters: choosableLetters,
       selectedLetters: selectedLetters,
@@ -37,7 +38,7 @@ function userGameData($cordovaNativeStorage,gameConstants) {
     $cordovaNativeStorage.setItem("puzzleData", setData);
   }
 
-  function getCachedPuzzleData() {
+   getCachedPuzzleData = function() {
     return $cordovaNativeStorage.getItem("puzzleData");
   }
 

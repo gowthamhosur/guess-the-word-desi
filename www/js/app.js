@@ -1,4 +1,4 @@
-var gameModule = angular.module('game4p1w', ['ionic', 'ngCordova.plugins.nativeStorage'])
+var gameModule = angular.module('game4p1w', ['ionic', 'ionic.native', 'ngCordova.plugins.nativeStorage'])
 
 gameModule.config(function($ionicConfigProvider) {
   $ionicConfigProvider.views.maxCache(0);
