@@ -3,9 +3,9 @@ html,body {
    width: 100%;
 }
 .main-view-wrapper{
-  background: linear-gradient(50deg, rgba(255, 255, 255, 0.247059) 0%, rgba(255, 255, 255, 0) 80%);
-  background-color: #4348BD;
-  height: 100%
+  height: 100%;
+  background-color: #ffffff;
+  background-image: radial-gradient(circle 363px at center, #6c6392 0%, #180f3a 100%);
 }
 .game-header{
   position: absolute;

@@ -4,8 +4,18 @@
 'use strict';
 
 gameModule.controller('homeController', homeController);
-homeController.$inject = ['$scope', '$rootScope', 'gameService', 'userGameData']
+homeController.$inject = ['$scope','$state','$timeout']
 
-function homeController($scope, $rootScope, gameService, userGameData) {
+function homeController($scope,$state,$timeout) {
+
+	var vm = this;
+
+	vm.onPlayClick = onPlayClick;
+
+	function onPlayClick($event){
+		$timeout(function(){
+		 $state.transitionTo('game');
+		},500)
+	}
 
 }

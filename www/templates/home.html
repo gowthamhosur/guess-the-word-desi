@@ -1,9 +1,11 @@
 <ion-view title="Home">
 	<div class="main-view-wrapper">
 		<div class="home-wrapper">
-			<div class="btn-wrap">
-				<button ion-button class="btn-primary" ui-sref="game">
-			    	Play
+			<div class="home-btn-wrap">
+				<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
+					<div class="btn-base">
+						<img src="img/icons/play-btn.png" alt="Play">
+			    	</div>
 			  	</button>
 			</div>
 		</div>

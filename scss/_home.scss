@@ -1,27 +1,43 @@
 .home-wrapper{
 	text-align: center;
 }
-.btn-wrap{
+.home-btn-wrap{
 	width: 100%;
     position: absolute;
-    top: 75%;
+    top: 80%;
     text-align: center;
 }
 .btn-primary{
-	padding: 10px 20px;
-    margin: 5px;
-    width: 150px;
-    height: 50px;
-    font-size: 20px;
-    border-radius: 4px;
+    margin: auto;
+    width: 75px;
+    height: 65px;
+    color: transparent;
+    background: transparent;
     border: none;
-    color: white;
-    background-color: #173753; 
-    background-image: linear-gradient(to bottom, #2C4962, #15324C);
-    background-image: linear-gradient(to bottom, #2C4962, #15324C);
-}
-.btn-primary:active, .btn-primary:hover {
-	background-color: #173753; 
-    background-image: linear-gradient(to bottom, #173753, #132E44);
-    background-image: linear-gradient(to bottom, #173753, #132E44);
+    transition: all 0.5s;
+    .btn-base{
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 2px 0 1px rgba(0, 0, 0, 0.15);
+        background-color: #ffffff;
+        border-radius: 50%; 
+    }
+
+    img{
+        color: white;
+        font-size: 18px;
+        margin: auto;
+        height: 63px;
+        position: relative;
+        top: 2px;
+        left: 0.5px;
+    }
+
+    &.activated{
+        img{
+            height: 69px;
+            top: -0.5px;
+            left: -2px;
+        }
+    }
 }
