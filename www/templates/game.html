@@ -3,15 +3,16 @@
       <header class="game-header">
           <div class="header-back">
             <button ion-button ui-sref="home" class="float-left home-button">
-              <i class="icon ion-home"></i>
+              <img src="img/icons/back-btn.png" class="icon ion-home">
             </button>
           </div>
           <div class="header-level-indicator">
-            <span>{{gameVm.currentLevel}}</span>
+            <img src="img/icons/level-bg.png">
+            <p>{{gameVm.currentLevel}}</p>
           </div>
           <div class="header-coins-indicator">
-            <img src="img/diamond.png">
-            <span>{{gameVm.currentCoins}}</span>
+            <img src="img/icons/coins-icon.png">
+            <p>{{gameVm.currentCoins}}</p>
           </div>
         </header>
 
@@ -26,13 +27,13 @@
 
             <div class="content-sel-letters-wrapper">
               <div class="content-sel-letters-inner">
-                <div class="icon-wrap float-left "><span class="icon icon-help ion-lightbulb" ng-click="gameVm.onHelpClick()"></span></div>
+                <div class="icon-wrap float-left "><img src="img/icons/hint-btn.png" class="icon icon-help ion-lightbulb" ng-click="gameVm.onHelpClick()"></img></div>
 
                  <div class="content-letter" ng-class="{affixed: value.affixed, animated:gameVm.allSelected, shake: gameVm.allSelected}" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
                   <span>{{value.letter}}</span>
                 </div>
 
-                <div class="icon-wrap float-right"><span class="icon icon-skip ion-arrow-right-c" ng-click="gameVm.onSkipClick()"></span></div>
+                <div class="icon-wrap float-right"><img src="img/icons/skip-btn.png" class="icon icon-skip ion-arrow-right-c" ng-click="gameVm.onSkipClick()"></div>
               </div>
             </div>
 

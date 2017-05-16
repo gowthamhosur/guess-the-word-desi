@@ -15,37 +15,59 @@ html,body {
   z-index: 1;
   text-align: center;
 }
-.header-coins-indicator, .header-level-indicator{
-  height: $header-height;
+.header-coins-indicator{
+  /*height: $header-height;
   display: inline-block;
   width: $header-height;
   line-height: $header-height;
-  color: white;
+  color: white;*/
 }
 .header-level-indicator{
-  font-size: 26px;
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  margin-top: 12px;
   position: relative;
-  left: 7%;
+  height: 106%;
+  p {
+    position: absolute;
+    width: 100%;
+    top: 15%;
+    left: -1%;
+    color: white;
+    font-weight: bold;
+    font-size: 26px;
+    text-shadow: 2px 2px black;
+  }
+  img {
+    height: 90%;
+  }
 }
 .header-coins-indicator{
-  float: right;
-  font-size: 18px;
-  width: 80px;
-  margin-top: 3px;
+  margin-top: 15px;
+  width: 24%;
+  position: absolute;
+  top: 0;
+  right: 3px;
+  margin-right: 5px;
   img {
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     float: left;
-    margin-top: 3px;
   }
-  span {
-    font-size: 20px;
-    line-height: 10px;
+  p {
+    color: #fdb01e;
+    padding-top: 6px;
+    font-size: 19px;
+    position: absolute;
+    top: 0;
+    left: 41px;
   }
+
 }
 .game-content-wrapper {
   position: absolute;
-  top: 0;
+  top: 35px;
   bottom: 0;
   width: 100%;
 }
@@ -157,15 +179,6 @@ html,body {
 
 .icon-wrap{
     display: table;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(150deg, rgba(0, 220, 0, 0.247059) 0%, #1B4353 80%);
-    border-radius: 50%;
-    box-shadow: 1px 3px 10px black;
-    .icon {
-    font-size: 30px;
-    color: white;
-    display: table-cell;
-    vertical-align: middle;
-  }
+    width: 43px;
+    height: 43px;
 }
