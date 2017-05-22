@@ -15,7 +15,7 @@ function homeController($scope,$state,$timeout) {
 	function onPlayClick($event){
 		$timeout(function(){
 		 $state.transitionTo('game');
-		},500)
+		},400)
 	}
 
 }

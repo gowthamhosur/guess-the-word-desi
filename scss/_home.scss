@@ -1,6 +1,30 @@
 .home-wrapper{
 	text-align: center;
 }
+.home-logo-wrap{
+    width: 100%;
+    position: absolute;
+    top: 20%;
+}
+.home-logo-inner{
+    width: 300px;
+    margin: auto;
+    position: relative;
+    .logo {
+        width: 100%;
+    }
+    .language {
+        position: absolute;
+        right: 10px;
+        bottom: -25px;
+        font-size: 30px;
+        color: white;
+        background-color: orangered;
+        padding: 17px;
+        border-radius: 50%;
+        transform: rotate(-7deg);
+    }
+}
 .home-btn-wrap{
 	width: 100%;
     position: absolute;
