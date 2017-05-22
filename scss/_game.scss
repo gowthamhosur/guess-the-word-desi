@@ -14,6 +14,10 @@ html,body {
   height: $header-height;
   z-index: 1;
   text-align: center;
+  .header-back{
+  	position: absolute;
+  	left: 0;
+  }
 }
 .header-coins-indicator{
   /*height: $header-height;
@@ -23,45 +27,36 @@ html,body {
   color: white;*/
 }
 .header-level-indicator{
-  text-align: center;
-  margin: auto;
-  width: 50%;
+  width: 100%;
   margin-top: 12px;
   position: relative;
-  height: 106%;
   p {
     position: absolute;
     width: 100%;
     top: 15%;
-    left: -1%;
     color: white;
     font-weight: bold;
     font-size: 26px;
     text-shadow: 2px 2px black;
   }
-  img {
-    height: 90%;
-  }
 }
 .header-coins-indicator{
   margin-top: 15px;
-  width: 24%;
   position: absolute;
   top: 0;
-  right: 3px;
-  margin-right: 5px;
+  right: 0px;
+  margin-right: 10px;
   img {
     width: 38px;
     height: 38px;
-    float: left;
   }
   p {
     color: #fdb01e;
     padding-top: 6px;
     font-size: 19px;
-    position: absolute;
-    top: 0;
-    left: 41px;
+    display: inline-block;
+    position: relative;
+    top: -13px;
   }
 
 }
