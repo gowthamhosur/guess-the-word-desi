@@ -169,6 +169,29 @@ html,body {
 
 .icon-wrap{
     display: table;
-    width: 43px;
-    height: 43px;
+    width: 45px;
+    height: 45px;
+    img {
+      width: 45px;
+      height: 56px;
+      padding: 4px 0;
+    }
+}
+
+.level-success-popup {
+  .popup-body {
+    height: 60%;
+  }
+  .popup-buttons {
+    margin: 0 auto;
+  }
+  button {
+    background: url(img/icons/play-btn.png) no-repeat;
+    width: 8rem;
+    height: 9rem;
+    margin: auto;
+    background-size: cover;
+    background-position: center center;
+    margin-bottom: 30%;
+  }
 }

@@ -31,7 +31,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
        .catch(function (err) {
          console.log(err, "Error while retrieving App Data")
        });
-   
+
   });
 
   $scope.$watch(function () {
@@ -103,7 +103,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
    function showLevelSucccess() {
      var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
-       templateUrl: 'templates/levelSuccess.html'
+       templateUrl: 'templates/levelSuccess.html',
+       okText: ' '
      });
 
      alertPopup.then(function(res) {
