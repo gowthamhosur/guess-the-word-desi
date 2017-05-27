@@ -186,11 +186,12 @@ html,body {
     margin: 0 auto;
   }
   button {
-    background: url(img/icons/play-btn.png) no-repeat;
+    background: url(./../img/icons/play-btn.png) no-repeat;
     width: 8rem;
     height: 9rem;
     margin: auto;
     background-size: cover;
+    background-color: transparent !important;
     background-position: center center;
     margin-bottom: 30%;
   }
