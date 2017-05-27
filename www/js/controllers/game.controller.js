@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout'];
 
-function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup) {
+function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout) {
   var vm = this;
 
   vm.onChoosableClick = onChoosableClick;
@@ -104,15 +104,19 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
      var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
        templateUrl: 'templates/levelSuccess.html',
+       scope: $scope,
        okText: ' '
      });
 
-     alertPopup.then(function(res) {
-        userGameData.getUserData().then(function (value) {
-          vm.currentLevel = value.currentLevel;
-          vm.currentCoins = value.currentCoins;
-        });
-     });
+     $scope.onContinueClick = function(button,$event){
+        $timeout(function(){
+          alertPopup.close();
+           userGameData.getUserData().then(function (value) {
+              vm.currentLevel = value.currentLevel;
+              vm.currentCoins = value.currentCoins;
+            });
+         }, 300);
+     }
    };
 
 
