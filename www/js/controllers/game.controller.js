@@ -148,6 +148,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
       var confirmPopup = $ionicPopup.confirm({
          title: 'Confirmation',
+         cssClass: 'confirmation-popup',
          templateUrl: 'templates/confirmation.html',
          scope: $scope
        });
@@ -222,6 +223,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
       var confirmPopup = $ionicPopup.confirm({
          title: 'Confirmation',
+         cssClass: 'confirmation-popup',
          templateUrl: 'templates/confirmation.html',
          scope: $scope
        });
