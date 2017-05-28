@@ -76,12 +76,17 @@ html,body {
   padding: 0px 5%;
   overflow: hidden;
   text-align: center;
+  max-width: 700px;
+  position: static;
+  margin: auto;
 }
 .content-pic{
     display: inline-block;
     width: 46%;
     height: 44%;
     margin: 2%;
+    max-width: 200px;
+    max-height: 200px;
 }
 .content-pic>img{
     width: 100%;
@@ -144,6 +149,7 @@ html,body {
     position: relative;
     top: 30%;
     transform: translateY(-50%);
+    word-break: break-all;
   }
   &.choosable{
     background-color: #3C3C3C;

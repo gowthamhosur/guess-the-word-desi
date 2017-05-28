@@ -4,9 +4,10 @@
 'use strict';
 
 gameModule.controller('homeController', homeController);
-homeController.$inject = ['$scope','$state','$timeout']
+homeController.$inject = ['$scope','$state', 'userGameData','$timeout']
+//inject userGameData to declare initial values before using them in game controller
 
-function homeController($scope,$state,$timeout) {
+function homeController($scope,$state,userGameData,$timeout) {
 
 	var vm = this;
 

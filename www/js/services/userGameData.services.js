@@ -1,6 +1,3 @@
-/**
- * Created by harsh on 4/13/2017.
- */
 gameModule.factory('userGameData', userGameData);
 
 function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {

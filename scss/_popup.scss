@@ -52,6 +52,7 @@
 }
 
 .confirmation-popup{
+	background-color: rgba(0,0,0,0.7) !important;
 	.popup{
 		background-image: linear-gradient(203deg, #180f3a 0%, #6c6392 100%);
 		border-radius: 25px !important;
@@ -66,7 +67,7 @@
 	}
 	.popup-text{
 		text-shadow: 0 0 3px #180f3a;
-		font-size: 22px;
+		font-size: 19px;
 		font-weight: 700;
 		line-height: 28px;
 		color: #fefeff;
@@ -77,7 +78,9 @@
 	    border-radius: 30px;
 	    padding: 3px;
 	    min-height: 50px;
-	    margin-top: 25px;
+	    width: 90%;
+    	margin: 0 5%;
+    	margin-top: 25px;
 	    button{
 		    min-height: 10px;
 		    text-shadow: 0 1px 4px black;
@@ -102,5 +105,10 @@
 	    	}
 	    }
 
+	}
+	.close-popup{
+		position: absolute;
+	    top: -20px;
+	    right: -20px;
 	}
 }
