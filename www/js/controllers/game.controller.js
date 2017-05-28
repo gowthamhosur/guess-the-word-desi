@@ -108,7 +108,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
        okText: ' '
      });
 
-     console.log(vm.solution)
+     $timeout(function(){
+      animateCoins();
+     }, 700) 
 
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){
@@ -260,6 +262,23 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       }
     });
 
+  }
+
+  function animateCoins() {
+      var easingFn = function (t, b, c, d) {
+      var ts = (t /= d) * t;
+      var tc = ts * t;
+      return b + c * (tc + -3 * ts + 3 * t);
+    }
+    var options = {
+      useEasing : true, 
+      easingFn: easingFn, 
+      useGrouping : true, 
+      separator : ',', 
+      decimal : '.', 
+    };
+    var count = new CountUp("coins", vm.currentCoins, vm.currentCoins + gameConstants.levelCoins , 0, 1, options);
+    count.start();
   }
 
 }
