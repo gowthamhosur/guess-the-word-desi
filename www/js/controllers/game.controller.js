@@ -10,6 +10,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   vm.onSelectedClick = onSelectedClick;
   vm.onHelpClick = onHelpClick;
   vm.onSkipClick = onSkipClick;
+  vm.animateCoins = animateCoins;
 
   var emptyLetter = " ";
 
@@ -108,10 +109,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
        okText: ' '
      });
 
-     $timeout(function(){
-      animateCoins();
-     }, 700) 
-
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){
           alertPopup.close();
@@ -152,8 +149,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
  function onHelpClick() {
     if(vm.currentCoins > gameConstants.helpCoins) {
 
-      $scope.popupText = 'Reveal a letter for ' + gameConstants.helpCoins + ' coins?';
-
       var onConfirm = function() {
         revealLetter();
         userGameData.getUserData().then(function (value) {
@@ -162,10 +157,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
           });
       }
 
-      initConfirmPopup(onConfirm);
+      confirmPopup(onConfirm, 'Reveal a letter for ' + gameConstants.helpCoins + ' coins?');
 
     } else {
-      alert('Insufficient coins');
+      alertPopup("Insufficient coins");
     }
   }
 
@@ -217,8 +212,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   function onSkipClick() {
     if(vm.currentCoins > gameConstants.skipCoins) {
 
-      $scope.popupText = 'Skip a level for ' + gameConstants.skipCoins + ' coins?';
-
       var onConfirm = function() {
            skipLevel();
            userGameData.getUserData().then(function (value) {
@@ -227,10 +220,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
             });
          }
 
-      initConfirmPopup(onConfirm)
+      confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?')
 
     } else {
-      alert("Insufficient coins");
+      alertPopup("Insufficient coins");
     }
   }
 
@@ -240,7 +233,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       vm.currentLevel++;
   }
 
-  function initConfirmPopup(onConfirm) {
+  function confirmPopup(onConfirm, popupText) {
+
+    $scope.popupText = popupText;
 
     var confirmPopup = $ionicPopup.confirm({
          title: 'Confirmation',
@@ -264,6 +259,22 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   }
 
+  function alertPopup(alertText) {
+
+    $scope.popupText = alertText;
+
+    var alertPopup = $ionicPopup.alert({
+       cssClass: 'confirmation-popup alert',
+       templateUrl: 'templates/confirmation.html',
+       okText: 'Ok',
+       scope: $scope
+     });
+
+    $scope.closeConfirm = function(){
+        alertPopup.close();
+    }
+  }
+
   function animateCoins() {
       var easingFn = function (t, b, c, d) {
       var ts = (t /= d) * t;
@@ -278,7 +289,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       decimal : '.', 
     };
     var count = new CountUp("coins", vm.currentCoins, vm.currentCoins + gameConstants.levelCoins , 0, 1, options);
-    count.start();
+    $timeout(function() {
+      count.start();
+    }, 400);
   }
 
 }

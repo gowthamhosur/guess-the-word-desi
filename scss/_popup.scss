@@ -139,4 +139,14 @@
 	    top: -20px;
 	    right: -20px;
 	}
+	&.alert {
+		.popup-buttons{
+			width: 50%;
+		    margin: 0 25%;
+		    margin-top: 25px;
+		    button{
+		    	border-radius: 30px;
+		    }
+		}
+	}
 }

@@ -8,11 +8,18 @@
 				</div>
 			</div>
 			<div class="home-btn-wrap">
-				<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
-					<div class="btn-base">
-						<img src="img/icons/play-btn.png" alt="Play">
-			    	</div>
-			  	</button>
+				<div class="home-btn-inner">
+					<div class="icon-wrap float-left "><img src="img/icons/language.png" class="icon icon-language" ng-click="gameVm.onHelpClick()"></img></div>
+
+					<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
+						<div class="btn-base">
+							<img src="img/icons/play-btn.png" alt="Play">
+				    	</div>
+				  	</button>
+
+				  	<div class="icon-wrap float-right "><img src="img/icons/sound.png" class="icon icon-help ion-sound" ng-click="gameVm.onHelpClick()"></img></div>
+				</div>
+
 			</div>
 		</div>
   </div>

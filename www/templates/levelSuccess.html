@@ -1,26 +1,28 @@
-<div class="congrats-wrapper">
-	<span class="congrats">
-		GOOD JOB!
-	</span>
-</div>
-<div class="solution-wrapper">
-		<div class="content-letter" ng-repeat="(key,value) in gameVm.solution track by $index ">
-            <span>{{value}}</span>
-         </div>
-</div>
-<div class="points-wrapper">
-	<span>
-		<img src="img/icons/points.png">
-		<span class="coins" id="coins">{{gameVm.currentCoins}}</span>
-	</span>
-</div>
-<div class="btn-wrapper">
-	<button ion-button class="btn-primary" ng-click="onContinueClick(this, $event)">
-		<div class="btn-base">
-			<img src="img/icons/play-btn.png" alt="Continue">
-		</div>
-	</button>
-	<span class="continue">
-		Continue
-	<span>
+<div ng-init=gameVm.animateCoins()>
+	<div class="congrats-wrapper">
+		<span class="congrats">
+			GOOD JOB!
+		</span>
+	</div>
+	<div class="solution-wrapper">
+			<div class="content-letter" ng-repeat="(key,value) in gameVm.solution track by $index ">
+	            <span>{{value}}</span>
+	         </div>
+	</div>
+	<div class="points-wrapper">
+		<span>
+			<img src="img/icons/points.png">
+			<span class="coins" id="coins">{{gameVm.currentCoins}}</span>
+		</span>
+	</div>
+	<div class="btn-wrapper">
+		<button ion-button class="btn-primary" ng-click="onContinueClick(this, $event)">
+			<div class="btn-base">
+				<img src="img/icons/play-btn.png" alt="Continue">
+			</div>
+		</button>
+		<span class="continue">
+			Continue
+		<span>
+	</div>	
 </div>

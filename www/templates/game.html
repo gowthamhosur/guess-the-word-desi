@@ -12,13 +12,13 @@
 
             <div class="content-sel-letters-wrapper">
               <div class="content-sel-letters-inner">
-                <div class="icon-wrap float-left "><img src="img/icons/hint-btn.png" class="icon icon-help ion-lightbulb" ng-click="gameVm.onHelpClick()"></img></div>
+                <div class="icon-wrap float-left "><img src="img/icons/hint-btn.png" class="icon icon-help" ng-click="gameVm.onHelpClick()"></img></div>
 
                  <div class="content-letter" ng-class="{affixed: value.affixed, animated:gameVm.allSelected, shake: gameVm.allSelected}" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
                   <span>{{value.letter}}</span>
                 </div>
 
-                <div class="icon-wrap float-right"><img src="img/icons/skip-btn.png" class="icon icon-skip ion-arrow-right-c" ng-click="gameVm.onSkipClick()"></div>
+                <div class="icon-wrap float-right"><img src="img/icons/skip-btn.png" class="icon icon-skip" ng-click="gameVm.onSkipClick()"></div>
               </div>
             </div>
 

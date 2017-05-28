@@ -34,6 +34,13 @@
     top: 80%;
     text-align: center;
 }
+.home-btn-inner{
+    max-width: 250px;
+    margin: auto;
+    .icon-wrap{
+        margin-top: 15px;
+    }
+}
 .btn-primary{
     margin: auto;
     width: 75px;
