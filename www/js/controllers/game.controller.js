@@ -108,6 +108,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
        okText: ' '
      });
 
+     console.log(vm.solution)
+
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){
           alertPopup.close();

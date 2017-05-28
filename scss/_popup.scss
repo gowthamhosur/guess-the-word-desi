@@ -45,6 +45,34 @@
 			    font-weight: bold;
 		    }
 	    }
+	    .points-wrapper{
+	    	position: absolute;
+		    width: 100%;
+		    top: 50%;
+		    img{
+		    	display: block;
+    			margin: auto;
+		    }
+		    .coins{
+		    	display: block;
+			    font-size: 25px;
+			    position: relative;
+			    margin-left: 20px;
+			    top: -40px;
+			    color: white;
+			    font-weight: bold;
+		    }
+	    }
+	    .solution-wrapper{
+	    	position: absolute;
+		    top: 35%;
+		    width: 100%;
+		    .content-letter{
+		    	width: 45px;
+		    	height: 45px;
+		    	border-color: #9FCC2E;
+		    }
+	    }
 	}
 	.popup-buttons{
 		display: none
