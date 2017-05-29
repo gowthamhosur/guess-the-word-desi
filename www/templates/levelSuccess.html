@@ -5,8 +5,8 @@
 		</span>
 	</div>
 	<div class="solution-wrapper">
-			<div class="content-letter" ng-repeat="(key,value) in gameVm.solution track by $index ">
-	            <span>{{value}}</span>
+			<div class="content-letter" ng-repeat="(key,value) in ::gameVm.selectedLetters track by $index ">
+	            <span>{{::value.letter}}</span>
 	         </div>
 	</div>
 	<div class="points-wrapper">
