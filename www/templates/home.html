@@ -4,23 +4,33 @@
 			<div class="home-logo-wrap">
 				<div class="home-logo-inner">
 					<img class="logo" src="img/icons/main_logo@.png" alt="Guess the word">
-					<span class="language">తెలుగు </span>
+					<span class="language">ಕನ್ನಡ</span>
 				</div>
 			</div>
 			<div class="home-btn-wrap">
 				<div class="home-btn-inner">
-					<div class="icon-wrap float-left "><img src="img/icons/language.png" class="icon icon-language" ng-click="gameVm.onHelpClick()"></img></div>
+					<div class="icon-wrap float-left icon-ad-correction"><img src="img/icons/speaker.png" class="icon icon-ads" ></img>
+						<span>Ads</span>
+					</div>
 
-					<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
-						<div class="btn-base">
-							<img src="img/icons/play-btn.png" alt="Play">
-				    	</div>
-				  	</button>
+					<div class="btn-wrap">
+						<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
+							<div class="btn-base">
+								<img src="img/icons/play-btn.png" alt="Play">
+					    	</div>
+					  	</button>
 
-				  	<div class="icon-wrap float-right "><img src="img/icons/sound.png" class="icon icon-help ion-sound" ng-click="gameVm.onHelpClick()"></img></div>
+					  	<span class="play">Play</span>
+				  	</div>
+					
+
+				  	<div class="icon-wrap float-right "><img src="img/icons/language.png" class="icon icon-language"></img>
+				  		<span>Language</span>
+				  	</div>
 				</div>
 
 			</div>
+			
 		</div>
   </div>
 </ion-view>
