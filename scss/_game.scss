@@ -104,7 +104,7 @@ html,body {
 .content-sel-letters-wrapper{
   top: $pics-section-height;
   height: $sel-letters-section-height;
-  padding: 0px 5%;
+  padding: 0px 2%;
   .content-sel-letters-inner{
     position: relative;
     top: 50%;
@@ -117,15 +117,20 @@ html,body {
     margin-left: 12px;
   }
   .content-letter{
-    width: 45px;
-    height: 45px;
+    width: 44px;
+    height: 44px;
+    margin: 3px 2px;
+    span{
+      font-size: 22px;
+      top: 24%;
+    }
   }
 }
 .content-letters-wrapper{
   top:  $pics-section-height + $sel-letters-section-height;
   height: $letters-section-height;
   .content-letter-inner{
-    max-width: 260px;
+    max-width: 325px;
     margin: auto;
     position: relative;
     top: 50%;
@@ -134,9 +139,9 @@ html,body {
 }
 .content-letter{
   display: inline-block;
-  margin: 3px 5px;
-  width: 55px;
-  height: 53px;
+  margin: 3px 4px;
+  width: 52px;
+  height: 51px;
   text-align: center;
   background-color: #fff;
   border-radius: 5px;
@@ -144,7 +149,7 @@ html,body {
   box-shadow: 0 0 15px;
   border: 2px solid #fdac1b;
   span {
-    font-size: 26px;
+    font-size: 24px;
     font-family: 'lohittelugu';
     position: relative;
     top: 30%;

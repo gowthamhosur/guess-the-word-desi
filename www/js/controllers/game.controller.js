@@ -151,10 +151,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
       var onConfirm = function() {
         revealLetter();
-        userGameData.getUserData().then(function (value) {
-            vm.currentLevel = value.currentLevel;
-            vm.currentCoins = value.currentCoins;
-          });
       }
 
       confirmPopup(onConfirm, 'Reveal a letter for ' + gameConstants.helpCoins + ' coins?');
@@ -201,7 +197,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         userGameData.setUserData(vm.currentLevel, vm.currentCoins-gameConstants.helpCoins);
         userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
 
-        checkLevelSuccess();
+        userGameData.getUserData().then(function (value) {
+           vm.currentCoins = value.currentCoins;
+           checkLevelSuccess();
+         });
+
 
       } else {
         revealLetter();
