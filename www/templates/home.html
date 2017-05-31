@@ -4,7 +4,7 @@
 			<div class="home-logo-wrap">
 				<div class="home-logo-inner">
 					<img class="logo" src="img/icons/main_logo@.png" alt="Guess the word">
-					<span class="language">ಕನ್ನಡ</span>
+					<span class="language" ng-bind="homeVm.logo">DESI</span>
 				</div>
 			</div>
 			<div class="home-btn-wrap">
@@ -24,7 +24,7 @@
 				  	</div>
 					
 
-				  	<div class="icon-wrap float-right "><img src="img/icons/language.png" class="icon icon-language"></img>
+				  	<div class="icon-wrap float-right "><img src="img/icons/language.png" ng-click="homeVm.onLanguageClick()" class="icon icon-language"></img>
 				  		<span>Language</span>
 				  	</div>
 				</div>

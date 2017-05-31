@@ -104,7 +104,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
    function showLevelSucccess() {
      var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
-       templateUrl: 'templates/levelSuccess.html',
+       templateUrl: 'templates/popup/levelSuccess.html',
        scope: $scope,
        okText: ' '
      });
@@ -239,8 +239,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
     var confirmPopup = $ionicPopup.confirm({
          title: 'Confirmation',
-         cssClass: 'confirmation-popup',
-         templateUrl: 'templates/confirmation.html',
+         cssClass: 'primary-popup',
+         templateUrl: 'templates/popup/confirmation.html',
          scope: $scope
        });
 
@@ -264,8 +264,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     $scope.popupText = alertText;
 
     var alertPopup = $ionicPopup.alert({
-       cssClass: 'confirmation-popup alert',
-       templateUrl: 'templates/confirmation.html',
+       cssClass: 'primary-popup alert',
+       templateUrl: 'templates/popup/confirmation.html',
        okText: 'Ok',
        scope: $scope
      });

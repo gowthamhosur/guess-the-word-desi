@@ -1,0 +1,5 @@
+<div>
+	<div class ="language-wrapper">
+		<span class="language" ng-repeat="(key,value) in ::homeVm.languages track by $index" ng-click="homeVm.changeLanguage(value.language)">{{::value.logo}}</span>
+	</div>
+</div>

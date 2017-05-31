@@ -35,6 +35,10 @@ function gameService($http, $q, userGameData, gameConstants){
 		return ret;
 	}
 
+	function getCopy(){
+		return $http.get('appdata/copy.json');
+	}
+
 
 	function shuffle(array){
 		var j, x, i;
@@ -51,7 +55,8 @@ function gameService($http, $q, userGameData, gameConstants){
     getPuzzleData: getPuzzleData,
     getPuzzleImages: getPuzzleImages,
     filterLetterBucket: filterLetterBucket,
-    shuffle: shuffle
+    shuffle: shuffle,
+    getCopy: getCopy
   };
 
   return service;

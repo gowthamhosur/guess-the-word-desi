@@ -1,9 +1,5 @@
-/**
- * Created by harsh on 4/13/2017.
- */
-
 gameModule.constant('gameConstants', {
-	language: 'telugu',
+	language: 'kannada',
 	initialLevel: 0,
 	totalLevels: 9,
 	initialCoins: 400,
