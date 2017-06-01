@@ -1,7 +1,9 @@
 gameModule.factory('userGameData', userGameData);
 
 function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
-  var currentLevel = gameConstants.initialLevel, currentCoins = gameConstants.initialCoins;
+  var currentLevel = gameConstants.initialLevel,
+      currentCoins = gameConstants.initialCoins,
+      currentLanguage = gameConstants.initialLanguage;
 
   $ionicPlatform.ready(function(){
     $cordovaNativeStorage.getItem("userData").then(function (value) {
@@ -13,12 +15,15 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     },function (value) {
       $cordovaNativeStorage.setItem("puzzleData", {});
     });
+
+     $cordovaNativeStorage.getItem("language").then(function (value) {
+    },function (value) {
+      $cordovaNativeStorage.setItem("language", currentLanguage);
+    });
   })
 
   setUserData = function (level,coins) {
-    currentLevel = level;
-    currentCoins = coins;
-    $cordovaNativeStorage.setItem("userData", {currentCoins : currentCoins, currentLevel: currentLevel});
+    $cordovaNativeStorage.setItem("userData", {currentCoins : coins, currentLevel: level});
   }
 
   getUserData = function() {
@@ -35,15 +40,30 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     $cordovaNativeStorage.setItem("puzzleData", setData);
   }
 
-   getCachedPuzzleData = function() {
+  getCachedPuzzleData = function() {
     return $cordovaNativeStorage.getItem("puzzleData");
+  }
+
+  setLanguage = function(language) {
+    $cordovaNativeStorage.setItem("language", language);
+  }
+
+  getLanguage = function(){
+    return $cordovaNativeStorage.getItem("language");
+  }
+
+  resetPuzzleData = function() {
+    return $cordovaNativeStorage.setItem("puzzleData", {});
   }
 
   var service = {
     setUserData: setUserData,
     getUserData: getUserData,
     setCachedPuzzleData: setCachedPuzzleData,
-    getCachedPuzzleData: getCachedPuzzleData
+    getCachedPuzzleData: getCachedPuzzleData,
+    setLanguage: setLanguage,
+    getLanguage: getLanguage,
+    resetPuzzleData: resetPuzzleData
   };
 
   return service;

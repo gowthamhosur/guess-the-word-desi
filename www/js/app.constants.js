@@ -1,5 +1,5 @@
 gameModule.constant('gameConstants', {
-	language: 'kannada',
+	initialLanguage: 'english',
 	initialLevel: 0,
 	totalLevels: 9,
 	initialCoins: 400,

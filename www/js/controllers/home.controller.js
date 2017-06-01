@@ -1,11 +1,7 @@
-/**
- * Created by harsh on 4/9/2017.
- */
 'use strict';
 
 gameModule.controller('homeController', homeController);
 homeController.$inject = ['$scope', 'gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup']
-//inject userGameData to declare initial values before using them in game controller
 
 function homeController($scope, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup ) {
 
@@ -13,8 +9,13 @@ function homeController($scope, gameService, $state,userGameData,$timeout,gameCo
 
 	gameService.getCopy().then(function(response){
 		vm.languages = response.data;
-		setLogo();
-	})
+
+		userGameData.getLanguage().then(function (language) {
+		    setLogo(language);
+		});
+	});
+
+	
 
 	vm.onPlayClick = onPlayClick;
 	vm.onLanguageClick = onLanguageClick;
@@ -39,14 +40,15 @@ function homeController($scope, gameService, $state,userGameData,$timeout,gameCo
 	}
 
 	function changeLanguage(language) {
-		gameConstants.language = vm.languages[language].language;
-		setLogo();
+		userGameData.setLanguage(language);
 		userGameData.setUserData(gameConstants.initialLevel,gameConstants.initialCoins);
+		userGameData.resetPuzzleData();
+		setLogo(language);
 		languagePopup.close();
 	}
 
-	function setLogo(){
-		vm.logo = vm.languages[gameConstants.language].logo;
+	function setLogo(language){
+		vm.logo = vm.languages[language].logo;
 	}
 
 }

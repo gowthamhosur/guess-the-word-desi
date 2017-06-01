@@ -19,13 +19,17 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     vm.currentCoins = value.currentCoins;
   });
 
+  userGameData.getLanguage().then(function(value) {
+    vm.currentLanguage = value; 
+  });
+
   userGameData.getCachedPuzzleData().then(function (value) {
     vm.cachedPuzzleData = value;
     gameService.getPuzzleData()
       .then(function(arrayOfResults){
          vm.puzzleData = {
-           solutions: arrayOfResults[0].data[gameConstants.language],
-           letterBucket: arrayOfResults[1].data[gameConstants.language]
+           solutions: arrayOfResults[0].data[vm.currentLanguage],
+           letterBucket: arrayOfResults[1].data[vm.currentLanguage]
          };
          loadCurrentlevel();
        })
