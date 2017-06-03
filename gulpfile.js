@@ -11,7 +11,7 @@ var gm = require('gulp-gm');
 var rename = require("gulp-rename");
 var merge = require('gulp-merge-json');
 var path = require('path');
-
+var AES = require("crypto-js/aes");
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -88,7 +88,7 @@ gulp.task('solutions', function(){
           var folder = path.basename(path.dirname(file.path))
 
           Object.keys(parsedJson).forEach(function(language) {
-            parsedJson[language][folder] = parsedJson[language]["answer"]
+            parsedJson[language][folder] = AES.encrypt(parsedJson[language]["answer"], "neroachilles").toString();
             delete parsedJson[language]["answer"]
           });
             return parsedJson;

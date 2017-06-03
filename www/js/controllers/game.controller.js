@@ -61,7 +61,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   function loadCurrentlevel(){
     if(vm.puzzleData){
       if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
-        vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
+        vm.solution  = getSolutionLetters( vm.puzzleData["solutions"][vm.currentLevel] );
         vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
         vm.selectedLetters = wrapLetters( vm.solution.map(function() { return emptyLetter }) );
 
@@ -73,6 +73,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
       }
     }
+  }
+
+  function getSolutionLetters( cryptedSolution) {
+    var decryptedSolution = CryptoJS.AES.decrypt(cryptedSolution, "neroachilles").toString(CryptoJS.enc.Utf8);
+    return graphemeSplitter.splitGraphemes(decryptedSolution) ;
   }
 
   function getChoosableLetters(letterBucket, solutions) {
