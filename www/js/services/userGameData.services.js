@@ -20,7 +20,7 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     },function (value) {
       $cordovaNativeStorage.setItem("language", currentLanguage);
     });
-  })
+  });
 
   setUserData = function (level,coins) {
     $cordovaNativeStorage.setItem("userData", {currentCoins : coins, currentLevel: level});

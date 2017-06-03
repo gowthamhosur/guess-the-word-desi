@@ -1,27 +1,26 @@
 'use strict';
 
 gameModule.controller('homeController', homeController);
-homeController.$inject = ['$scope', 'gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup']
+homeController.$inject = ['$scope', '$ionicPlatform', 'gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup']
 
-function homeController($scope, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup ) {
+function homeController($scope, $ionicPlatform, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup ) {
 
 	var vm = this;
-
-	gameService.getCopy().then(function(response){
-		vm.languages = response.data;
-
-		userGameData.getLanguage().then(function (language) {
-		    setLogo(language);
-		});
-	});
-
-	
-
 	vm.onPlayClick = onPlayClick;
 	vm.onLanguageClick = onLanguageClick;
 	vm.changeLanguage = changeLanguage;
 
 	var languagePopup;
+
+	$ionicPlatform.ready(function(){
+		gameService.getCopy().then(function(response){
+			vm.languages = response.data;
+
+			userGameData.getLanguage().then(function (language) {
+			    setLogo(language);
+			});
+		});
+	});
 
 	function onPlayClick($event){
 		$timeout(function(){
@@ -36,6 +35,10 @@ function homeController($scope, gameService, $state,userGameData,$timeout,gameCo
 	       scope: $scope,
 	       okText: ' '
 	     });
+
+		$scope.closeConfirm = function(){
+	        languagePopup.close();
+	    }
 
 	}
 

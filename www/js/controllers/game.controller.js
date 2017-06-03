@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout', '$q'];
 
-function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout) {
+function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout, $q) {
   var vm = this;
 
   vm.onChoosableClick = onChoosableClick;
@@ -14,30 +14,35 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   var emptyLetter = " ";
 
-  userGameData.getUserData().then(function (value) {
-    vm.currentLevel = value.currentLevel;
-    vm.currentCoins = value.currentCoins;
-  });
+  loadInitData().then(function(arrayOfResults){
 
-  userGameData.getLanguage().then(function(value) {
-    vm.currentLanguage = value; 
-  });
+    var userData = arrayOfResults[0],
+        languageData = arrayOfResults[1],
+        cachedPuzzleData = arrayOfResults[2],
+        puzzleData = arrayOfResults[3];
 
-  userGameData.getCachedPuzzleData().then(function (value) {
-    vm.cachedPuzzleData = value;
-    gameService.getPuzzleData()
-      .then(function(arrayOfResults){
-         vm.puzzleData = {
-           solutions: arrayOfResults[0].data[vm.currentLanguage],
-           letterBucket: arrayOfResults[1].data[vm.currentLanguage]
-         };
-         loadCurrentlevel();
-       })
-       .catch(function (err) {
-         console.log(err, "Error while retrieving App Data")
-       });
+    vm.currentLevel = userData.currentLevel;
+    vm.currentCoins = userData.currentCoins;  
+    vm.currentLanguage = languageData;   
+    vm.cachedPuzzleData = cachedPuzzleData;
+    vm.puzzleData = {
+           solutions: puzzleData[0].data[vm.currentLanguage],
+           letterBucket: puzzleData[1].data[vm.currentLanguage]
+    };
 
-  });
+    loadCurrentlevel();
+
+  })
+
+
+  function loadInitData () {
+      return  $q.all( [ userGameData.getUserData() , 
+                         userGameData.getLanguage() , 
+                         userGameData.getCachedPuzzleData() , 
+                         gameService.getPuzzleData() ])
+
+  }
+
 
   $scope.$watch(function () {
     return vm.currentLevel;
@@ -47,8 +52,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       return $state.transitionTo('success', null, {reload: true, notify:true});
     }
 
-    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
-    loadCurrentlevel();
+    if(vm.currentLevel){
+      vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
+      loadCurrentlevel();
+    }
   });
 
   function loadCurrentlevel(){
@@ -105,7 +112,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     }
   }
 
-   function showLevelSucccess() {
+  function showLevelSucccess() {
      var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
        templateUrl: 'templates/popup/levelSuccess.html',
@@ -122,7 +129,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
             });
          }, 300);
      }
-   };
+  };
 
 
   function onChoosableClick(index) {
