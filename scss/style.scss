@@ -22,12 +22,6 @@ $dark:                            #444 !default;
 @import "_home";
 @import "_popup";
 
-
-@font-face {
-    font-family: lohittelugu;
-    src: url(../fonts/Lohit-Telugu.ttf);
-}
-
 .float-left {
   float: left;
 }
@@ -45,9 +39,6 @@ $dark:                            #444 !default;
     margin-top: 15px;
   }
 }
-
-// The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
