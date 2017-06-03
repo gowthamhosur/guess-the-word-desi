@@ -1,14 +1,11 @@
 gameModule.factory('userGameData', userGameData);
 
 function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
-  var currentLevel = gameConstants.initialLevel,
-      currentCoins = gameConstants.initialCoins,
-      currentLanguage = gameConstants.initialLanguage;
-
+  
   $ionicPlatform.ready(function(){
     $cordovaNativeStorage.getItem("userData").then(function (value) {
     }, function (value) {
-      $cordovaNativeStorage.setItem("userData", {currentLevel: currentLevel, currentCoins:currentCoins})
+      $cordovaNativeStorage.setItem("userData", {currentLevel: gameConstants.initialLevel, currentCoins:gameConstants.initialCoins})
     });
 
     $cordovaNativeStorage.getItem("puzzleData").then(function (value) {
@@ -18,12 +15,40 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
 
      $cordovaNativeStorage.getItem("language").then(function (value) {
     },function (value) {
-      $cordovaNativeStorage.setItem("language", currentLanguage);
+      $cordovaNativeStorage.setItem("language", gameConstants.initialLanguage);
     });
+
+     $cordovaNativeStorage.getItem("levelProgress").then(function (value) {
+    },function (value) {
+      $cordovaNativeStorage.setItem("levelProgress", 
+      {
+        "english" : gameConstants.initialLevel,
+        "telugu" : gameConstants.initialLevel,
+        "hindi" : gameConstants.initialLevel,
+        "kannada": gameConstants.initialLevel
+      });
+      //TODO: Get languages dynamicaclly from copy.json
+    });
+
   });
 
-  setUserData = function (level,coins) {
-    $cordovaNativeStorage.setItem("userData", {currentCoins : coins, currentLevel: level});
+  setUserData = function (level,coins,language) {
+    if( coins == undefined) {
+      $cordovaNativeStorage.getItem("userData").then(function(data){
+        $cordovaNativeStorage.setItem("userData", {currentLevel: level, currentCoins : data.currentCoins});
+      })
+    }
+    else {
+      $cordovaNativeStorage.setItem("userData", {currentLevel: level, currentCoins : coins});
+    }
+
+    if(language) {
+      $cordovaNativeStorage.getItem("levelProgress").then(function(data){
+        data[language] = level;
+        $cordovaNativeStorage.setItem("levelProgress", data);
+      })
+    }
+
   }
 
   getUserData = function() {
@@ -44,6 +69,10 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     return $cordovaNativeStorage.getItem("puzzleData");
   }
 
+  resetCahcedPuzzleData = function() {
+    return $cordovaNativeStorage.setItem("puzzleData", {});
+  }
+
   setLanguage = function(language) {
     $cordovaNativeStorage.setItem("language", language);
   }
@@ -52,8 +81,8 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     return $cordovaNativeStorage.getItem("language");
   }
 
-  resetPuzzleData = function() {
-    return $cordovaNativeStorage.setItem("puzzleData", {});
+  getLevelProgress = function(){
+    return $cordovaNativeStorage.getItem("levelProgress");
   }
 
   var service = {
@@ -61,9 +90,10 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     getUserData: getUserData,
     setCachedPuzzleData: setCachedPuzzleData,
     getCachedPuzzleData: getCachedPuzzleData,
+    resetCahcedPuzzleData: resetCahcedPuzzleData,
     setLanguage: setLanguage,
     getLanguage: getLanguage,
-    resetPuzzleData: resetPuzzleData
+    getLevelProgress: getLevelProgress
   };
 
   return service;

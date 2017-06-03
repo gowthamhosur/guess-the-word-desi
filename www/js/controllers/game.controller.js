@@ -104,7 +104,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     });
 
     if(successFlag) {
-      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins);
+      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins, vm.currentLanguage);
       showLevelSucccess();
     } else
     {
@@ -239,7 +239,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function skipLevel() {
-      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins - gameConstants.skipCoins)
+      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins - gameConstants.skipCoins, vm.currentLanguage)
       vm.allSelected = false;
       vm.currentLevel++;
   }
