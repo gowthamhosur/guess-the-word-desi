@@ -84,4 +84,5 @@
     <plugin name="cordova-plugin-fullscreen" spec="~1.1.0" />
     <plugin name="cordova-plugin-nativestorage" spec="~2.2.2" />
     <engine name="android" spec="~6.1.2" />
+    <plugin name="cordova-plugin-admobpro" spec="~2.29.0" />
 </widget>

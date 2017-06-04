@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('homeController', homeController);
-homeController.$inject = ['$scope', '$ionicPlatform', 'gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup']
+homeController.$inject = ['$scope','$ionicPlatform','gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup', 'AdMob']
 
-function homeController($scope, $ionicPlatform, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup ) {
+function homeController($scope, $ionicPlatform, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup,AdMob ) {
 
 	var vm = this;
 	vm.onPlayClick = onPlayClick;
@@ -19,7 +19,18 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 			userGameData.getLanguage().then(function (language) {
 			    setGameLanguage(language);
 			});
+
 		});
+
+		$timeout(function(){
+			userGameData.getShowAds().then(function(showAds){
+				if(showAds) {
+					AdMob.init();
+				}
+			});
+		},500)
+
+
 	});
 
 	function onPlayClick($event){

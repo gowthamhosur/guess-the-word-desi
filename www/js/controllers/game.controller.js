@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout', '$q'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout', '$q', 'AdMob'];
 
-function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout, $q) {
+function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout, $q, AdMob) {
   var vm = this;
 
   vm.onChoosableClick = onChoosableClick;
@@ -110,20 +110,31 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
     if(successFlag) {
       userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins, vm.currentLanguage);
-      showLevelSucccess();
+      showLevelSucccess(vm.currentLevel);
     } else
     {
       vm.allSelected = allSelectedFlag;
     }
   }
 
-  function showLevelSucccess() {
+  function showLevelSucccess(level) {
      var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
        templateUrl: 'templates/popup/levelSuccess.html',
        scope: $scope,
        okText: ' '
      });
+
+   if( level % gameConstants.adsOnEveryNthLevel === 0 ) {
+    $timeout(function(){
+      userGameData.getShowAds().then(function(showAds){
+        if(showAds) {
+          AdMob.showInterstitial()
+        }
+      })
+    }, 700);
+   }   
+    
 
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){

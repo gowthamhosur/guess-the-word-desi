@@ -30,6 +30,11 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
       //TODO: Get languages dynamicaclly from copy.json
     });
 
+     $cordovaNativeStorage.getItem("showAds").then(function (value) {
+    },function (value) {
+      $cordovaNativeStorage.setItem("showAds", false);
+    });     
+
   });
 
   setUserData = function (level,coins,language) {
@@ -85,6 +90,14 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     return $cordovaNativeStorage.getItem("levelProgress");
   }
 
+  getShowAds = function(){
+    return $cordovaNativeStorage.getItem("showAds");
+  }
+
+  setShowAds = function(value) {
+    $cordovaNativeStorage.setItem("showAds", value);
+  }
+
   var service = {
     setUserData: setUserData,
     getUserData: getUserData,
@@ -93,7 +106,9 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     resetCahcedPuzzleData: resetCahcedPuzzleData,
     setLanguage: setLanguage,
     getLanguage: getLanguage,
-    getLevelProgress: getLevelProgress
+    getLevelProgress: getLevelProgress,
+    getShowAds: getShowAds,
+    setShowAds: setShowAds
   };
 
   return service;
