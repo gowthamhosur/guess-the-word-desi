@@ -42,6 +42,7 @@
         color: white;
         letter-spacing: 1px;
         font-weight: bold;
+        display: none;
     }
 }
 .home-btn-inner{
@@ -51,11 +52,12 @@
         margin-top: 25%;
         span{
             color: #fdb01e;
-            font-size: 16px;
+            font-size: 13px;
             display: block;
             margin-top: -5px;
-            font-family: Helvetica;
             font-weight: 700;
+            text-transform: uppercase;
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
         }
         &.icon-ad-correction{
             width: 76px;
@@ -64,14 +66,14 @@
 }
 .btn-primary{
     margin: auto;
-    height: 85px;
+    height: 115px;
     color: transparent;
     background: transparent;
     border: none;
     transition: all 0.5s;
     .btn-base{
-        width: 63px;
-        height: 63px;
+        width: 80px;
+        height: 80px;
         box-shadow: 0 2px 0 1px rgba(0, 0, 0, 0.15);
         background-color: #ffffff;
         border-radius: 50%; 
@@ -81,17 +83,16 @@
         color: white;
         font-size: 18px;
         margin: auto;
-        height: 63px;
+        height: 83px;
         position: relative;
-        top: 2px;
-        left: 0.5px;
+        top: 1px;
     }
 
     &.activated{
         img{
-            height: 69px;
+            height: 88px;
             top: -0.5px;
-            left: -2px;
+            left: -3px;
         }
     }
 }

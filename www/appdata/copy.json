@@ -1,0 +1,18 @@
+{
+	"english" : {
+		"language": "english",
+		"logo" : "DESI"
+	},
+	"telugu" : {
+		"language": "telugu",
+		"logo": "తెలుగు"
+	},
+	"hindi" : {
+		"language": "hindi",
+		"logo": "हिन्दी"
+	},
+	"kannada": {
+		"language": "kannada",
+		"logo": "ಕನ್ನಡ"
+	}
+}

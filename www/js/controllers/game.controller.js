@@ -1,9 +1,9 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout', '$q', 'AdMob'];
 
-function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout) {
+function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout, $q, AdMob) {
   var vm = this;
 
   vm.onChoosableClick = onChoosableClick;
@@ -14,43 +14,50 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   var emptyLetter = " ";
 
-  userGameData.getUserData().then(function (value) {
-    vm.currentLevel = value.currentLevel;
-    vm.currentCoins = value.currentCoins;
-  });
+  loadInitData().then(function(arrayOfResults){
 
-  userGameData.getCachedPuzzleData().then(function (value) {
-    vm.cachedPuzzleData = value;
-    gameService.getPuzzleData()
-      .then(function(arrayOfResults){
-         vm.puzzleData = {
-           solutions: arrayOfResults[0].data[gameConstants.language],
-           letterBucket: arrayOfResults[1].data[gameConstants.language]
-         };
-         loadCurrentlevel();
-       })
-       .catch(function (err) {
-         console.log(err, "Error while retrieving App Data")
-       });
+    var userData = arrayOfResults[0],
+        languageData = arrayOfResults[1],
+        cachedPuzzleData = arrayOfResults[2],
+        puzzleData = arrayOfResults[3];
 
-  });
+    vm.currentLevel = userData.currentLevel;
+    vm.currentCoins = userData.currentCoins;  
+    vm.currentLanguage = languageData;   
+    vm.cachedPuzzleData = cachedPuzzleData;
+    vm.puzzleData = {
+           solutions: puzzleData[0].data[vm.currentLanguage],
+           letterBucket: puzzleData[1].data[vm.currentLanguage]
+    };
+
+    loadCurrentlevel();
+
+  })
+
+
+  function loadInitData () {
+      return  $q.all( [ userGameData.getUserData() , 
+                         userGameData.getLanguage() , 
+                         userGameData.getCachedPuzzleData() , 
+                         gameService.getPuzzleData() ])
+
+  }
+
 
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
 
-    if (vm.currentLevel > gameConstants.totalLevels) {
-      return $state.transitionTo('success', null, {reload: true, notify:true});
+    if(vm.currentLevel){
+      vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
+      loadCurrentlevel();
     }
-
-    vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
-    loadCurrentlevel();
   });
 
   function loadCurrentlevel(){
     if(vm.puzzleData){
       if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
-        vm.solution  = graphemeSplitter.splitGraphemes( vm.puzzleData["solutions"][vm.currentLevel] );
+        vm.solution  = getSolutionLetters( vm.puzzleData["solutions"][vm.currentLevel] );
         vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
         vm.selectedLetters = wrapLetters( vm.solution.map(function() { return emptyLetter }) );
 
@@ -62,6 +69,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
       }
     }
+  }
+
+  function getSolutionLetters( cryptedSolution) {
+    var decryptedSolution = CryptoJS.AES.decrypt(cryptedSolution, gameConstants.salt).toString(CryptoJS.enc.Utf8);
+    return graphemeSplitter.splitGraphemes(decryptedSolution) ;
   }
 
   function getChoosableLetters(letterBucket, solutions) {
@@ -93,21 +105,38 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     });
 
     if(successFlag) {
-      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins);
-      showLevelSucccess();
+      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins, vm.currentLanguage);
+      showLevelSucccess(vm.currentLevel);
     } else
     {
       vm.allSelected = allSelectedFlag;
     }
   }
 
-   function showLevelSucccess() {
-     var alertPopup = $ionicPopup.alert({
+  function showLevelSucccess(level) {
+
+    if (level === gameConstants.totalLevels) {
+      vm.gameover = true;
+      userGameData.setUserData(gameConstants.initialLevel);
+    }
+
+    var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
-       templateUrl: 'templates/levelSuccess.html',
+       templateUrl: 'templates/popup/levelSuccess.html',
        scope: $scope,
        okText: ' '
      });
+
+   if( level % gameConstants.adsOnEveryNthLevel === 0 ) {
+    $timeout(function(){
+      userGameData.getShowAds().then(function(showAds){
+        if(showAds) {
+          AdMob.showInterstitial()
+        }
+      })
+    }, 700);
+   }   
+    
 
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){
@@ -118,7 +147,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
             });
          }, 300);
      }
-   };
+  };
 
 
   function onChoosableClick(index) {
@@ -210,7 +239,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   };
 
   function onSkipClick() {
-    if(vm.currentCoins > gameConstants.skipCoins) {
+    if(vm.currentLevel === gameConstants.totalLevels) {
+      alertPopup("Cannot skip final level");
+    }
+    else if(vm.currentCoins > gameConstants.skipCoins) {
 
       var onConfirm = function() {
            skipLevel();
@@ -228,7 +260,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function skipLevel() {
-      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins - gameConstants.skipCoins)
+      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins - gameConstants.skipCoins, vm.currentLanguage)
       vm.allSelected = false;
       vm.currentLevel++;
   }
@@ -239,8 +271,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
     var confirmPopup = $ionicPopup.confirm({
          title: 'Confirmation',
-         cssClass: 'confirmation-popup',
-         templateUrl: 'templates/confirmation.html',
+         cssClass: 'primary-popup',
+         templateUrl: 'templates/popup/confirmation.html',
          scope: $scope
        });
 
@@ -264,8 +296,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     $scope.popupText = alertText;
 
     var alertPopup = $ionicPopup.alert({
-       cssClass: 'confirmation-popup alert',
-       templateUrl: 'templates/confirmation.html',
+       cssClass: 'primary-popup alert',
+       templateUrl: 'templates/popup/confirmation.html',
        okText: 'Ok',
        scope: $scope
      });

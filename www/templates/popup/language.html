@@ -1,0 +1,7 @@
+<div>
+	<span class="choose">Choose Language</span>
+	<div class ="language-wrapper">
+		<span class="language" ng-repeat="(key,value) in ::homeVm.languages track by $index" ng-click="homeVm.changeLanguage(value.language)">{{ value.logo == "DESI"? "ENGLISH" : value.logo }} </span>
+	</div>
+	<img class="close-popup" src="img/icons/popup-close.png" ng-click="closeConfirm()">
+</div>

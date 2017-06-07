@@ -1,6 +1,7 @@
 .level-success-popup{
 	.popup{
-  		background-image: radial-gradient(circle 363px at center, #6c6392 0%, #180f3a 100%);
+		background-color: transparent !important;
+  		background-image: radial-gradient(circle 313px at 50% 36%, rgba(24, 15, 58,0.6) 0%, #180f3a 76%);
 	    width:100% !important;
 	    height: 100% !important;
 	    max-height: 100% !important;
@@ -15,7 +16,7 @@
 	    .congrats-wrapper{
 	    	width: 100%;
 		    position: absolute;
-		    top: 15%;
+		    top: 5%;
 		    text-align: center;
 		    height: 65px;
 		    box-shadow: -1px 4px 7px #febd27, -1px -4px 7px #febd27;
@@ -46,7 +47,7 @@
 	    .points-wrapper{
 	    	position: absolute;
 		    width: 100%;
-		    top: 50%;
+		    top: 30%;
 		    img{
 		    	display: block;
     			margin: auto;
@@ -63,7 +64,7 @@
 	    }
 	    .solution-wrapper{
 	    	position: absolute;
-		    top: 35%;
+		    top: 65%;
 		    width: 100%;
 		    .content-letter{
 		    	width: 45px;
@@ -77,7 +78,7 @@
 	}
 }
 
-.confirmation-popup{
+.primary-popup{
 	background-color: rgba(0,0,0,0.7) !important;
 	.popup{
 		background-image: linear-gradient(203deg, #180f3a 0%, #6c6392 100%);
@@ -85,7 +86,7 @@
 		border: 6px #8970e6 solid;
         padding: 15px;
         width: 100% !important;
-    	max-width: 330px !important;
+    	max-width: 300px !important;
     	text-align: center;
 	}
 	.popup-head{
@@ -136,6 +137,7 @@
 		position: absolute;
 	    top: -20px;
 	    right: -20px;
+	    height: 45px;
 	}
 	&.alert {
 		.popup-buttons{
@@ -146,5 +148,43 @@
 		    	border-radius: 30px;
 		    }
 		}
+	}
+}
+
+.language-popup{
+	.language{
+		font-size: 20px;
+	    color: white;
+	    background-color: orangered;
+	    padding: 14px;
+	    border-radius: 10px;
+	    text-shadow: 5px 2px 10px black;
+	    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
+	    border: 2px solid;
+	    width: 102px;
+	    height: 56px;
+	    display: inline-block;
+	    word-wrap: normal;
+	    margin: 9px 8px;
+	}
+	.language:not(:first-child){
+		font-size: 22px;
+	}
+	.choose{
+		display: block;
+	    font-size: 20px;
+	    color: white;
+	    letter-spacing: 1px;
+	    font-weight: bold;
+	    margin-bottom: 20px;
+	}
+	.popup-buttons{
+		display: none;
+	}
+	.close-popup{
+		position: absolute;
+	    top: -20px;
+	    right: -20px;
+	    height: 45px;
 	}
 }
