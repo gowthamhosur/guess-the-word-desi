@@ -32,7 +32,7 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
 
      $cordovaNativeStorage.getItem("showAds").then(function (value) {
     },function (value) {
-      $cordovaNativeStorage.setItem("showAds", false);
+      $cordovaNativeStorage.setItem("showAds", true);
     });     
 
   });

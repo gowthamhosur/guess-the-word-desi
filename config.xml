@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.apptelugu4p1w586229" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>app-telugu-4p1w</name>
+    <name>Guess the word Desi</name>
     <description>
-        An Ionic Framework and Cordova project.
+        The popular 4 Pics 1 Word game in Indian languages
     </description>
-    <author email="you@example.com" href="http://example.com/">
-      Your Name Here
+    <author email="indicappstudios@gmail.com" href="http://example.com/">
+      Indic App Studios
     </author>
     <content src="index.html" />
     <access origin="*" />

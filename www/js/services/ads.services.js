@@ -12,8 +12,6 @@ function adMob($window){
 	var _interstitialReady;
 	
 	function init(){
-   		console.log("AdMob init");
-
    		_admob = $window.AdMob;
 
 		if(_admob){
@@ -39,7 +37,7 @@ function adMob($window){
 		   	this.prepareInterstitial(false);
 
 		} else {
-		   console.log("No AdMob?");
+		   console.log("No AdMob");
 		}
    	}
 
@@ -51,7 +49,6 @@ function adMob($window){
 		    autoShow: bShow,
 		    success: function(){
 		    	_interstitialReady = true;
-		    	console.log('interstitial prepared');
 		    },
 		    error: function(){
 		    	console.log('failed to prepare interstitial');
@@ -63,7 +60,6 @@ function adMob($window){
 
    	function showInterstitial() {
    		if( !_interstitialReady ){
-   			console.log('interstitial not ready');
    			return this.prepareInterstitial(true);
    		}
 

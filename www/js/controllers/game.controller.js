@@ -48,10 +48,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     return vm.currentLevel;
   },function(){
 
-    if (vm.currentLevel > gameConstants.totalLevels) {
-      return $state.transitionTo('success', null, {reload: true, notify:true});
-    }
-
     if(vm.currentLevel){
       vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
       loadCurrentlevel();
@@ -76,7 +72,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function getSolutionLetters( cryptedSolution) {
-    var decryptedSolution = CryptoJS.AES.decrypt(cryptedSolution, "neroachilles").toString(CryptoJS.enc.Utf8);
+    var decryptedSolution = CryptoJS.AES.decrypt(cryptedSolution, gameConstants.salt).toString(CryptoJS.enc.Utf8);
     return graphemeSplitter.splitGraphemes(decryptedSolution) ;
   }
 
@@ -118,7 +114,13 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function showLevelSucccess(level) {
-     var alertPopup = $ionicPopup.alert({
+
+    if (level === gameConstants.totalLevels) {
+      vm.gameover = true;
+      userGameData.setUserData(gameConstants.initialLevel);
+    }
+
+    var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
        templateUrl: 'templates/popup/levelSuccess.html',
        scope: $scope,
@@ -237,7 +239,10 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   };
 
   function onSkipClick() {
-    if(vm.currentCoins > gameConstants.skipCoins) {
+    if(vm.currentLevel === gameConstants.totalLevels) {
+      alertPopup("Cannot skip final level");
+    }
+    else if(vm.currentCoins > gameConstants.skipCoins) {
 
       var onConfirm = function() {
            skipLevel();

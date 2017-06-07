@@ -8,6 +8,7 @@ gameModule.constant('gameConstants', {
 	levelCoins: 50,
 	maxChoosableLetters: 12,
 	adsOnEveryNthLevel: 3,
-	imageSet: ["0","1","2","3"]
+	imageSet: ["0","1","2","3"],
+	salt: "neroachilles"
 });
 

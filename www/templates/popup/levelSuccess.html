@@ -1,4 +1,4 @@
-<div ng-init=gameVm.animateCoins()>
+<div ng-init=gameVm.animateCoins() ng-class="gameVm.currentLanguage">
 	<div class="congrats-wrapper">
 		<span class="congrats">
 			GOOD JOB!
@@ -22,7 +22,7 @@
 			</div>
 		</button>
 		<span class="continue">
-			Continue
+			{{gameVm.gameover? "Play Again": "Continue"}}
 		</span>
 	</div>
 </div>
