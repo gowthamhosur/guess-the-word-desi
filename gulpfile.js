@@ -83,10 +83,21 @@ gulp.task('images',function() {
 gulp.task('solutions', function(){
   gulp.src('./puzzles/**/*.json')
       .pipe(merge({
-        fileName: 'solutions.json',
+        fileName: 'solutions-raw.json',
         edit: function (parsedJson, file){
           var folder = path.basename(path.dirname(file.path))
 
+          Object.keys(parsedJson).forEach(function(language) {
+            parsedJson[language][folder] = parsedJson[language]["answer"];
+            delete parsedJson[language]["answer"]
+          });
+            return parsedJson;
+        }
+      }))
+       .pipe(merge({
+        fileName: 'solutions-raw.json',
+        edit: function (parsedJson, file){
+          var folder = path.basename(path.dirname(file.path))
           Object.keys(parsedJson).forEach(function(language) {
             parsedJson[language][folder] = AES.encrypt(parsedJson[language]["answer"], "neroachilles").toString();
             delete parsedJson[language]["answer"]
