@@ -34,9 +34,7 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 	});
 
 	function onPlayClick($event){
-		$timeout(function(){
 		 $state.transitionTo('game');
-		},400)
 	}
 
 	function onLanguageClick(){

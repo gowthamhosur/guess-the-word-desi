@@ -145,7 +145,6 @@ html,body {
   background-color: #fff;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 0 15px;
   border: 2px solid #fdac1b;
   span {
     font-size: 20px;
@@ -157,7 +156,6 @@ html,body {
   &.choosable{
     background-color: #3C3C3C;
     color: white;
-    box-shadow: 0px 6px 7px 0px rgba(0, 0, 0, .3), inset 0px 0px 0px 0px rgba(255,255,255,0.5), inset 0px -2px 1px 4px rgba(50,50,50,.5);
     &.inactive{
       opacity: 0.3;
       span{
@@ -170,7 +168,6 @@ html,body {
   }
   &.affixed{
       background-color: transparent;
-      box-shadow: none;
       color: white;
       border: none;
   }

@@ -48,6 +48,9 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     return vm.currentLevel;
   },function(){
 
+    if (vm.currentLevel > gameConstants.totalLevels) {
+        return $state.transitionTo('success', null, {reload: true, notify:true});
+    }
     if(vm.currentLevel){
       vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
       loadCurrentlevel();
@@ -114,11 +117,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function showLevelSucccess(level) {
-
-    if (level === gameConstants.totalLevels) {
-      vm.gameover = true;
-      userGameData.setUserData(gameConstants.initialLevel);
-    }
 
     var alertPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
