@@ -82,7 +82,7 @@ html,body {
 .content-pic{
     display: inline-block;
     width: 46%;
-    height: 44%;
+    height: 46%;
     margin: 2%;
     max-width: 200px;
     max-height: 200px;
@@ -182,4 +182,61 @@ html,body {
       height: 56px;
       padding: 4px 0;
     }
+}
+
+@media (max-width: 350px) {
+  .content-letters-wrapper{
+    .content-letter{
+      width: 40px;
+      height: 40px;
+      span{
+        font-size:18px;
+        top: 25%;
+      }
+    }
+  }
+  .content-sel-letters-wrapper{
+    .content-letter{
+      width: 35px;
+      height: 35px;
+      margin: 6px 2px;
+      span{
+        font-size: 17px;
+        top: 18%;
+      }
+    }
+  }
+  .icon-wrap{
+    img{
+      width: 40px;
+      height: 50px;
+    }
+  }
+  .header-level-indicator{
+    img{
+      width: 130px;
+    }
+    p{
+      top: 10%;
+      font-size: 21px;
+    }
+  }
+  .header-coins-indicator{
+    img{
+      width: 34px;
+      height: 34px;
+    }
+    p{
+      font-size: 17px;
+    }
+  }
+  .home-button img{
+    width: 38px !important;
+    height: 38px !important;
+  }
+  .main-view-wrapper.english .content-sel-letters-wrapper .content-letter{
+    margin: 9px 1px !important;
+    width: 25px !important;
+    height: 28px !important;
+  }
 }

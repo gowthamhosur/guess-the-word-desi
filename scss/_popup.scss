@@ -152,6 +152,12 @@
 }
 
 .language-popup{
+	.popup{
+		padding: 20px 0;
+	}
+	.popup-body{
+		padding: 0
+	}
 	.language{
 		font-size: 20px;
 	    color: white;
@@ -161,7 +167,7 @@
 	    text-shadow: 5px 2px 10px black;
 	    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
 	    border: 2px solid;
-	    width: 102px;
+	    width: 110px;
 	    height: 56px;
 	    display: inline-block;
 	    word-wrap: normal;
@@ -186,5 +192,17 @@
 	    top: -20px;
 	    right: -20px;
 	    height: 45px;
+	}
+}
+
+@media (max-width: 350px){
+	.primary-popup .popup{
+	  max-width: 270px !important;
+	}
+	.level-success-popup .popup-body .btn-wrapper{
+		top: 71%;
+	}
+	.level-success-popup .popup-body .solution-wrapper{
+		top: 62%;
 	}
 }
