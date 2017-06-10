@@ -1,7 +1,3 @@
-/**
- * Created by harsh on 5/1/2017.
- */
-
 'use strict';
 
 gameModule.controller('successController', successController);

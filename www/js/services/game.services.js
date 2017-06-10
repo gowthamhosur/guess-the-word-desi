@@ -2,9 +2,9 @@
 
 gameModule.factory('gameService', gameService);
 
-gameService.$inject = ['$http', '$q', 'userGameData', 'gameConstants'];
+gameService.$inject = ['$http', '$q', 'userGameData', 'gameConstants', '$window'];
 
-function gameService($http, $q, userGameData, gameConstants){
+function gameService($http, $q, userGameData, gameConstants, $window){
 
 
 	function getPuzzleData(){
@@ -51,12 +51,23 @@ function gameService($http, $q, userGameData, gameConstants){
 		return array;
 	}
 
+	function setInitialRun (initial) {
+	    $window.localStorage["initialRun"] = (initial ? "true" : "false");
+	}
+	 
+	function isInitialRun() {
+	    var value = $window.localStorage["initialRun"] || "true";
+	    return value == "true";
+	}
+
 	var service = {
     getPuzzleData: getPuzzleData,
     getPuzzleImages: getPuzzleImages,
     filterLetterBucket: filterLetterBucket,
     shuffle: shuffle,
-    getCopy: getCopy
+    getCopy: getCopy,
+    setInitialRun: setInitialRun,
+    isInitialRun: isInitialRun
   };
 
   return service;

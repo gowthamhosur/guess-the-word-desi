@@ -22,12 +22,3 @@ gameModule.run(function($ionicPlatform) {
   });
 
 })
-
-/*
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-
-*/

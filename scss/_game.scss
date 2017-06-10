@@ -121,7 +121,6 @@ html,body {
     margin: 3px 2px;
     span{
       font-size: 19px;
-      top: 24%;
     }
   }
 }
@@ -146,12 +145,14 @@ html,body {
   border-radius: 5px;
   overflow: hidden;
   border: 2px solid #fdac1b;
+  position: relative;
   span {
     font-size: 20px;
     position: relative;
-    top: 27%;
+    top: 14px;
     transform: translateY(-50%);
     word-break: break-all;
+    display: inline-block;
   }
   &.choosable{
     background-color: #3C3C3C;
@@ -174,9 +175,6 @@ html,body {
 }
 
 .icon-wrap{
-    display: table;
-    width: 45px;
-    height: 45px;
     img {
       width: 45px;
       height: 56px;
@@ -191,7 +189,6 @@ html,body {
       height: 40px;
       span{
         font-size:18px;
-        top: 25%;
       }
     }
   }
@@ -202,7 +199,7 @@ html,body {
       margin: 6px 2px;
       span{
         font-size: 17px;
-        top: 18%;
+        top: 11px;
       }
     }
   }
@@ -238,5 +235,8 @@ html,body {
     margin: 9px 1px !important;
     width: 25px !important;
     height: 28px !important;
+  }
+  .content-letters-wrapper{
+    top:65vh;
   }
 }

@@ -9,9 +9,7 @@
 			</div>
 			<div class="home-btn-wrap">
 				<div class="home-btn-inner">
-					<div class="icon-wrap float-left icon-ad-correction"><img src="img/icons/speaker.png" class="icon icon-ads" ></img>
-						<span>Ads</span>
-					</div>
+					
 
 					<div class="btn-wrap">
 						<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
@@ -22,11 +20,23 @@
 
 					  	<span class="play">Play</span>
 				  	</div>
-					
 
-				  	<div class="icon-wrap float-right "><img src="img/icons/language.png" ng-click="homeVm.onLanguageClick()" class="icon icon-language"></img>
-				  		<span>Language</span>
+				  	<div class="home-btn-icons-wrap">
+				  		<button ion-button class="icon-wrap float-left icon-ad-correction">
+				  			<div><img src="img/icons/speaker.png" class="icon icon-ads" ></img>
+				  				<span>Ads</span>
+				  			</div>
+				  		</button>
+
+				  		<button ion-button class="icon-wrap float-right " ng-click="homeVm.onLanguageClick()">
+						  	<div><img src="img/icons/language.png"  class="icon icon-language"></img>
+						  		<span>Language</span>
+					  		</div>
+				  		</button>
+				  		
 				  	</div>
+					
+				  	
 				</div>
 
 			</div>

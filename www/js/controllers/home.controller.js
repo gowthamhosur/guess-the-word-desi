@@ -28,13 +28,21 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 					AdMob.init();
 				}
 			});
+
+			if (gameService.isInitialRun()) {
+			    gameService.setInitialRun(false);
+			    vm.onLanguageClick();
+			}
+
 		},500)
 
 
 	});
 
 	function onPlayClick($event){
-		 $state.transitionTo('game');
+		$timeout(function() {
+			$state.transitionTo('game');
+		}, 300);
 	}
 
 	function onLanguageClick(){
