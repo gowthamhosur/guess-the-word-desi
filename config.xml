@@ -12,11 +12,11 @@
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="SplashScreenDelay" value="2000"/>
-  <preference name="FadeSplashScreenDuration" value="2000"/>
+  <preference name="SplashScreenDelay" value="0"/>
+  <preference name="FadeSplashScreenDuration" value="0"/>
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
-  <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashScreen" value="none"/>
   <preference name="Fullscreen" value="false"/>
   <preference name="orientation" value="portrait"/>
   <feature name="StatusBar">

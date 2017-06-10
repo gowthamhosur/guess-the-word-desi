@@ -65,7 +65,7 @@ gulp.task('git-check', function(done) {
 gulp.task('images',function() {
   
   var init =0, limit = 4;
-  gulp.src('./puzzles/**/*.{png,jpg,jpeg,PNG}')
+  gulp.src('./puzzles/**/*.{png,jpg,jpeg,PNG,JPG}')
         .pipe(gm(function (gmfile) {
           return gmfile.resize(180, 180);
         }))
