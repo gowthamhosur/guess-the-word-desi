@@ -1,19 +1,5 @@
 .level-success-popup{
-	.popup{
-		background-color: transparent !important;
-  		background-image: radial-gradient(circle 313px at 50% 36%, rgba(24, 15, 58,0.6) 0%, #180f3a 76%);
-	    width:100% !important;
-	    height: 100% !important;
-	    max-height: 100% !important;
-	}
-	.popup-head{
-		display: none;
-	}
-	.popup-body{
-		text-align: center;
-	    height: 100%;
-	    padding: 0;
-	    .congrats-wrapper{
+	.congrats-wrapper{
 	    	width: 100%;
 		    position: absolute;
 		    top: 5%;
@@ -31,7 +17,21 @@
 		    color: #322955;
 		    font-family: Helvetica;
     		font-weight: 700;
-	    }
+	}
+	.popup{
+		background-color: transparent !important;
+  		background-image: radial-gradient(circle 313px at 50% 36%, rgba(24, 15, 58,0.6) 0%, #180f3a 76%);
+	    width:100% !important;
+	    height: 100% !important;
+	    max-height: 100% !important;
+	}
+	.popup-head{
+		display: none;
+	}
+	.popup-body{
+		text-align: center;
+	    height: 100%;
+	    padding: 0;
 	    .btn-wrapper{
 	    	position: absolute;
 		    top: 75%;
@@ -177,7 +177,7 @@
 	    margin: 9px 8px;
 	}
 	.language:not(:first-child){
-		font-size: 22px;
+		font-size: 24px;
 	}
 	.choose{
 		display: block;
