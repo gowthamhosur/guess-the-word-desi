@@ -1,13 +1,13 @@
 gameModule.constant('gameConstants', {
-	initialLanguage: 'telugu',
+	initialLanguage: 'english',
 	initialLevel: 1,
 	totalLevels: 30,
-	initialCoins: 400,
-	helpCoins: 60,
-	skipCoins: 180,
-	levelCoins: 50,
+	initialCoins: 50,
+	helpCoins: 30,
+	skipCoins: 80,
+	levelCoins: 10,
 	maxChoosableLetters: 12,
-	adsOnEveryNthLevel: 3,
+	adsOnEveryNthLevel: 5,
 	imageSet: ["0","1","2","3"],
 	salt: "neroachilles"
 });
