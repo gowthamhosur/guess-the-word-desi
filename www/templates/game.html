@@ -5,8 +5,11 @@
           <div class="game-content">
 
             <div class="content-pics-wrapper">
-              <div class="content-pic" ng-repeat="imageUrl in gameVm.puzzleImages">
+              <div class="content-pic" ng-repeat="imageUrl in gameVm.puzzleImages" ng-click="gameVm.zoomInImage(imageUrl)" ng-show="!gameVm.showFullImage">
                 <img ng-src="img/puzzles/{{imageUrl}}.jpg" />
+              </div>
+              <div class="content-full-image" ng-show="gameVm.showFullImage" ng-click="gameVm.showFullImage = !gameVm.showFullImage">
+                <img ng-src="img/puzzles/{{gameVm.zoomInImageUrl}}.jpg">
               </div>
             </div>
 
