@@ -46,8 +46,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function zoomInImage(imageUrl) {
-    console.log("Clicking this");
-    console.log(imageUrl);
     vm.zoomInImageUrl = imageUrl;
     vm.showFullImage = true;
   }
