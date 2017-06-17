@@ -32,7 +32,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
            letterBucket: puzzleData[1].data[vm.currentLanguage]
     };
 
-    loadCurrentlevel();
+    loadCurrentlevel(true);
 
   })
 
@@ -50,7 +50,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     vm.showFullImage = true;
   }
 
-
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
@@ -60,11 +59,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     }
     if(vm.currentLevel){
       vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
-      loadCurrentlevel();
+      loadCurrentlevel(false);
     }
   });
 
-  function loadCurrentlevel(){
+  function loadCurrentlevel(firstCall){
     if(vm.puzzleData){
       if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
         vm.solution  = getSolutionLetters( vm.puzzleData["solutions"][vm.currentLevel] );
@@ -74,9 +73,20 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
       }
       else{
+
         vm.solution  = vm.cachedPuzzleData.solution;
         vm.choosableLetters = vm.cachedPuzzleData.choosableLetters;
         vm.selectedLetters = vm.cachedPuzzleData.selectedLetters;
+
+        if(firstCall){
+          //Removing non affixed selected letters in cache
+          vm.selectedLetters.forEach(function(value,index){
+              if(!value.affixed){
+                onSelectedClick(index);
+              }
+          });
+
+        }
       }
     }
   }
@@ -171,8 +181,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function onSelectedClick(index){
-    if(!vm.selectedLetters[index].affixed){
-      var hostIndex = vm.selectedLetters[index].hostIndex;
+    var hostIndex = vm.selectedLetters[index].hostIndex;
+    if(!vm.selectedLetters[index].affixed && hostIndex){
       vm.selectedLetters[index].letter = emptyLetter;
       vm.choosableLetters[hostIndex].active = true;
       vm.allSelected = false;
@@ -180,18 +190,24 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     }
   }
 
- function onHelpClick() {
-    if(vm.currentCoins > gameConstants.helpCoins) {
+ function onHelpClick($event) {
 
-      var onConfirm = function() {
-        revealLetter();
+    var callback = function() {
+      if(vm.currentCoins > gameConstants.helpCoins) {
+
+        var onConfirm = function() {
+          revealLetter();
+        }
+
+        confirmPopup(onConfirm, 'Reveal a letter for ' + gameConstants.helpCoins + ' coins?');
+
+      } else {
+        alertPopup("Insufficient coins");
       }
-
-      confirmPopup(onConfirm, 'Reveal a letter for ' + gameConstants.helpCoins + ' coins?');
-
-    } else {
-      alertPopup("Insufficient coins");
     }
+
+    gameService.clickEffect($event.currentTarget, callback);
+
   }
 
 
@@ -243,25 +259,29 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   };
 
-  function onSkipClick() {
-    if(vm.currentLevel === gameConstants.totalLevels) {
-      alertPopup("Cannot skip final level");
+  function onSkipClick($event) {
+    var callback = function () {
+      if(vm.currentLevel === gameConstants.totalLevels) {
+        alertPopup("Cannot skip final level");
+      }
+      else if(vm.currentCoins > gameConstants.skipCoins) {
+
+        var onConfirm = function() {
+             skipLevel();
+             userGameData.getUserData().then(function (value) {
+                vm.currentLevel = value.currentLevel;
+                vm.currentCoins = value.currentCoins;
+              });
+           }
+
+        confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?')
+
+      } else {
+        alertPopup("Insufficient coins");
+      }
     }
-    else if(vm.currentCoins > gameConstants.skipCoins) {
 
-      var onConfirm = function() {
-           skipLevel();
-           userGameData.getUserData().then(function (value) {
-              vm.currentLevel = value.currentLevel;
-              vm.currentCoins = value.currentCoins;
-            });
-         }
-
-      confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?')
-
-    } else {
-      alertPopup("Insufficient coins");
-    }
+    gameService.clickEffect($event.currentTarget, callback);
   }
 
   function skipLevel() {

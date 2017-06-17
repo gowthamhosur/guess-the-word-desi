@@ -67,6 +67,7 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
       solution: solution,
       currentLevel: currentLevel
     }
+
     $cordovaNativeStorage.setItem("puzzleData", setData);
   }
 

@@ -98,10 +98,12 @@ html,body {
     box-shadow: 1px 3px 5px rgba(0,0,0,0.5);
 }
 .content-full-image {
-  margin: 6% 2%;
+  width: 92%;
+  height: 92%;
+  margin: 2%;
   img {
-    height: 22rem;
-    width: 20rem;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     border: 2px solid white;
     border-radius: 15px;

@@ -60,6 +60,11 @@ button{
       }
   }
 }
+.shrink{
+  img{
+    transform: scale(0.9);
+  }
+}
 // Include all of Ionic
 @import "ionic/ionic.scss";
 

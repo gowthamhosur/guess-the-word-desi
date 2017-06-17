@@ -15,13 +15,13 @@
 
             <div class="content-sel-letters-wrapper">
               <div class="content-sel-letters-inner">
-                <button ion-button class="icon-wrap float-left "><img src="img/icons/hint-btn.png" class="icon icon-help" ng-click="gameVm.onHelpClick()"></img></button>
+                <button ion-button class="icon-wrap float-left " ng-click="gameVm.onHelpClick($event)"><img src="img/icons/hint-btn.png" class="icon icon-help" ></img></button>
 
                  <button ion-button class="content-letter" ng-class="{affixed: value.affixed, animated:gameVm.allSelected, shake: gameVm.allSelected}" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
                   <span>{{value.letter}}</span>
                 </button>
 
-                <button class="icon-wrap float-right"><img src="img/icons/skip-btn.png" class="icon icon-skip" ng-click="gameVm.onSkipClick()"></button>
+                <button class="icon-wrap float-right" ng-click="gameVm.onSkipClick($event)"><img src="img/icons/skip-btn.png" class="icon icon-skip" ></button>
               </div>
             </div>
 

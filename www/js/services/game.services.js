@@ -2,9 +2,9 @@
 
 gameModule.factory('gameService', gameService);
 
-gameService.$inject = ['$http', '$q', 'userGameData', 'gameConstants', '$window'];
+gameService.$inject = ['$http', '$q', 'userGameData', 'gameConstants', '$window', '$timeout'];
 
-function gameService($http, $q, userGameData, gameConstants, $window){
+function gameService($http, $q, userGameData, gameConstants, $window, $timeout){
 
 
 	function getPuzzleData(){
@@ -60,6 +60,15 @@ function gameService($http, $q, userGameData, gameConstants, $window){
 	    return value == "true";
 	}
 
+	function clickEffect(element, callback) {
+		angular.element(element).addClass("shrink");
+
+		$timeout(function() {
+				angular.element(element).removeClass("shrink");
+				callback();
+		}, 200);
+	}
+
 	var service = {
     getPuzzleData: getPuzzleData,
     getPuzzleImages: getPuzzleImages,
@@ -67,7 +76,8 @@ function gameService($http, $q, userGameData, gameConstants, $window){
     shuffle: shuffle,
     getCopy: getCopy,
     setInitialRun: setInitialRun,
-    isInitialRun: isInitialRun
+    isInitialRun: isInitialRun,
+    clickEffect: clickEffect
   };
 
   return service;

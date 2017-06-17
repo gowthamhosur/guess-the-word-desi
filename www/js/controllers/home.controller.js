@@ -8,6 +8,7 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 	var vm = this;
 	vm.onPlayClick = onPlayClick;
 	vm.onLanguageClick = onLanguageClick;
+	vm.onAdClick = onAdClick;
 	vm.changeLanguage = changeLanguage;
 
 	var languagePopup;
@@ -22,6 +23,7 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 
 		});
 
+		//Initializing ads after 500ms
 		$timeout(function(){
 			userGameData.getShowAds().then(function(showAds){
 				if(showAds) {
@@ -29,9 +31,10 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 				}
 			});
 
+			//Auto triggering popup on first run
 			if (gameService.isInitialRun()) {
 			    gameService.setInitialRun(false);
-			    vm.onLanguageClick();
+			    vm.onLanguageClick({currentTarget:null});
 			}
 
 		},500)
@@ -45,18 +48,27 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 		}, 300);
 	}
 
-	function onLanguageClick(){
-		languagePopup = $ionicPopup.alert({
-	       cssClass: 'primary-popup language-popup',
-	       templateUrl: 'templates/popup/language.html',
-	       scope: $scope,
-	       okText: ' '
-	     });
+	function onLanguageClick($event){
 
-		$scope.closeConfirm = function(){
-	        languagePopup.close();
-	    }
+		gameService.clickEffect($event.currentTarget, function(){
+				languagePopup = $ionicPopup.alert({
+					       cssClass: 'primary-popup language-popup',
+					       templateUrl: 'templates/popup/language.html',
+					       scope: $scope,
+					       okText: ' '
+				});
 
+				$scope.closeConfirm = function(){
+				    languagePopup.close();
+				}
+			}
+	    );
+	}
+
+	function onAdClick($event){
+		gameService.clickEffect($event.currentTarget, function(){
+			return;
+		});
 	}
 
 	function changeLanguage(language) {

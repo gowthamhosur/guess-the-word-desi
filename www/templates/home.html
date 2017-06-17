@@ -22,13 +22,13 @@
 				  	</div>
 
 				  	<div class="home-btn-icons-wrap">
-				  		<button ion-button class="icon-wrap float-left icon-ad-correction">
+				  		<button ion-button class="icon-wrap float-left icon-ad-correction" ng-click="homeVm.onAdClick($event)">
 				  			<div><img src="img/icons/speaker.png" class="icon icon-ads" ></img>
 				  				<span>Ads</span>
 				  			</div>
 				  		</button>
 
-				  		<button ion-button class="icon-wrap float-right " ng-click="homeVm.onLanguageClick()">
+				  		<button ion-button class="icon-wrap float-right " ng-click="homeVm.onLanguageClick($event)">
 						  	<div><img src="img/icons/language.png"  class="icon icon-language"></img>
 						  		<span>Language</span>
 					  		</div>
