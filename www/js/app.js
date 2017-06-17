@@ -1,4 +1,6 @@
-var gameModule = angular.module('game4p1w', ['ionic', 'ionic.native', 'ngCordova.plugins.nativeStorage','countUpModule'])
+var gameModule = angular.module('game4p1w', ['ionic', 'ionic.native', 'ngCordova.plugins.nativeStorage','countUpModule']);
+
+var appVersion = undefined;
 
 gameModule.config(function($ionicConfigProvider) {
   $ionicConfigProvider.views.maxCache(0);
@@ -18,6 +20,11 @@ gameModule.run(function($ionicPlatform) {
     }
     if(window.StatusBar) {
       StatusBar.hide();
+    }
+    if(window.cordova){
+      cordova.getAppVersion(function(version) {
+        appVersion = version;
+      });
     }
   });
 

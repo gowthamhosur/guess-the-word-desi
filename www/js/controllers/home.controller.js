@@ -37,6 +37,12 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 			    vm.onLanguageClick({currentTarget:null});
 			}
 
+			if(appVersion != undefined && appVersion != gameService.getVersion()){
+				//App updated
+				console.log(appVersion);
+				gameService.setVersion(appVersion);
+			}	
+
 		},500)
 
 

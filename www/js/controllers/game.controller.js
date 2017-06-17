@@ -45,11 +45,6 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   }
 
-  function zoomInImage(imageUrl) {
-    vm.zoomInImageUrl = imageUrl;
-    vm.showFullImage = true;
-  }
-
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
@@ -193,7 +188,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
  function onHelpClick($event) {
 
     var callback = function() {
-      if(vm.currentCoins > gameConstants.helpCoins) {
+      if(vm.currentCoins >= gameConstants.helpCoins) {
 
         var onConfirm = function() {
           revealLetter();
@@ -264,7 +259,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       if(vm.currentLevel === gameConstants.totalLevels) {
         alertPopup("Cannot skip final level");
       }
-      else if(vm.currentCoins > gameConstants.skipCoins) {
+      else if(vm.currentCoins >= gameConstants.skipCoins) {
 
         var onConfirm = function() {
              skipLevel();
@@ -349,6 +344,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     $timeout(function() {
       count.start();
     }, 400);
+  }
+
+  function zoomInImage(imageUrl) {
+    vm.zoomInImageUrl = imageUrl;
+    vm.showFullImage = true;
   }
 
 }

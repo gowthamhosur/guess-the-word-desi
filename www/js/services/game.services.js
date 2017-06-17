@@ -60,6 +60,14 @@ function gameService($http, $q, userGameData, gameConstants, $window, $timeout){
 	    return value == "true";
 	}
 
+	function setVersion (version) {
+	    $window.localStorage["appVersion"] = version;
+	}
+	 
+	function getVersion() {
+	    return $window.localStorage["appVersion"];
+	}
+
 	function clickEffect(element, callback) {
 		angular.element(element).addClass("shrink");
 
@@ -77,6 +85,8 @@ function gameService($http, $q, userGameData, gameConstants, $window, $timeout){
     getCopy: getCopy,
     setInitialRun: setInitialRun,
     isInitialRun: isInitialRun,
+    setVersion: setVersion,
+    getVersion: getVersion,
     clickEffect: clickEffect
   };
 
