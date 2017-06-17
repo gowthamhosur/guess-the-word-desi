@@ -11,6 +11,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   vm.onHelpClick = onHelpClick;
   vm.onSkipClick = onSkipClick;
   vm.animateCoins = animateCoins;
+  vm.zoomInImage = zoomInImage;
+  vm.showFullImage = false;
 
   var emptyLetter = " ";
 
@@ -22,8 +24,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         puzzleData = arrayOfResults[3];
 
     vm.currentLevel = userData.currentLevel;
-    vm.currentCoins = userData.currentCoins;  
-    vm.currentLanguage = languageData;   
+    vm.currentCoins = userData.currentCoins;
+    vm.currentLanguage = languageData;
     vm.cachedPuzzleData = cachedPuzzleData;
     vm.puzzleData = {
            solutions: puzzleData[0].data[vm.currentLanguage],
@@ -36,11 +38,16 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
 
   function loadInitData () {
-      return  $q.all( [ userGameData.getUserData() , 
-                         userGameData.getLanguage() , 
-                         userGameData.getCachedPuzzleData() , 
+      return  $q.all( [ userGameData.getUserData() ,
+                         userGameData.getLanguage() ,
+                         userGameData.getCachedPuzzleData() ,
                          gameService.getPuzzleData() ])
 
+  }
+
+  function zoomInImage(imageUrl) {
+    vm.zoomInImageUrl = imageUrl;
+    vm.showFullImage = true;
   }
 
 
@@ -133,8 +140,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
         }
       })
     }, 700);
-   }   
-    
+   }
+
 
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){
@@ -277,7 +284,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     $scope.closeConfirm = function(){
         confirmPopup.close();
     }
-    
+
     confirmPopup.then(function(res){
       if(res) {
         onConfirm()
@@ -312,11 +319,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       return b + c * (tc + -3 * ts + 3 * t);
     }
     var options = {
-      useEasing : true, 
-      easingFn: easingFn, 
-      useGrouping : true, 
-      separator : ',', 
-      decimal : '.', 
+      useEasing : true,
+      easingFn: easingFn,
+      useGrouping : true,
+      separator : ',',
+      decimal : '.',
     };
     var count = new CountUp("coins", vm.currentCoins, vm.currentCoins + gameConstants.levelCoins , 0, 1, options);
     $timeout(function() {
