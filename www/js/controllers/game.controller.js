@@ -92,11 +92,22 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function getChoosableLetters(letterBucket, solutions) {
-    var filteredBucket = gameService.filterLetterBucket(letterBucket, gameConstants.maxChoosableLetters - solutions.length);
-    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
+    var randomWord = solutions.length > 6 ? [] : getRandomWord();
+    var randomLettersReq = gameConstants.maxChoosableLetters - solutions.length - randomWord.length;
+    var filteredBucket = gameService.filterLetterBucket(letterBucket, randomLettersReq);
+    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions).concat(randomWord) );
     return wrapLetters(choosableLetters);
   }
 
+  function getRandomWord() {
+    var randomLevel = Math.floor(Math.random() * gameConstants.totalLevels);
+    if(randomLevel == vm.currentLevel)
+      getRandomWord();
+    else {
+      return getSolutionLetters( vm.puzzleData["solutions"][randomLevel] );
+    }
+
+  }
 
   // Returns an object of array elements
   function wrapLetters(letters) {
