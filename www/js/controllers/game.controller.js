@@ -32,7 +32,12 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
            letterBucket: puzzleData[1].data[vm.currentLanguage]
     };
 
-    loadCurrentlevel(true);
+    if (vm.currentLevel > gameConstants.totalLevels) {
+        return $state.transitionTo('success', null, {reload: true, notify:true});
+    } else {
+      loadCurrentlevel(true);
+    }
+
 
   })
 
@@ -92,7 +97,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function getChoosableLetters(letterBucket, solutions) {
-    var randomWord = solutions.length > 6 ? [] : getRandomWord();
+    var randomWord = vm.currentLanguage == "english" ? [] : getRandomWord();
     var randomLettersReq = gameConstants.maxChoosableLetters - solutions.length - randomWord.length;
     var filteredBucket = gameService.filterLetterBucket(letterBucket, randomLettersReq);
     var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions).concat(randomWord) );
