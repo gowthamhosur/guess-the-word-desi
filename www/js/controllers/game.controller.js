@@ -193,7 +193,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   function onSelectedClick(index){
     var hostIndex = vm.selectedLetters[index].hostIndex;
-    if(!vm.selectedLetters[index].affixed && hostIndex){
+    if( !vm.selectedLetters[index].affixed && !isNaN(hostIndex) ){
       vm.selectedLetters[index].letter = emptyLetter;
       vm.choosableLetters[hostIndex].active = true;
       vm.allSelected = false;
