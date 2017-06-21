@@ -83,7 +83,7 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 			userGameData.getLevelProgress().then(function(levelProgress){
 				userGameData.setUserData(levelProgress[language]);
 			})
-			userGameData.resetCahcedPuzzleData();
+			userGameData.setCachedPuzzleData({});
 			setGameLanguage(language);
 		}
 		languagePopup.close();

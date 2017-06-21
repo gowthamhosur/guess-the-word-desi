@@ -5,9 +5,9 @@
 		</span>
 	</div>
 	<div class="solution-wrapper">
-			<div class="content-letter" ng-repeat="(key,value) in ::gameVm.selectedLetters track by $index ">
+			<button ion-button class="content-letter" ng-repeat="(key,value) in ::gameVm.selectedLetters track by $index ">
 	            <span>{{::value.letter}}</span>
-	         </div>
+	         </button>
 	</div>
 	<div class="points-wrapper">
 		<span>

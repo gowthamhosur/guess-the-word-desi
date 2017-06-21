@@ -105,7 +105,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function getRandomWord() {
-    var randomLevel = Math.floor(Math.random() * gameConstants.totalLevels);
+    var randomLevel = Math.floor(Math.random() * gameConstants.totalLevels - 1) + 1;
     if(randomLevel == vm.currentLevel)
       getRandomWord();
     else {
