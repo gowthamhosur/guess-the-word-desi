@@ -2,15 +2,24 @@
 
 gameModule.controller('successController', successController);
 
-function successController(userGameData,gameConstants,$ionicPlatform, $state, $scope) {
+function successController(userGameData,gameConstants,$ionicPlatform, $state, $scope, $timeout) {
   var vm = this;
-  vm.playAgain = playAgain;
+  vm.onPlayAgainClick = onPlayAgainClick;
 
-  function playAgain() {
-    userGameData.setUserData(gameConstants.initialLevel,gameConstants.initialCoins);
+  function onPlayAgainClick() { 
+    $timeout(function(){
+        userGameData.setUserData(gameConstants.initialLevel,undefined, vm.currentLanguage);
+        $state.transitionTo('game', null, {reload: true, notify:true});
+         }, 300);
   }
+  
 
   $ionicPlatform.ready(function(){
+
+    userGameData.getLanguage().then(function (language) {
+        vm.currentLanguage = language;
+    });
+
 	  var backButton = $ionicPlatform.registerBackButtonAction(
 	        function() {
 	          $state.transitionTo('home', null, {reload: true, notify:true});

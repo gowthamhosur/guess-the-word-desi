@@ -77,16 +77,20 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 		});
 	}
 
-	function changeLanguage(language) {
-		if(vm.currentLanguage != language){
-			userGameData.setLanguage(language);
-			userGameData.getLevelProgress().then(function(levelProgress){
-				userGameData.setUserData(levelProgress[language]);
-			})
-			userGameData.setCachedPuzzleData({});
-			setGameLanguage(language);
-		}
-		languagePopup.close();
+	function changeLanguage($event, language) {
+		gameService.clickEffect($event.currentTarget, function(){
+			if(vm.currentLanguage != language){
+				userGameData.setLanguage(language);
+				userGameData.getLevelProgress().then(function(levelProgress){
+					userGameData.setUserData(levelProgress[language]);
+				})
+				userGameData.setCachedPuzzleData({});
+				setGameLanguage(language);
+			}
+			languagePopup.close();
+			return;
+		});
+		
 	}
 
 	function setGameLanguage(language){

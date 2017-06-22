@@ -285,7 +285,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
               });
            }
 
-        confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?')
+        confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?');
+        // onConfirm();
 
       } else {
         alertPopup("Insufficient coins");

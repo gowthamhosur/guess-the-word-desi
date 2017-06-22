@@ -84,7 +84,7 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
     }
 
     if(language) {
-      getLanguage().then(function(data){
+      getLevelProgress().then(function(data){
         data[language] = level;
         setStorageItem(LEVEL_PROGRESS, data)
       })
