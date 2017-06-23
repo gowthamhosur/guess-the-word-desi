@@ -97,21 +97,11 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function getChoosableLetters(letterBucket, solutions) {
-    var randomWord = vm.currentLanguage == "english" ? [] : getRandomWord();
-    var randomLettersReq = gameConstants.maxChoosableLetters - solutions.length - randomWord.length;
+    var randomLettersReq = gameConstants.maxChoosableLetters - solutions.length;
     var filteredBucket = gameService.filterLetterBucket(letterBucket, randomLettersReq);
-    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions).concat(randomWord) );
+    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
+    choosableLetters = gameService.breakConsecutive( choosableLetters, solutions);
     return wrapLetters(choosableLetters);
-  }
-
-  function getRandomWord() {
-    var randomLevel = Math.floor(Math.random() * gameConstants.totalLevels - 1) + 1;
-    if(randomLevel == vm.currentLevel)
-      getRandomWord();
-    else {
-      return getSolutionLetters( vm.puzzleData["solutions"][randomLevel] );
-    }
-
   }
 
   // Returns an object of array elements
@@ -285,8 +275,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
               });
            }
 
-        confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?');
-        // onConfirm();
+        // confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?');
+        onConfirm();
 
       } else {
         alertPopup("Insufficient coins");

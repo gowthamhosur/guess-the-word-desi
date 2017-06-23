@@ -48,7 +48,35 @@ function gameService($http, $q, userGameData, gameConstants, $window, $timeout){
 			array[i - 1] = array[j];
 			array[j] = x;
 		}
+
 		return array;
+	}
+
+	function breakConsecutive(array, solutions) {
+		//This function is to check if first two letters of solution are positioned conescutively,
+		//and if so break them by swapping letters
+
+		solutions = solutions.slice(0,2);
+
+		var arraySubset =[]
+		for (var i = 0; i < array.length - 1; i++) {
+			arraySubset[0] = array[i];
+			arraySubset[1] = array[i+1];
+
+			if( areArraysEqual(arraySubset , solutions) ) {
+				array[i] = arraySubset[1];
+				array[i+1] = arraySubset[0];
+			}
+		}
+
+		return array;
+	}
+
+	function areArraysEqual(array1, array2) {
+		return (array1.length == array2.length) && array1.every(function(element, index) {
+		    return element === array2[index]; 
+		});
+
 	}
 
 	function setInitialRun (initial) {
@@ -82,6 +110,7 @@ function gameService($http, $q, userGameData, gameConstants, $window, $timeout){
     getPuzzleImages: getPuzzleImages,
     filterLetterBucket: filterLetterBucket,
     shuffle: shuffle,
+    breakConsecutive: breakConsecutive,
     getCopy: getCopy,
     setInitialRun: setInitialRun,
     isInitialRun: isInitialRun,
