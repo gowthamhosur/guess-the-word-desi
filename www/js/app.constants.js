@@ -1,7 +1,7 @@
 gameModule.constant('gameConstants', {
 	initialLanguage: 'english',
 	initialLevel: 1,
-	totalLevels: 45,
+	totalLevels: 50,
 	initialCoins: 120,
 	helpCoins: 30,
 	skipCoins: 0,
