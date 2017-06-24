@@ -39,7 +39,6 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 
 			if(appVersion != undefined && appVersion != gameService.getVersion()){
 				//App updated
-				console.log(appVersion);
 				gameService.setVersion(appVersion);
 			}	
 
