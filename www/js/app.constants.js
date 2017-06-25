@@ -9,6 +9,7 @@ gameModule.constant('gameConstants', {
 	maxChoosableLetters: 12,
 	adsOnEveryNthLevel: 5,
 	imageSet: ["0","1","2","3"],
-	salt: "neroachilles"
+	salt: "neroachilles",
+	showAds: false
 });
 
