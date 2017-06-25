@@ -1,0 +1,16 @@
+<div>
+	<span class="choose">Buy Coins</span>
+	<div class ="purchase-wrapper">
+		<div class="purchase-bundles" ng-hide="homeVm.cannotPurchase">
+			<div ng-repeat="product in homeVm.products" class="bundle-wrap">
+			  <img src="img/icons/coins-icon.png"> 
+			  <span class="price">{{product.title}}</span>
+			  <span class="no-ads"> + No Ads</span> 
+			  <button ion-button class="buy" ng-click="buyProduct($event, product.productId)" > {{product.price}}</button>
+			</div>
+		</div>
+		<div ng-show="homeVm.cannotPurchase" class="cannot-purchase">Cannot make a purchase now, please try again later</div>
+	</div>
+	<img class="close-popup" src="img/icons/popup-close.png" ng-click="closeConfirm()">
+</div>
+

@@ -154,12 +154,6 @@
 }
 
 .language-popup{
-	.popup{
-		padding: 20px 0;
-	}
-	.popup-body{
-		padding: 0
-	}
 	.language{
 		font-size: 20px;
 	    color: white;
@@ -181,10 +175,79 @@
 	.language:not(:first-child){
 		font-size: 24px;
 	}
+}
+
+.purchase-popup{
+	.purchase-wrapper{
+		.cannot-purchase{
+			box-shadow: -1px 6px 11px rgba(0,0,0,0.2), -1px -6px 11px rgba(0,0,0,0.2);
+			background-color: rgba(0,0,0,0.2);
+		    margin-bottom: 15px;
+		    font-size: 18px;
+		    font-weight: 500;
+		    padding: 10px;
+		    color: white;
+		}
+	}
+	.bundle-wrap{
+		box-shadow: -1px 2px 6px rgba(0, 0, 0, 0.2), -1px -2px 6px rgba(0, 0, 0, 0.2);
+	    background-color: rgba(0, 0, 0, 0.2);
+	    margin-bottom: 15px;
+	    font-size: 18px;
+	    font-weight: 500;
+	    color: white;
+	    height: 50px;
+	    .price {
+	    	color: #fdb01e;
+	    	width: 40px;
+	    	text-align: left;
+	    }
+		.no-ads{
+			margin-left: 5px;
+			font-size: 14px;
+		}
+		img{
+			width: 40px;
+		    float: left;
+		    margin: 3px 5px;
+		    margin-left: 5%;
+		}
+		span{
+			line-height: 50px;
+			float: left
+		}
+		.buy {
+			color: white;
+			background-color: #9FCC2E;
+			padding: 0px;
+			border-radius: 10px;
+			text-shadow: 5px 2px 10px black;
+			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
+			border: 2px solid white;
+			width: 75px;
+			height: 35px;
+			display: inline-block;
+			word-wrap: normal;
+			margin: 9px 8px;
+			font-size: 18px;
+			&.shrink{
+				transform: scale(0.9);
+			}
+		}
+	}
+}
+
+.purchase-popup, .language-popup{
+	.popup{
+		padding: 20px 0;
+	}
+	.popup-body{
+		padding: 0
+	}
 	.choose{
 		display: block;
 	    font-size: 20px;
-	    color: white;
+	    color: #fdb01e;
 	    letter-spacing: 1px;
 	    font-weight: bold;
 	    margin-bottom: 20px;
