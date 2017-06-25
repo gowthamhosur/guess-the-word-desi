@@ -199,11 +199,10 @@
 	    height: 50px;
 	    .price {
 	    	color: #fdb01e;
-	    	width: 40px;
+	    	width: 45px;
 	    	text-align: left;
 	    }
 		.no-ads{
-			margin-left: 5px;
 			font-size: 14px;
 		}
 		img{
@@ -227,8 +226,9 @@
 			width: 75px;
 			height: 35px;
 			display: inline-block;
-			word-wrap: normal;
-			margin: 9px 8px;
+			float: right;
+			margin-right: 10px;
+			margin-top: 7px;
 			font-size: 18px;
 			&.shrink{
 				transform: scale(0.9);

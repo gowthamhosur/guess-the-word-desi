@@ -13,9 +13,10 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 
 	var languagePopup, purchasePopup;
 
-	// vm.products = [	{productId: 'guesstheworddesi_first_bundle_coins', title: '500', price: '50 Rs'}, 
-	// 				{productId: 'guesstheworddesi_second_bundle_coins', title: '1500', price: '100 Rs'},
-	// 				{productId: 'guesstheworddesi_third_bundle_coins', title: '2500', price: '125 Rs'}];
+	//Stub data
+	// vm.products = tuneProducts( [{productId: 'guesstheworddesi_first_bundle_coins', title: '500 (Guess the word)', price: '50 Rs'}, 
+					// {productId: 'guesstheworddesi_second_bundle_coins', title: '1500 (Guess the word)', price: '100 Rs'},
+					// {productId: 'guesstheworddesi_third_bundle_coins', title: '2500 (Guess the word)', price: '125 Rs'}] );
 
 	$ionicPlatform.ready(function(){
 		gameService.getCopy().then(function(response){
@@ -92,7 +93,9 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 				inAppPurchase
 				  .getProducts(gameConstants.productIds)
 				  .then(function (products) {
-				    vm.products = products;
+				  	$scope.$apply(function () {
+				    	vm.products = tuneProducts(products);
+				  	});
 				  })
 				  .catch(function () {
 				    vm.cannotPurchase = true;
@@ -106,15 +109,19 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 					if(typeof inAppPurchase !== 'undefined') {
 						inAppPurchase
 						  .buy(productId)
-						  .then(function(){
+						  .then(function(data){
 						  	var setCoins = vm.currentCoins + gameConstants.bundles[productId];
 						  	isNaN(setCoins)? null : userGameData.setUserData(vm.currentLevel, setCoins);
 						  	userGameData.setShowAds(false);
-						    return inAppPurchase.consume(productId); 
+						    return inAppPurchase.consume(data.type, data.receipt, data.signature); 
 						  })
 						  .then(function(){
 						  	purchasePopup.close();
-						  });
+						  })
+						  .catch(function (err) {
+						      alert("Please try again later");
+						      purchasePopup.close();
+						   });
 					}
 					else{
 						alert("Please try again later");
@@ -126,10 +133,16 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 			    purchasePopup.close();
 			}
 
-			// vm.cannotPurchase = false;
+			 // vm.cannotPurchase = false;
 		});
 	}
 
+	function tuneProducts(products) {
+		return products.map(function(item){
+			item.title = item.title.replace(/ *\([^)]*\) */g, "");
+			return item;
+		})
+	}
 	function changeLanguage($event, language) {
 		gameService.clickEffect($event.currentTarget, function(){
 			if(vm.currentLanguage != language){
