@@ -7,8 +7,9 @@ function successController(userGameData,gameConstants,$ionicPlatform, $state, $s
   vm.onPlayAgainClick = onPlayAgainClick;
 
   function onPlayAgainClick() { 
+    userGameData.setUserData(gameConstants.initialLevel,undefined, vm.currentLanguage);
+    userGameData.setCachedPuzzleData({});
     $timeout(function(){
-        userGameData.setUserData(gameConstants.initialLevel,undefined, vm.currentLanguage);
         $state.transitionTo('game', null, {reload: true, notify:true});
          }, 300);
   }

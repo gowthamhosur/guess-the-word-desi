@@ -146,7 +146,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
    if( level % gameConstants.adsOnEveryNthLevel === 0 ) {
     $timeout(function(){
       userGameData.getShowAds().then(function(showAds){
-        if(showAds) {
+        if(showAds && gameConstants.showAds) {
           AdMob.showInterstitial()
         }
       })

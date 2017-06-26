@@ -19,6 +19,11 @@
 			    	font-weight: 700;
 			    	color: #3c3c3c;
 			    }
+			    &.affixed {
+			    	span{
+			    		color: white;
+			    	}
+			    }
 			}
 		}
 		.content-letter{

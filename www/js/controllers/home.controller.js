@@ -11,7 +11,12 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 	vm.onAdClick = onAdClick;
 	vm.changeLanguage = changeLanguage;
 
-	var languagePopup;
+	var languagePopup, purchasePopup;
+
+	//Stub data
+	// vm.products = tuneProducts( [{productId: 'guesstheworddesi_first_bundle_coins', title: '500 (Guess the word)', price: '50 Rs'}, 
+					// {productId: 'guesstheworddesi_second_bundle_coins', title: '1500 (Guess the word)', price: '100 Rs'},
+					// {productId: 'guesstheworddesi_third_bundle_coins', title: '2500 (Guess the word)', price: '125 Rs'}] );
 
 	$ionicPlatform.ready(function(){
 		gameService.getCopy().then(function(response){
@@ -20,6 +25,11 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 			userGameData.getLanguage().then(function (language) {
 			    setGameLanguage(language);
 			});
+
+			userGameData.getUserData().then(function( userData){
+				vm.currentLevel = userData.currentLevel;
+				vm.currentCoins = userData.currentCoins;
+			})
 
 		});
 
@@ -39,7 +49,6 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 
 			if(appVersion != undefined && appVersion != gameService.getVersion()){
 				//App updated
-				console.log(appVersion);
 				gameService.setVersion(appVersion);
 			}	
 
@@ -73,10 +82,67 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 
 	function onAdClick($event){
 		gameService.clickEffect($event.currentTarget, function(){
-			return;
+			purchasePopup = $ionicPopup.alert({
+				       cssClass: 'primary-popup purchase-popup',
+				       templateUrl: 'templates/popup/purchase.html',
+				       scope: $scope,
+				       okText: ' '
+			});
+
+			if(typeof inAppPurchase !== 'undefined') {
+				inAppPurchase
+				  .getProducts(gameConstants.productIds)
+				  .then(function (products) {
+				  	$scope.$apply(function () {
+				    	vm.products = tuneProducts(products);
+				  	});
+				  })
+				  .catch(function () {
+				    vm.cannotPurchase = true;
+				  });
+			} else {
+				vm.cannotPurchase = true;
+			}
+
+			$scope.buyProduct = function($event, productId){
+				gameService.clickEffect($event.currentTarget, function(){
+					if(typeof inAppPurchase !== 'undefined') {
+						inAppPurchase
+						  .buy(productId)
+						  .then(function(data){
+						  	var setCoins = vm.currentCoins + gameConstants.bundles[productId];
+						  	isNaN(setCoins)? null : userGameData.setUserData(vm.currentLevel, setCoins);
+						  	userGameData.setShowAds(false);
+						    return inAppPurchase.consume(data.type, data.receipt, data.signature); 
+						  })
+						  .then(function(){
+						  	purchasePopup.close();
+						  })
+						  .catch(function (err) {
+						      alert("Please try again later");
+						      purchasePopup.close();
+						   });
+					}
+					else{
+						alert("Please try again later");
+						purchasePopup.close();
+					}
+				});
+			}
+			$scope.closeConfirm = function(){
+			    purchasePopup.close();
+			}
+
+			 // vm.cannotPurchase = false;
 		});
 	}
 
+	function tuneProducts(products) {
+		return products.map(function(item){
+			item.title = item.title.replace(/ *\([^)]*\) */g, "");
+			return item;
+		})
+	}
 	function changeLanguage($event, language) {
 		gameService.clickEffect($event.currentTarget, function(){
 			if(vm.currentLanguage != language){
