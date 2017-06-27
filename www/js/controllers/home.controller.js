@@ -95,13 +95,16 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 				  .then(function (products) {
 				  	$scope.$apply(function () {
 				    	vm.products = tuneProducts(products);
+				    	vm.loadingOver = true;
 				  	});
 				  })
 				  .catch(function () {
 				    vm.cannotPurchase = true;
+				    vm.loadingOver = true;
 				  });
 			} else {
 				vm.cannotPurchase = true;
+				vm.loadingOver = true;
 			}
 
 			$scope.buyProduct = function($event, productId){

@@ -9,6 +9,9 @@
 			  <button ion-button class="buy" ng-click="buyProduct($event, product.productId)" > {{product.price}}</button>
 			</div>
 		</div>
+		<div class="loader-wrap" ng-hide="homeVm.loadingOver">
+			<div class="loader"></div>
+		</div>
 		<div ng-show="homeVm.cannotPurchase" class="cannot-purchase">Cannot make a purchase now, please try again later</div>
 	</div>
 	<img class="close-popup" src="img/icons/popup-close.png" ng-click="closeConfirm()">
