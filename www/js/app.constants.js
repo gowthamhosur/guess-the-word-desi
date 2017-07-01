@@ -4,7 +4,7 @@ gameModule.constant('gameConstants', {
 	totalLevels: 70,
 	initialCoins: 120,
 	helpCoins: 30,
-	skipCoins: 0,
+	skipCoins: 80,
 	levelCoins: 10,
 	maxChoosableLetters: 12,
 	adsOnEveryNthLevel: 5,
