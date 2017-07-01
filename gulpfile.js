@@ -67,7 +67,7 @@ gulp.task('images',function() {
   var init =0, limit = 4;
   gulp.src('./puzzles/**/*.{png,jpg,jpeg,PNG,JPG}')
         .pipe(gm(function (gmfile) {
-          return gmfile.resize(180, 180);
+          return gmfile.resize(270, 270);
         }))
         .pipe(gm(function (gmfile) {
           return gmfile.setFormat('jpg');
