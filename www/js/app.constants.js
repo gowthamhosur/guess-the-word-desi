@@ -1,10 +1,10 @@
 gameModule.constant('gameConstants', {
 	initialLanguage: 'english',
 	initialLevel: 1,
-	totalLevels: 70,
+	totalLevels: 75,
 	initialCoins: 120,
 	helpCoins: 30,
-	skipCoins: 80,
+	skipCoins: 0,
 	levelCoins: 10,
 	maxChoosableLetters: 12,
 	adsOnEveryNthLevel: 5,

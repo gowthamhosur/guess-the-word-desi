@@ -45,7 +45,6 @@ function adMob($window){
    		if( !_admob ) return false;
    		_admob.prepareInterstitial({
 		    adId: _admobid.interstitial,
-		    isTesting: true, //TODO: Remove in production. MUST BE TRUE IN DEVELOPEMENT!!!
 		    autoShow: bShow,
 		    success: function(){
 		    	_interstitialReady = true;
