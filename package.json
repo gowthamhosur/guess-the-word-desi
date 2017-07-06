@@ -1,7 +1,7 @@
 {
-  "name": "app-telugu-4p1w",
+  "name": "guess-the-word-desi",
   "version": "1.1.1",
-  "description": "app-telugu-4p1w: An Ionic project",
+  "description": "4 Pics 1 Word in Hindi, Telugu, Kannada & Tamil",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",

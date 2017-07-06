@@ -6,3 +6,4 @@ platforms/
 plugins/
 .idea
 www/css
+my-release-key.keystore

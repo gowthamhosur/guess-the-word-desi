@@ -20,13 +20,13 @@ function adMob($window){
 
 			if(ionic.Platform.isAndroid()) {
 				_admobid = { // for Android
-					interstitial: 'ca-app-pub-5894873097908977/2511636643'
+					interstitial: 'your-ad-publish-key'
 				};
 			}
 
 		   	if(ionic.Platform.isIOS()){
 		    	_admobid = { // for iOS
-					interstitial: 'ca-app-pub-5894873097908977/6941836240'
+					interstitial: 'your-ad-publish-key'
 		    	};
 		   	}
 

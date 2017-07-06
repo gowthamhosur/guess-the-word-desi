@@ -1,6 +1,6 @@
 {
-  "name": "app-telugu-4p1w",
-  "app_id": "90954368",
+  "name": "guess-the-word-desi",
+  "app_id": "1",
   "gulpStartupTasks": [
     "sass",
     "watch"

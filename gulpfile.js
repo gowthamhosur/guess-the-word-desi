@@ -87,7 +87,7 @@ gulp.task('solutions', function(){
         edit: function (parsedJson, file){
           var folder = path.basename(path.dirname(file.path))
           Object.keys(parsedJson).forEach(function(language) {
-            parsedJson[language][folder] = AES.encrypt(parsedJson[language]["answer"], "neroachilles").toString();
+            parsedJson[language][folder] = AES.encrypt(parsedJson[language]["answer"], "samplepassword").toString();
             delete parsedJson[language]["answer"]
           });
             return parsedJson;
