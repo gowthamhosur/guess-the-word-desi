@@ -20,8 +20,7 @@ For game description and app: [Guess the Word Desi](https://play.google.com/stor
   - Add Android/iOS platform using `ionic platform add android/ios`
   - Run app for Android/iOS using `ionic run android/ios` which builds and runs the app in emulator or device
 
-
-## Add/Modify puzzles
+### Add/Modify puzzles
 
 	- Add new puzzles in `puzzles` folder in root directive, with level number as folder name, and solutions placed in `solutions.json`
 	- Run `gulp images` which compresses, resizes and renames the image files and moves them to `www/puzzles` folder.
