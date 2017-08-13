@@ -1,0 +1,17 @@
+﻿{
+	"english": {
+	    "answer" : "SLEEP"
+	},
+	"telugu": {
+	    "answer" : "నిద్ర"
+	},
+	"hindi": {
+	    "answer" : "नींद"
+	},
+	"kannada": {
+		"answer" : "ನಿದ್ರೆ"
+	},
+	"tamil": {
+		"answer" : "உறக்கம்"
+	}
+}

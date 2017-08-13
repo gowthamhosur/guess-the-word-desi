@@ -1,0 +1,17 @@
+﻿{
+	"english": {
+	    "answer" : "HAPPY"
+	},
+	"telugu": {
+	    "answer" : "సంతోషం"
+	},
+	"hindi": {
+	    "answer" : "खुशी"
+	},
+	"kannada": {
+		"answer" : "ಸಂತೋಷ"
+	}, 
+	"tamil": {
+		"answer" : "சந்தோஷம்"
+	}
+}
