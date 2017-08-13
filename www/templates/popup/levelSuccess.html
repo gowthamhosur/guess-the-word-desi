@@ -1,18 +1,19 @@
-<div ng-init=gameVm.animateCoins() ng-class="gameVm.currentLanguage">
+<div ng-init=vm.animateCoins() ng-class="vm.currentLanguage">
 	<div class="congrats-wrapper">
-		<span class="congrats">
+		<p class="congrats">
 			GOOD JOB!
-		</span>
+		</p>
+    <p class="level-marker">Level {{vm.currentLevel}} of 75</p>
 	</div>
 	<div class="solution-wrapper">
-			<button ion-button class="content-letter" ng-repeat="(key,value) in ::gameVm.selectedLetters track by $index ">
+			<button ion-button class="content-letter" ng-repeat="(key,value) in ::vm.selectedLetters track by $index ">
 	            <span>{{::value.letter}}</span>
 	         </button>
 	</div>
 	<div class="points-wrapper">
 		<span>
 			<img src="img/icons/points.png">
-			<span class="coins" id="coins">{{gameVm.currentCoins}}</span>
+			<span class="coins" id="coins">{{vm.currentCoins}}</span>
 		</span>
 	</div>
 	<div class="btn-wrapper">

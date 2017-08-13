@@ -1,34 +1,33 @@
 <ion-view>
-  <div class="main-view-wrapper" ng-class="gameVm.currentLanguage">
+  <div class="main-view-wrapper" ng-class="vm.currentLanguage">
       <div ng-include src="'templates/header.html'"></div>
       <div class="game-content-wrapper">
           <div class="game-content">
 
             <div class="content-pics-wrapper">
-              <div class="content-pic" ng-repeat="imageUrl in gameVm.puzzleImages" ng-click="gameVm.zoomInImage(imageUrl)" ng-show="!gameVm.showFullImage">
+              <div class="content-pic" ng-repeat="imageUrl in vm.puzzleImages" ng-click="vm.zoomInImage(imageUrl)" ng-show="!vm.showFullImage">
                 <img ng-src="img/puzzles/{{imageUrl}}.jpg" />
               </div>
-              <div class="content-full-image" ng-show="gameVm.showFullImage" ng-click="gameVm.showFullImage = !gameVm.showFullImage">
-                <img ng-src="img/puzzles/{{gameVm.zoomInImageUrl}}.jpg">
+              <div class="content-full-image" ng-show="vm.showFullImage" ng-click="vm.showFullImage = !vm.showFullImage">
+                <img ng-src="img/puzzles/{{vm.zoomInImageUrl}}.jpg">
               </div>
             </div>
 
             <div class="content-sel-letters-wrapper">
               <div class="content-sel-letters-inner">
-                <button ion-button class="icon-wrap float-left " ng-click="gameVm.onHelpClick($event)"><img src="img/icons/hint-btn.png" class="icon icon-help" ></img></button>
 
-                 <button ion-button class="content-letter" ng-class="{affixed: value.affixed, animated:gameVm.allSelected, shake: gameVm.allSelected}" ng-repeat="(key,value) in gameVm.selectedLetters track by $index " ng-click= "gameVm.onSelectedClick($index)">
+                 <button ion-button class="content-letter" ng-class="{affixed: value.affixed, animated:vm.allSelected, shake: vm.allSelected}" ng-repeat="(key,value) in vm.selectedLetters track by $index " ng-click= "vm.onSelectedClick($index)">
                   <span>{{value.letter}}</span>
                 </button>
 
-                <button class="icon-wrap float-right" ng-click="gameVm.onSkipClick($event)"><img src="img/icons/skip-btn.png" class="icon icon-skip" ></button>
+                <!-- <button class="icon-wrap float-right" ng-click="vm.skipLevel()"><img src="img/icons/skip-btn.png" class="icon icon-skip" ></button> -->
               </div>
             </div>
 
             <div class="content-letters-wrapper">
               <div class="content-letter-inner">
 
-                 <button ion-button class="content-letter choosable" ng-class="{inactive: !value.active}" ng-repeat="(key,value) in gameVm.choosableLetters track by $index " ng-click="gameVm.onChoosableClick($index)">
+                 <button ion-button class="content-letter choosable" ng-class="{inactive: !value.active}" ng-repeat="(key,value) in vm.choosableLetters track by $index " ng-click="vm.onChoosableClick($index)">
                   <span>{{value.letter}}</button>
                   </div>
                 </div>

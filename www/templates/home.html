@@ -1,10 +1,10 @@
 <ion-view title="Home">
-	<div class="main-view-wrapper" ng-class="homeVm.currentLanguage">
+	<div class="home-view-wrapper" ng-class="vm.currentLanguage">
 		<div class="home-wrapper">
 			<div class="home-logo-wrap">
 				<div class="home-logo-inner">
 					<img class="logo" src="img/icons/main_logo@.png" alt="Guess the word">
-					<span class="language" ng-bind="homeVm.logo">DESI</span>
+					<span class="language" ng-bind="vm.logo">DESI</span>
 				</div>
 			</div>
 			<div class="home-btn-wrap">
@@ -12,7 +12,7 @@
 					
 
 					<div class="btn-wrap">
-						<button ion-button class="btn-primary" ng-click="homeVm.onPlayClick($event)">
+						<button ion-button class="btn-primary" ng-click="vm.onPlayClick($event)">
 							<div class="btn-base">
 								<img src="img/icons/play-btn.png" alt="Play">
 					    	</div>
@@ -22,13 +22,13 @@
 				  	</div>
 
 				  	<div class="home-btn-icons-wrap">
-				  		<button ion-button class="icon-wrap float-left icon-ad-correction" ng-click="homeVm.onAdClick($event)">
+				  		<button ion-button class="icon-wrap float-left icon-ad-correction" ng-click="vm.onPurchaseClick($event)">
 				  			<div><img src="img/icons/coins-icon.png" class="icon icon-ads" ></img>
 				  				<span>Purchase</span>
 				  			</div>
 				  		</button>
 
-				  		<button ion-button class="icon-wrap float-right " ng-click="homeVm.onLanguageClick($event)">
+				  		<button ion-button class="icon-wrap float-right " ng-click="vm.onLanguageClick($event)">
 						  	<div><img src="img/icons/speaker.png"  class="icon icon-language"></img>
 						  		<span>Language</span>
 					  		</div>
@@ -42,5 +42,8 @@
 			</div>
 			
 		</div>
+  </div>
+  <div class="home-view-bg">
+  	<img  src="img/collage-rect_2.jpg">
   </div>
 </ion-view>

@@ -21,11 +21,16 @@ function successController(userGameData,gameConstants,$ionicPlatform, $state, $s
         vm.currentLanguage = language;
     });
 
-	  var backButton = $ionicPlatform.registerBackButtonAction(
-	        function() {
-	          $state.transitionTo('home', null, {reload: true, notify:true});
-	        }, 100);
-	  $scope.$on('$destroy', backButton);
+    var backButton = $ionicPlatform.registerBackButtonAction(
+          function() {
+            $state.transitionTo('home', null, {reload: true, notify:true});
+          }, 100);
+    $scope.$on('$destroy', backButton);
+
+    if(analytics){
+      analytics.logEvent("game_over", {language: vm.currentLanguage});
+    }
+
   })
 
 }

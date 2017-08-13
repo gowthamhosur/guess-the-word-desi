@@ -1,6 +1,3 @@
-/**
- * Created by harsh on 4/9/2017.
- */
 var app = angular.module('game4p1w');
 
 app.config(function ($stateProvider, $urlRouterProvider) {
@@ -9,19 +6,19 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       url: '/home',
       templateUrl: 'templates/home.html',
       controller: 'homeController',
-      controllerAs: 'homeVm'
+      controllerAs: 'vm'
     })
     .state('game', {
       url: '/game',
       templateUrl: 'templates/game.html',
       controller: 'gameController',
-      controllerAs: 'gameVm'
+      controllerAs: 'vm'
     })
     .state('success', {
       url: '/success',
       templateUrl: 'templates/success.html',
       controller: 'successController',
-      controllerAs: 'successVm'
+      controllerAs: 'vm'
     });
   $urlRouterProvider.otherwise('/home');
 });

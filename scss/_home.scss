@@ -1,3 +1,23 @@
+.home-view-wrapper{
+  height: 100%;
+  z-index: 10;
+  position: relative;
+}
+.home-view-bg{
+    background-image: radial-gradient(circle 363px at center,#6c6392 0,#180f3a 100%);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    img{
+        position: absolute;
+        top: -100px;
+        right: -50px;
+        opacity: 0.15;
+        z-index: 1;
+    }
+}
 .home-wrapper{
 	text-align: center;
 }
@@ -103,4 +123,12 @@
         top:67%;
     }
 
+}
+@media(min-width: 768px) {
+    .home-view-bg{
+        img{
+            width: 100%;
+            right: 0px;
+        }
+    }
 }

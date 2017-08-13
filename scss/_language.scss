@@ -1,17 +1,9 @@
 .main-view-wrapper{
 	&.english{
-		.icon-wrap{
-			img{
-				width: 40px;
-			    height: 50px;
-			    padding: 4px 0;
-			}
-		}
-
 		.content-sel-letters-wrapper{
 			.content-letter {
-			    width: 27px;
-			    height: 30px;
+			    width: 32px;
+			    height: 32px;
 			    margin: 7px 1px;
 			    border-width: 1px;
 			    span{
@@ -37,6 +29,30 @@
 
 
 	}
+	&.tamil{
+		.content-letters-wrapper{
+			.content-letter{
+				width: 60px;
+				margin: 3px 2px;
+				span{
+					font-size: 17px;
+				}
+			}
+		}
+		.content-sel-letters-wrapper{
+			.content-letter{
+				width: 53px;
+				span{
+					font-size: 14px;
+				}
+				&.affixed{
+					span{
+						font-size: 16px;
+					}
+				}
+			} 
+		}
+	}
 }
 
 .popup-container{
@@ -49,5 +65,24 @@
 				}
 				margin: 5px 2px;
 			}
+	}
+	.tamil{
+		.content-letter{
+			width: 50px !important;
+			margin:3px 3px;
+			span{
+				font-size: 14px;
+			}
+		} 
+	}
+}
+
+@media (max-width: 350px) {
+	.popup-container .tamil .content-letter{
+	  width: 44px !important;
+	  height: 40px !important;
+	  span{
+	    font-size: 13px;
+	  }
 	}
 }

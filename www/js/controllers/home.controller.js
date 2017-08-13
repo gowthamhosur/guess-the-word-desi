@@ -1,22 +1,22 @@
 'use strict';
 
 gameModule.controller('homeController', homeController);
-homeController.$inject = ['$scope','$ionicPlatform','gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup', 'AdMob']
+homeController.$inject = ['$scope','$ionicPlatform','gameService' ,'$state', 'userGameData','$timeout','gameConstants','$ionicPopup', 'AdMob', 'utils']
 
-function homeController($scope, $ionicPlatform, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup,AdMob ) {
+function homeController($scope, $ionicPlatform, gameService, $state,userGameData,$timeout,gameConstants,$ionicPopup,AdMob, utils ) {
 
 	var vm = this;
 	vm.onPlayClick = onPlayClick;
 	vm.onLanguageClick = onLanguageClick;
-	vm.onAdClick = onAdClick;
+	vm.onPurchaseClick = onPurchaseClick;
 	vm.changeLanguage = changeLanguage;
 
-	var languagePopup, purchasePopup;
+	var languagePopup, purchasePopup, adDismissedListener, rewardVideoCompleteListener;
 
 	//Stub data
-	// vm.products = tuneProducts( [{productId: 'guesstheworddesi_first_bundle_coins', title: '500 (Guess the word)', price: '50 Rs'}, 
-					// {productId: 'guesstheworddesi_second_bundle_coins', title: '1500 (Guess the word)', price: '100 Rs'},
-					// {productId: 'guesstheworddesi_third_bundle_coins', title: '2500 (Guess the word)', price: '125 Rs'}] );
+	// vm.products = utils.extractNames( [{productId: 'guesstheworddesi_first_bundle_coins', title: '500 (Guess the word)', price: '50 Rs'}, 
+	// 				{productId: 'guesstheworddesi_second_bundle_coins', title: '1500 (Guess the word)', price: '100 Rs'},
+	// 				{productId: 'guesstheworddesi_third_bundle_coins', title: '2500 (Guess the word)', price: '125 Rs'}] );
 
 	$ionicPlatform.ready(function(){
 		gameService.getCopy().then(function(response){
@@ -35,25 +35,27 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 
 		//Initializing ads after 500ms
 		$timeout(function(){
-			userGameData.getShowAds().then(function(showAds){
-				if(showAds) {
-					AdMob.init();
-				}
-			});
+
+			AdMob.init();
 
 			//Auto triggering popup on first run
 			if (gameService.isInitialRun()) {
 			    gameService.setInitialRun(false);
 			    vm.onLanguageClick({currentTarget:null});
-			}
 
+			    gameService.setUniqueId();
+			}
+			if(analytics) {
+				var uniqueId = gameService.getUniqueId();
+				analytics.setUserId(uniqueId);
+			}
 			if(appVersion != undefined && appVersion != gameService.getVersion()){
 				//App updated
 				gameService.setVersion(appVersion);
+				userGameData.setCachedPuzzleData({});
 			}	
 
 		},500)
-
 
 	});
 
@@ -64,8 +66,7 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 	}
 
 	function onLanguageClick($event){
-
-		gameService.clickEffect($event.currentTarget, function(){
+		utils.clickEffect($event.currentTarget, function(){
 				languagePopup = $ionicPopup.alert({
 					       cssClass: 'primary-popup language-popup',
 					       templateUrl: 'templates/popup/language.html',
@@ -73,15 +74,34 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 					       okText: ' '
 				});
 
+				AdMob.showBanner();
+
 				$scope.closeConfirm = function(){
 				    languagePopup.close();
+				    AdMob.hideBanner();
+				    backbuttonRegistration();
 				}
 			}
 	    );
+
+	    var backbuttonRegistration = $ionicPlatform.registerBackButtonAction(function(e) {
+	          languagePopup.close();
+	          AdMob.hideBanner();  
+	          backbuttonRegistration();   
+	    }, 401);
+
+	    var logParams = { change: "initial"}
+	    if($event.currentTarget !== null) {
+	    	logParams.change = "noninitial"
+	    }
+
+	    if(analytics){
+	      analytics.logEvent("language_change", logParams);
+	    }
 	}
 
-	function onAdClick($event){
-		gameService.clickEffect($event.currentTarget, function(){
+	function onPurchaseClick($event){
+		utils.clickEffect($event.currentTarget, function(){
 			purchasePopup = $ionicPopup.alert({
 				       cssClass: 'primary-popup purchase-popup',
 				       templateUrl: 'templates/popup/purchase.html',
@@ -89,12 +109,15 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 				       okText: ' '
 			});
 
+			AdMob.prepareRewardVideo(false);
+			AdMob.showBanner();
+
 			if(typeof inAppPurchase !== 'undefined') {
 				inAppPurchase
 				  .getProducts(gameConstants.productIds)
 				  .then(function (products) {
 				  	$scope.$apply(function () {
-				    	vm.products = tuneProducts(products);
+				    	vm.products = utils.extractNames(products);
 				    	vm.loadingOver = true;
 				  	});
 				  })
@@ -108,7 +131,7 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 			}
 
 			$scope.buyProduct = function($event, productId){
-				gameService.clickEffect($event.currentTarget, function(){
+				utils.clickEffect($event.currentTarget, function(){
 					if(typeof inAppPurchase !== 'undefined') {
 						inAppPurchase
 						  .buy(productId)
@@ -120,51 +143,112 @@ function homeController($scope, $ionicPlatform, gameService, $state,userGameData
 						  })
 						  .then(function(){
 						  	purchasePopup.close();
+                  			AdMob.hideBanner();
 						  })
 						  .catch(function (err) {
 						      alert("Please try again later");
 						      purchasePopup.close();
+                  			  AdMob.hideBanner();
 						   });
 					}
 					else{
 						alert("Please try again later");
 						purchasePopup.close();
+						AdMob.hideBanner();
 					}
 				});
 			}
-			$scope.closeConfirm = function(){
-			    purchasePopup.close();
+
+			$scope.rewardVideo = function($event) {
+				utils.clickEffect($event.currentTarget, function(){
+					AdMob.showRewardVideo();
+					vm.loadingOver = false;
+					vm.gotReward = false;
+				});
 			}
 
-			 // vm.cannotPurchase = false;
+			$scope.closeConfirm = function(){
+			    purchasePopup.close();
+			    AdMob.hideBanner();
+			    backbuttonRegistration();
+			}
+
+			var backbuttonRegistration = $ionicPlatform.registerBackButtonAction(function(e) {
+			      purchasePopup.close();
+			      AdMob.hideBanner();  
+			      backbuttonRegistration();   
+			}, 401);
+
+			vm.gotReward = false
+			$scope.rewardCoins = gameConstants.rewardCoins;
+
+			// vm.cannotPurchase = false;
+
 		});
+
+		if(analytics){
+		  analytics.logEvent("home_purchase", null);
+		}
 	}
 
-	function tuneProducts(products) {
-		return products.map(function(item){
-			item.title = item.title.replace(/ *\([^)]*\) */g, "");
-			return item;
-		})
-	}
+
 	function changeLanguage($event, language) {
-		gameService.clickEffect($event.currentTarget, function(){
+		utils.clickEffect($event.currentTarget, function(){
 			if(vm.currentLanguage != language){
 				userGameData.setLanguage(language);
 				userGameData.getLevelProgress().then(function(levelProgress){
-					userGameData.setUserData(levelProgress[language]);
+					var setLevel = isNaN(levelProgress[language])? gameConstants.initialLevel: levelProgress[language];
+					userGameData.setUserData(setLevel);
 				})
 				userGameData.setCachedPuzzleData({});
 				setGameLanguage(language);
+
+				if(analytics){
+				  analytics.logEvent("language_" + language, null);
+				}
 			}
 			languagePopup.close();
+			AdMob.hideBanner();
 			return;
 		});
 		
+	}
+
+	function animateCoins() {
+	  var options = utils.animateOptions();
+	  var count = new CountUp("reward", vm.currentCoins, vm.currentCoins + gameConstants.rewardCoins , 0, 1, options);
+	  $timeout(function() {
+	    count.start();
+	  }, 400);
 	}
 
 	function setGameLanguage(language){
 		vm.currentLanguage = language;
 		vm.logo = vm.languages[language].logo;
 	}
+
+	adDismissedListener = $scope.$on('adDismissed', function(){
+		$scope.$apply(function () {
+			vm.loadingOver = true;
+		});
+	});
+
+	rewardVideoCompleteListener = $scope.$on('rewardVideoComplete', function(){
+		$scope.$apply(function () {
+			vm.loadingOver = true;
+			vm.gotReward = true;
+			var setCoins = vm.currentCoins + gameConstants.rewardCoins;
+			isNaN(setCoins)? null : userGameData.setUserData(vm.currentLevel, setCoins);
+
+			$timeout(function() {
+				animateCoins();
+			}, 1000);
+		});
+	});	
+
+	$scope.$on('$destroy', function(){
+	    adDismissedListener();
+	    rewardVideoCompleteListener();
+	});
 
 }

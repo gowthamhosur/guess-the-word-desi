@@ -15,7 +15,8 @@ function userGameData($ionicPlatform, $cordovaNativeStorage,gameConstants) {
         "english" : gameConstants.initialLevel,
         "telugu" : gameConstants.initialLevel,
         "hindi" : gameConstants.initialLevel,
-        "kannada": gameConstants.initialLevel
+        "kannada": gameConstants.initialLevel,
+        "tamil": gameConstants.initialLevel
   }
 
   //Creating app data on first run

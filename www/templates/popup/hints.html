@@ -1,0 +1,21 @@
+<div>
+	<span class="choose">Hints</span>
+	<div class ="hints-wrapper">
+		<div class="bundle-wrap">
+		  <span class="hint-title">Reveal a Letter</span>
+		  <button ion-button class="buy" ng-class="{disabled: vm.currentCoins < vm.revealCoins}" ng-click="vm.onRevealClick($event)" ><div>{{vm.revealCoins}}</div><img src="img/icons/coins-icon.png"> </button>
+		</div>
+		<div class="bundle-wrap">
+		  <span class="hint-title">Skip this Level</span>
+		  <button ion-button class="buy" ng-class="{disabled: vm.currentCoins < vm.skipCoins}" ng-click="vm.onSkipClick($event)" ><div>{{vm.skipCoins}}</div><img src="img/icons/coins-icon.png"> </button>
+		</div>
+
+		<div class="your-coins-wrap">
+			<!-- <div class="text"><span>Your Coins:</span>&nbsp; &nbsp;<span>{{vm.currentCoins}}</span></div><div class="coin-img"><img src="img/icons/coins-icon.png"></div>  -->
+
+			<button ion-button class="get-more" ng-click="vm.onPurchaseClick($event)" ><div>Get More Coins</div> </button>
+		</div>
+	</div>
+	<img class="close-popup" src="img/icons/popup-close.png" ng-click="closeConfirm()">
+</div>
+

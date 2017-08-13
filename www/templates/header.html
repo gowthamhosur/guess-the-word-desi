@@ -4,12 +4,15 @@
       <img src="img/icons/back-btn.png" class="icon ion-home">
     </button>
   </div>
+  <div class="header-hint">
+    <button ion-button ng-click="vm.onHelpClick($event)"><img src="img/icons/hint-btn.png"></img></button>
+  </div>
   <div class="header-level-indicator">
     <img src="img/icons/level-bg.png">
-    <p>{{gameVm.currentLevel}}</p>
+    <p>{{vm.currentLevel}}</p>
   </div>
-  <div class="header-coins-indicator">
+  <div class="header-coins-indicator" ng-click="vm.onPurchaseClick($event,true)">
     <img src="img/icons/coins-icon.png">
-    <p>{{gameVm.currentCoins}}</p>
+    <p>{{vm.currentCoins}}</p>
   </div>
 </header>

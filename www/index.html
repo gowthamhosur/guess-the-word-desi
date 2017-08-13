@@ -6,6 +6,8 @@
 
     <title></title>
 
+    <link rel="manifest" href="manifest.json">
+
     <!-- un-comment this code to enable service worker
     <script>
       if ('serviceWorker' in navigator) {
@@ -17,7 +19,7 @@
 
 
     <!-- compiled css output -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.min.js"></script>
@@ -39,9 +41,10 @@
     <script src="js/controllers/game.controller.js"></script>
     <script src="js/controllers/success.controller.js"></script>
     <script src="js/services/game.services.js"></script>
+    <script src="js/services/utils.services.js"></script>
     <script src="js/services/ads.services.js"></script>
     <script src="js/services/userGameData.services.js"></script>
-    <script src="js/app.constants.js"></script>
+    <script src="js/config.js"></script>
     <script src="lib/ngcordova-wrapper-nativestorage/dist/ngcordova-wrapper-nativestorage.min.js"></script>
   </head>
   <body ng-app="game4p1w" style="background-color: radial-gradient(circle 363px at center, #6c6392 0%, #180f3a 100%)">

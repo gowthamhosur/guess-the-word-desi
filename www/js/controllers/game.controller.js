@@ -1,20 +1,24 @@
 'use strict';
 
 gameModule.controller('gameController', gameController);
-gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout', '$q', 'AdMob'];
+gameController.$inject = ['$scope', '$state', 'gameService', 'userGameData', 'gameConstants', '$ionicPopup', '$timeout', '$q', 'AdMob', '$ionicPlatform','utils'];
 
-function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout, $q, AdMob) {
+function gameController($scope, $state, gameService, userGameData, gameConstants, $ionicPopup, $timeout, $q, AdMob, $ionicPlatform, utils) {
   var vm = this;
 
   vm.onChoosableClick = onChoosableClick;
   vm.onSelectedClick = onSelectedClick;
   vm.onHelpClick = onHelpClick;
   vm.onSkipClick = onSkipClick;
+  vm.onRevealClick = onRevealClick;
+  vm.onPurchaseClick = onPurchaseClick;
+  vm.skipLevel = skipLevel;
   vm.animateCoins = animateCoins;
   vm.zoomInImage = zoomInImage;
   vm.showFullImage = false;
 
   var emptyLetter = " ";
+  var hintPopup, adDismissedListener, rewardVideoCompleteListener;
 
   loadInitData().then(function(arrayOfResults){
 
@@ -53,14 +57,19 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   $scope.$watch(function () {
     return vm.currentLevel;
   },function(){
-
     if (vm.currentLevel > gameConstants.totalLevels) {
         return $state.transitionTo('success', null, {reload: true, notify:true});
     }
     if(vm.currentLevel){
-      vm.puzzleImages = gameService.getPuzzleImages( vm.currentLevel );
+      vm.puzzleImages = utils.getPuzzleImages( vm.currentLevel, gameConstants.imageSet );
       loadCurrentlevel(false);
     }
+
+    $timeout.cancel(popupPromise);
+    popupPromise = $timeout(function() {
+        onHelpClick({currentTarget:null});
+      }, 30000);
+
   });
 
   function loadCurrentlevel(firstCall){
@@ -68,9 +77,14 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
       if( vm.cachedPuzzleData.currentLevel != vm.currentLevel ){ //If cached data is outdated
         vm.solution  = getSolutionLetters( vm.puzzleData["solutions"][vm.currentLevel] );
         vm.choosableLetters = getChoosableLetters( vm.puzzleData["letterBucket"], vm.solution );
-        vm.selectedLetters = wrapLetters( vm.solution.map(function() { return emptyLetter }) );
+        vm.selectedLetters = utils.wrapLetters( vm.solution.map(function() { return emptyLetter }) );
 
         userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
+
+        var logEventName = "game_level_" + vm.currentLanguage;
+        if(analytics){
+          analytics.logEvent(logEventName, {level: vm.currentLevel});
+        }
       }
       else{
 
@@ -85,8 +99,8 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
                 onSelectedClick(index);
               }
           });
-
         }
+
       }
     }
   }
@@ -97,23 +111,15 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
   function getChoosableLetters(letterBucket, solutions) {
-    var randomLettersReq = gameConstants.maxChoosableLetters - solutions.length;
-    var filteredBucket = gameService.filterLetterBucket(letterBucket, randomLettersReq);
-    var choosableLetters = gameService.shuffle( filteredBucket.concat(solutions) );
-    choosableLetters = gameService.breakConsecutive( choosableLetters, solutions);
-    return wrapLetters(choosableLetters);
-  }
-
-  // Returns an object of array elements
-  function wrapLetters(letters) {
-    return letters.map(
-      function(element){
-        var temp = {
-          active: true,
-          letter: element
-        };
-        return temp;
-      });
+    var randomLettersReq ;
+    if(vm.currentLanguage == "tamil")
+      randomLettersReq = gameConstants.maxChoosableLettersTamil - solutions.length;
+    else
+     randomLettersReq = gameConstants.maxChoosableLetters - solutions.length;
+    var filteredBucket = utils.filterLetterBucket(letterBucket, randomLettersReq);
+    var choosableLetters = utils.shuffle( filteredBucket.concat(solutions) );
+    choosableLetters = utils.breakConsecutive( choosableLetters, solutions);
+    return utils.wrapLetters(choosableLetters);
   }
 
   function checkLevelSuccess() {
@@ -128,35 +134,32 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     if(successFlag) {
       userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins + gameConstants.levelCoins, vm.currentLanguage);
       showLevelSucccess(vm.currentLevel);
-    } else
-    {
+    } else {
       vm.allSelected = allSelectedFlag;
     }
   }
 
   function showLevelSucccess(level) {
 
-    var alertPopup = $ionicPopup.alert({
+    var levelSuccessPopup = $ionicPopup.alert({
        cssClass: 'level-success-popup',
        templateUrl: 'templates/popup/levelSuccess.html',
        scope: $scope,
        okText: ' '
      });
 
+  $timeout.cancel(popupPromise);
+
    if( level % gameConstants.adsOnEveryNthLevel === 0 ) {
     $timeout(function(){
-      userGameData.getShowAds().then(function(showAds){
-        if(showAds && gameConstants.showAds) {
-          AdMob.showInterstitial()
-        }
-      })
+      AdMob.showInterstitial();
     }, 700);
    }
 
 
      $scope.onContinueClick = function(button,$event){
         $timeout(function(){
-          alertPopup.close();
+          levelSuccessPopup.close();
            userGameData.getUserData().then(function (value) {
               vm.currentLevel = value.currentLevel;
               vm.currentCoins = value.currentCoins;
@@ -192,25 +195,83 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
   }
 
  function onHelpClick($event) {
+    vm.revealCoins = gameConstants.revealCoins;
+    vm.skipCoins = gameConstants.skipCoins;
 
     var callback = function() {
-      if(vm.currentCoins >= gameConstants.helpCoins) {
+      hintPopup = $ionicPopup.alert({
+                     cssClass: 'primary-popup hints-popup',
+                     templateUrl: 'templates/popup/hints.html',
+                     scope: $scope,
+                     okText: ' '
+      });
 
-        var onConfirm = function() {
-          revealLetter();
-        }
+      $timeout.cancel(popupPromise);
+      AdMob.showBanner();
 
-        confirmPopup(onConfirm, 'Reveal a letter for ' + gameConstants.helpCoins + ' coins?');
-
-      } else {
-        alertPopup("Insufficient coins");
+      $scope.closeConfirm = function(){
+          hintPopup.close();
+          AdMob.hideBanner();
+          backbuttonRegistration();
       }
     }
 
-    gameService.clickEffect($event.currentTarget, callback);
+    var backbuttonRegistration = $ionicPlatform.registerBackButtonAction(function(e) {
+          hintPopup.close();
+          AdMob.hideBanner();  
+          backbuttonRegistration();   
+    }, 401);
+
+    utils.clickEffect($event.currentTarget, callback);
+
+    var logParams = { click: "forced"}
+    if($event.currentTarget !== null) {
+      logParams.click = "intentional";
+      logParams.level = vm.currentLevel;
+      logParams.language = vm.currentLanguage;
+      logParams.coins = vm.currentCoins;
+    } 
+
+    if(analytics){
+      analytics.logEvent("game_hint", logParams);
+    }
 
   }
 
+  function onRevealClick($event) {
+    if(vm.currentCoins >= gameConstants.revealCoins) {
+      var callback =  function(){
+        revealLetter();
+        hintPopup.close();
+        AdMob.hideBanner(); 
+      }
+      utils.clickEffect($event.currentTarget, callback);
+
+      var logEventName = "reveal_letter_" + vm.currentLanguage;
+      if(analytics){
+        analytics.logEvent(logEventName, {level: vm.currentLevel});
+      }
+    }
+
+  }
+
+  function onSkipClick($event) {
+    if(vm.currentCoins >= gameConstants.skipCoins) {
+
+      var logEventName = "skip_level_" + vm.currentLanguage;
+      if(analytics){
+          analytics.logEvent(logEventName, {level: vm.currentLevel});
+      }
+
+      var callback =  function(){
+        skipLevel();
+        hintPopup.close();
+        AdMob.hideBanner(); 
+      }
+      utils.clickEffect($event.currentTarget, callback);
+
+    }
+  }
 
  function revealLetter() {
       var helpIndex = Math.floor(Math.random() * vm.selectedLetters.length);
@@ -245,7 +306,7 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
           }
         }
 
-        userGameData.setUserData(vm.currentLevel, vm.currentCoins-gameConstants.helpCoins);
+        userGameData.setUserData(vm.currentLevel, vm.currentCoins-gameConstants.revealCoins);
         userGameData.setCachedPuzzleData( vm.choosableLetters, vm.selectedLetters, vm.solution, vm.currentLevel);
 
         userGameData.getUserData().then(function (value) {
@@ -260,93 +321,131 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
 
   };
 
-  function onSkipClick($event) {
-    var callback = function () {
-      if(vm.currentLevel === gameConstants.totalLevels) {
-        alertPopup("Cannot skip final level");
-      }
-      else if(vm.currentCoins >= gameConstants.skipCoins) {
-
-        var onConfirm = function() {
-             skipLevel();
-             userGameData.getUserData().then(function (value) {
-                vm.currentLevel = value.currentLevel;
-                vm.currentCoins = value.currentCoins;
-              });
-           }
-
-        confirmPopup(onConfirm, 'Skip a level for ' + gameConstants.skipCoins + ' coins?');
-        //onConfirm();
-
-      } else {
-        alertPopup("Insufficient coins");
-      }
-    }
-
-    gameService.clickEffect($event.currentTarget, callback);
-  }
-
   function skipLevel() {
-      userGameData.setUserData(vm.currentLevel + 1, vm.currentCoins - gameConstants.skipCoins, vm.currentLanguage)
+      vm.currentLevel = vm.currentLevel + 1;
+      vm.currentCoins = vm.currentCoins - gameConstants.skipCoins
+      userGameData.setUserData(vm.currentLevel, vm.currentCoins, vm.currentLanguage)
       vm.allSelected = false;
-      vm.currentLevel++;
   }
 
-  function confirmPopup(onConfirm, popupText) {
+  function onPurchaseClick($event, hintPopupClosed){
 
-    $scope.popupText = popupText;
-
-    var confirmPopup = $ionicPopup.confirm({
-         title: 'Confirmation',
-         cssClass: 'primary-popup',
-         templateUrl: 'templates/popup/confirmation.html',
-         scope: $scope
-       });
-
-    $scope.closeConfirm = function(){
-        confirmPopup.close();
+    if(!hintPopupClosed) {
+      hintPopup.close();
     }
 
-    confirmPopup.then(function(res){
-      if(res) {
-        onConfirm()
+    $timeout.cancel(popupPromise);
+
+    utils.clickEffect($event.currentTarget, function(){
+      var purchasePopup = $ionicPopup.alert({
+               cssClass: 'primary-popup purchase-popup',
+               templateUrl: 'templates/popup/purchase.html',
+               scope: $scope,
+               okText: ' '
+      });
+
+      
+      AdMob.prepareRewardVideo(false);
+      AdMob.showBanner();
+
+      if(typeof inAppPurchase !== 'undefined') {
+        inAppPurchase
+          .getProducts(gameConstants.productIds)
+          .then(function (products) {
+            $scope.$apply(function () {
+              vm.products = utils.extractNames(products);
+              vm.loadingOver = true;
+            });
+          })
+          .catch(function () {
+            vm.cannotPurchase = true;
+            vm.loadingOver = true;
+          });
+      } else {
+        vm.cannotPurchase = true;
+        vm.loadingOver = true;
       }
-      else {
-        return;
+      
+      $scope.buyProduct = function($event, productId){
+        utils.clickEffect($event.currentTarget, function(){
+          if(typeof inAppPurchase !== 'undefined') {
+            inAppPurchase
+              .buy(productId)
+              .then(function(data){
+                var setCoins = vm.currentCoins + gameConstants.bundles[productId];
+                isNaN(setCoins)? null : userGameData.setUserData(vm.currentLevel, setCoins);
+                userGameData.setShowAds(false);
+                return inAppPurchase.consume(data.type, data.receipt, data.signature); 
+              })
+              .then(function(){
+                purchasePopup.close();
+                AdMob.hideBanner();
+              })
+              .catch(function (err) {
+                  alert("Please try again later");
+                  purchasePopup.close();
+                  AdMob.hideBanner();
+               });
+          }
+          else{
+            alert("Please try again later");
+            purchasePopup.close();
+            AdMob.hideBanner();
+          }
+        });
       }
+      $scope.closeConfirm = function(){
+          purchasePopup.close();
+          AdMob.hideBanner();
+          backbuttonRegistration();
+      }
+
+      var backbuttonRegistration = $ionicPlatform.registerBackButtonAction(function(e) {
+            purchasePopup.close();
+            AdMob.hideBanner();  
+            backbuttonRegistration();   
+      }, 401);
+
+      $scope.rewardVideo = function($event) {
+        utils.clickEffect($event.currentTarget, function(){
+          if(AdMob) {
+            AdMob.showRewardVideo();
+            vm.loadingOver = false;
+            vm.gotReward = false;
+          } else{
+            alert("Please try again later");
+          }
+        });
+      }
+
+      vm.gotReward = false;
+      $scope.rewardCoins = gameConstants.rewardCoins;
+
+      if(analytics){
+        analytics.logEvent("game_purchase", null);
+      }
+
+       // vm.cannotPurchase = false;
     });
-
   }
 
-  function alertPopup(alertText) {
+  adDismissedListener = $scope.$on('adDismissed', function(){
+    $scope.$apply(function () {
+      vm.loadingOver = true;
+    });
+  });
 
-    $scope.popupText = alertText;
-
-    var alertPopup = $ionicPopup.alert({
-       cssClass: 'primary-popup alert',
-       templateUrl: 'templates/popup/confirmation.html',
-       okText: 'Ok',
-       scope: $scope
-     });
-
-    $scope.closeConfirm = function(){
-        alertPopup.close();
-    }
-  }
+  rewardVideoCompleteListener = $scope.$on('rewardVideoComplete', function(){
+    $scope.$apply(function () {
+      vm.loadingOver = true;
+      vm.gotReward = true;
+      vm.currentCoins = vm.currentCoins + gameConstants.rewardCoins;
+      userGameData.setUserData(vm.currentLevel, vm.currentCoins);
+    });
+  }); 
 
   function animateCoins() {
-      var easingFn = function (t, b, c, d) {
-      var ts = (t /= d) * t;
-      var tc = ts * t;
-      return b + c * (tc + -3 * ts + 3 * t);
-    }
-    var options = {
-      useEasing : true,
-      easingFn: easingFn,
-      useGrouping : true,
-      separator : ',',
-      decimal : '.',
-    };
+    var options = utils.animateOptions();
     var count = new CountUp("coins", vm.currentCoins, vm.currentCoins + gameConstants.levelCoins , 0, 1, options);
     $timeout(function() {
       count.start();
@@ -357,6 +456,16 @@ function gameController($scope, $state, gameService, userGameData, gameConstants
     vm.zoomInImageUrl = imageUrl;
     vm.showFullImage = true;
   }
+
+  var popupPromise = $timeout(function() {
+    onHelpClick({currentTarget:null});
+  }, 30000);
+
+  $scope.$on('$destroy', function(){
+      $timeout.cancel(popupPromise);
+      adDismissedListener();
+      rewardVideoCompleteListener();
+  });
 
 }
 
