@@ -27,4 +27,4 @@ For game description and app: [Guess the Word Desi](https://play.google.com/stor
   - Run `gulp solutions` which merges the solutions in each folder, encrypts the solutions in AES format, and generates single `solutions.json`, placed in `www/appData`.
   - Puzzle levels can be reordered by changing folder names with approriate level number and running `gulp puzzles`.
 
-Created by [Gowtham Hosur](https://www.linkedin.com/in/gowtham-hosur-68ba6935) and [Harsha Nooka](https://www.linkedin.com/in/harshanooka) and published under [Indic App Studios](http://www.indicappstudios.com)
+Created by [Gowtham Hosur](https://www.linkedin.com/in/gowtham-hosur) and [Harsha Nooka](https://www.linkedin.com/in/harshanooka) and published under [Indic App Studios](http://www.indicappstudios.com)
